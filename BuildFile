@@ -1,0 +1,22 @@
+<use name=ConditionsDB>
+<use name=CondDBCommon>
+
+# Compile from .cxx files instead of .cpp files, only inside this package: 
+# set the C++ extension to cxx inside the package, reset it to cpp for export
+COMPILERFLAGS_CONDDBMYSQL = -DCondDBMySQL_SCRAM
+<export autoexport=true>
+  CPPEXT = cxx
+  COMPILERFLAGS += $(COMPILERFLAGS_CONDDBMYSQL)
+</export>
+<export autoexport=false>
+  CPPEXT = cpp
+  EXCLUDEDCOMPILERFLAGS += $(COMPILERFLAGS_CONDDBMYSQL)
+</export>
+
+<include_path path=scramIncludes></include_path>
+<export autoexport=true>
+  <lib name=lcg_CondDBMySQL>
+</export>
+
+<external ref=MySQL>
+

@@ -1,0 +1,9 @@
+ 
+
+2003-09-26 - Corrected some bugs in CondDBLog
+	   - Corrected a bug in tags
+	   - Improved configure script
+
+2003-09-30 - Added the functionality to allow CondDB getting the system user to connect the MySQL database
+	   - Changed configure script to check the system endianness
+	   - The configure script will abort when can not find the mysql headers and lib 
