@@ -1,0 +1,126 @@
+body {background-color: #EEEAEE;}
+
+div {
+font-family: helvetica, arial, verdana, sans-serif;
+font-size: small;
+text-align: left;
+/* position: relative;*/
+position: static;
+display: table;
+}
+
+a {
+  color: #4179CD;
+  padding: 1px;
+}
+
+a:hover {
+  color: #4179CD;
+  background-color: #E9ECEF;
+  border: 1px solid #dedede;
+  padding: 0px;
+}
+
+
+p {
+/*color: black;*/
+font-family:  helvetica, arial, verdana, sans-serif;
+font-size: 16px;
+}
+
+ul{
+   margin-bottom: 6px;
+	margin-top: 6px;
+}
+
+p.text {
+	color: white;
+	font-size: medium;
+	text-align: justify;
+	padding-right: 5px; 
+	text-indent: 10px
+}
+
+.main{
+	font-size: 16px;
+
+}
+p.main{
+	font-size: 16px;
+        text-align: justify;
+	padding: 0px 5px 0px 5px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	
+	
+}
+td { 
+/*color: black;*/
+font-family: helvetica, arial, verdana, sans-serif;
+font-size: small;
+text-align: left;
+padding-right: 20px; 
+}
+
+tr.header,
+tr.footer {
+	background-color: #FFFFCC;
+        font-weight: bold;
+}
+
+tr.even {
+	background-color: white;
+}
+
+tr.odd {
+		background-color: #CCFFFF;
+}
+
+.small {
+/*color: black;*/
+font-family: helvetica, arial, verdana, sans-serif;
+font-size: xx-small;
+text-align: left;
+}
+
+/*.ridge {*/
+/*background-color: white;*/
+/*border-style: ridge;*/
+/*}*/
+
+.menu,
+.info {
+background-color: white;
+border-width: thin;
+border-style: solid;
+border-color: #6495ED;
+padding: 5px 5px 5px 5px;
+}
+
+.title {
+background-color: #4179CD;
+color: #FFFFFF;
+/*font-weight: bold;*/
+border-width: thin;
+border-style: solid;
+padding: 13px 8px 13px 8px;
+display: inherit;
+font-size: 20px;
+
+}
+
+.db-info{
+
+background-color: #4179CD;
+color: #FFFFFF;
+/*font-weight: bold;*/
+border-width: thin;
+border-style: solid;
+padding: 2px;
+/*display: inherit;*/
+font-size: 15px;
+font-family: "Comic Sans MS";
+
+
+}
+
