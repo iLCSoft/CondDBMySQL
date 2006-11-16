@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: CondDBDataAccess.cxx,v 1.2 2006-11-16 23:31:59 poeschl Exp $ */
 
 // $HEAD 10
 //
@@ -190,14 +190,13 @@ void CondDBDataAccess::findCondDBObject( ICondDBObject*&  oblock,
 	relDBMgr->getTagId(tagName, tagId);
 	MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(dbPath);
 	MySqlResult *res = objectMgr->find(point, folderId, tagId);
-	if (res->countRows())
+	if (res->countRows()) 
 	{	
 //	Assert ( res->countRows() == 1 );
-	condObject = new CondDBObject(relDBMgr, res, folderId);
-	delete res;
-
-	oblock = static_cast<ICondDBObject*>(condObject);
+	  condObject = new CondDBObject(relDBMgr, res, folderId);
+	  oblock = static_cast<ICondDBObject*>(condObject);
 	}
+	delete res;
     }
     else 
 	// for use with IOV. We'll just create a virtual ICondDBObject
