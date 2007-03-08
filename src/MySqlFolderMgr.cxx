@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: MySqlFolderMgr.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: MySqlFolderMgr.cxx,v 1.2 2007-03-08 17:01:05 poeschl Exp $ */
 
 // $HEAD 10
 //
@@ -231,7 +231,7 @@ void MySqlFolderMgr::deleteFolder(int folderId)
 	execute(query);
     }
     else
-	cout << "Folder not empty" << endl;
+	cout << "# Folder not empty" << endl;
     delete res;
 }
 
