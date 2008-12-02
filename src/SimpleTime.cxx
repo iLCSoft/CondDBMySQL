@@ -14,12 +14,14 @@
 const TimeT SIMPLETIME_BILLION     = 1000000000;              // #nanoseconds per second
 const TimeT SIMPLETIME_UNIX_ORIGIN = 2208988800000000000;     // 1.1.1970
 const TimeT SIMPLETIME_UNIX_MAX    = 4356476047000000000;     // 19.01.2038
+const TimeT SIMPLETIME_MIN         = -9223372036854775808;    // -2^63
 const TimeT SIMPLETIME_MAX         = 9223372036854775807;     // 2^63-1 ("infinity"), sometime in 2262
 #else
 const TimeT SIMPLETIME_BILLION     = 1000000000LL;              // #nanoseconds per second
 const TimeT SIMPLETIME_UNIX_ORIGIN = 2208988800000000000LL;     // 1.1.1970
 const TimeT SIMPLETIME_UNIX_MAX    = 4356476047000000000LL;     // 19.01.2038
 //-ULL const TimeT SIMPLETIME_MAX         = 18446744073709551615LL;    // 2^64-1 ("infinity"), 02.07.2484
+const TimeT SIMPLETIME_MIN         = -9223372036854775808LL;    // -2^63
 const TimeT SIMPLETIME_MAX         = 9223372036854775807LL;     // 2^63-1 ("infinity"), sometime in 2262
 #endif
 
@@ -131,7 +133,7 @@ void SimpleTime::setPlusInf() {
 }
 
 void SimpleTime::setMinusInf() {
-  timeval = 0;
+  timeval = SIMPLETIME_MIN;
 }
 
 bool SimpleTime::isPlusInf() const {
@@ -139,7 +141,7 @@ bool SimpleTime::isPlusInf() const {
 }
 
 bool SimpleTime::isMinusInf() const {
-  return (timeval == 0);
+  return (timeval == SIMPLETIME_MIN);
 }
 
 //////////////////
