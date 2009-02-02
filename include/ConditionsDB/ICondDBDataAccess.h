@@ -1,4 +1,4 @@
-/* $Id: ICondDBDataAccess.h,v 1.1 2006-11-15 14:02:19 poeschl Exp $ */
+/* $Id: ICondDBDataAccess.h,v 1.2 2009-02-02 14:52:59 meyern Exp $ */
 #ifndef ICondDBDataAccess_h
 #define ICondDBDataAccess_h
 
@@ -89,6 +89,21 @@ public:
 			  const std::string&    folder,
 			  const CondDBKey&      point ) const
     throw(CondDBException) = 0;
+
+    /**
+     * Browse for data inside the given interval in time (all versions)
+     * @param iterObjects An object iterator to store the data found
+     * @param folderName The folder in which we are searching
+     * @param begin Search interval start point in time
+     * @param end Interval end point
+     */
+    
+    virtual void browseObjectsInInterval( ICondDBDataIterator*& iterObjects,
+				       const std::string&    folderName,
+				       const CondDBKey&      begin,
+				       const CondDBKey&      end ) const
+	throw(CondDBException) = 0;
+    
 
   /**
    * Browse tags for the given folder

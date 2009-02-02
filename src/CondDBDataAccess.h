@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.h,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: CondDBDataAccess.h,v 1.2 2009-02-02 14:52:59 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -158,6 +158,21 @@ public:
 				       const std::string& selection = "",
 				       const std::vector <std::string> *nullValues = 0) const
 	throw(CondDBException);
+
+    /**
+     * Browse for data inside the given interval in time (all versions)
+     * @param iterObjects An object iterator to store the data found
+     * @param folderName The folder in which we are searching
+     * @param begin Search interval start point in time
+     * @param end Interval end point
+     */
+    
+    virtual void browseObjectsInInterval( ICondDBDataIterator*& iterObjects,
+				       const std::string&    folderName,
+				       const CondDBKey&      begin,
+				       const CondDBKey&      end ) const
+	throw(CondDBException);
+    
 
     /**
      * Browse for data at the given point in time (for tag)

@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.cxx,v 1.2 2006-11-16 23:31:59 poeschl Exp $ */
+/* $Id: CondDBDataAccess.cxx,v 1.3 2009-02-02 14:52:59 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -462,6 +462,39 @@ void CondDBDataAccess::browseObjectsAtPoint( ICondDBTable         *table,
     else 
 	cerr << "Folder is of wrong type!" << endl;
 }
+
+/**
+ * Browse for data at the given point in time (all versions)
+ * @param iterObjects An object iterator to store the data found
+ * @param folderName The folder in which we are searching
+ * @param point The point in time for which we are searching
+ */
+
+void CondDBDataAccess::browseObjectsInInterval( ICondDBDataIterator*& iterObjects,
+						const string&         folderName,
+						const CondDBKey&      begin,
+						const CondDBKey&      end ) const
+  throw(CondDBException)
+{
+    int folder_id, tbl_path, ftype;
+    CondDBDataIterator *condIterator;
+    relDBMgr->getFolderType(folderName, ftype);
+    if (ftype == CondFolder::BLOBTAG)
+    {
+	relDBMgr->getFolderId(folderName, folder_id, tbl_path);
+	MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(tbl_path);
+	MySqlResult *res = objectMgr->browseInInterval(begin, end, folder_id);
+//	Assert(res->countRows() > 0);
+	if (res->countRows())
+	   condIterator = new CondDBDataIterator(relDBMgr, res, folder_id);
+	else 
+	   condIterator = 0;
+	iterObjects = static_cast<ICondDBDataIterator*>(condIterator);
+    }
+    else 
+	cerr << "Folder is of wrong type!" << endl;
+}
+
 
 /**
  * Browse for data at the given point in time (for tag)
