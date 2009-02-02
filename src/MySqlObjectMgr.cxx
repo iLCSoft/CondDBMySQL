@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: MySqlObjectMgr.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: MySqlObjectMgr.cxx,v 1.2 2009-02-02 14:52:44 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -158,6 +158,19 @@ MySqlResult *MySqlObjectMgr::browseAtPoint(CondDBKey point, int folderId)
 {
     MYSQLSTREAM query;
     query << "SELECT * FROM " OBJECT_KEY_TBL_N << folderId << " WHERE (" << point << " BETWEEN since_t AND till_t)";
+    return select(query);
+}
+
+/**
+ * Browse all Conditions Objects in the folder identified by 'folderId' and
+ * touching the time interval given by 'begin' and 'end'.
+ */
+
+MySqlResult *MySqlObjectMgr::browseInInterval(CondDBKey begin, CondDBKey end, int folderId)
+    throw(CondDBException)
+{
+    MYSQLSTREAM query;
+    query << "SELECT * FROM " OBJECT_KEY_TBL_N << folderId << " WHERE ( since_t BETWEEN " << begin << " AND " << end << " ) OR ( till_t BETWEEN " << begin << " AND " << end << " )";
     return select(query);
 }
 

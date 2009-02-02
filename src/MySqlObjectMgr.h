@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: MySqlObjectMgr.h,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: MySqlObjectMgr.h,v 1.2 2009-02-02 14:52:44 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -69,6 +69,9 @@ public:
 	throw(CondDBException);
 
     MySqlResult *browseAtPoint(CondDBKey point, int folderId)
+	throw(CondDBException);
+
+    MySqlResult *browseInInterval(CondDBKey begin, CondDBKey end, int folderId)
 	throw(CondDBException);
 
     MySqlResult *browseTagged(int folderId, int tagId)
