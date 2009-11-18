@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.cxx,v 1.3 2009-02-02 14:52:59 meyern Exp $ */
+/* $Id: CondDBDataAccess.cxx,v 1.4 2009-11-18 10:33:26 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -161,6 +161,69 @@ void CondDBDataAccess::storeCondDBObject( const string& folderName, ICondDBTable
     else
 	cerr << "Wrong folder type" << endl;
 }
+
+/**
+ * Find data which next becomes valid after given point in time 
+ *   (latest version or tag)
+ * @param oblock The found data will be stored in this object
+ * @param folderName The folder in which we are searching
+ * @param point The point in time to start the search
+ * @param tagName Optional. Find for tags
+ */
+
+void CondDBDataAccess::findNextValidCondDBObject( ICondDBObject*&  oblock,
+						  const string&    folderName,
+						  const CondDBKey& point,
+						  string           tagName ) const
+    throw(CondDBException)
+{
+
+  if ( oblock != NULL && oblock->validSince() <= point ) {
+    std::cerr << "WARNING: does not make sense to call CondDBDataAccess::findNextValidCondDBObject with" << std::endl
+	      << " a default object which is already valid. Will reset return object to NULL" << std::endl;
+    delete oblock;
+  }
+
+  int tagId, folderId, dbPath, ftype;
+  std::string vObject;
+  CONDDBACCESSSTREAM m_Object;
+  
+  relDBMgr->getFolderType(folderName, ftype);
+  if (ftype == CondFolder::BLOBTAG) {
+    relDBMgr->getFolderId(folderName, folderId, dbPath);
+    relDBMgr->getTagId(tagName, tagId);
+    MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(dbPath);
+    MySqlResult *res = objectMgr->browseTagged( folderId, tagId );
+    if ( res!=NULL && res->countRows() ) {
+      CondDBDataIterator condIterator( relDBMgr, res, folderId );
+      condIterator.goToFirst();
+      while ( condIterator.hasNext() ) {
+	ICondDBObject* obj = condIterator.next();
+	if ( obj->validSince() > point 
+	     && ( oblock == NULL 
+		  || obj->validSince() < oblock->validSince() ) 
+	     ) {
+	  if ( oblock != NULL ) delete oblock;
+	  oblock = obj;
+	} else {
+	  delete obj;
+	}
+      }
+    }
+    
+    /*
+      MySqlResult *res = objectMgr->find(point, folderId, tagId);
+      if (res->countRows()) 
+      {	
+      //	Assert ( res->countRows() == 1 );
+      condObject = new CondDBObject(relDBMgr, res, folderId);
+      oblock = static_cast<ICondDBObject*>(condObject);
+      }
+      delete res;
+    */
+  }
+}
+
 
 /**
  * Find data for the given point in time (latest version or tag)

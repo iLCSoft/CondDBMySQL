@@ -1,4 +1,4 @@
-/* $Id: ICondDBDataAccess.h,v 1.2 2009-02-02 14:52:59 meyern Exp $ */
+/* $Id: ICondDBDataAccess.h,v 1.3 2009-11-18 10:33:26 meyern Exp $ */
 #ifndef ICondDBDataAccess_h
 #define ICondDBDataAccess_h
 
@@ -63,6 +63,12 @@ public:
 				 const std::string& folder,
 				 const CondDBKey&   point,
 				 std::string        tagName = "" ) const
+    throw(CondDBException) = 0;
+
+  virtual void findNextValidCondDBObject( ICondDBObject*&  oblock,
+					  const string&    folderName,
+					  const CondDBKey& point,
+					  string           tagName = "" ) const
     throw(CondDBException) = 0;
 
   // Browsing

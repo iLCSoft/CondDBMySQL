@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.h,v 1.2 2009-02-02 14:52:59 meyern Exp $ */
+/* $Id: CondDBDataAccess.h,v 1.3 2009-11-18 10:33:26 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -106,6 +106,21 @@ public:
 	throw(CondDBException);
 
     // Queries
+    
+    /**
+     * Find data which next becomes valid after given point in time 
+     *   (latest version or tag)
+     * @param oblock The found data will be stored in this object
+     * @param folderName The folder in which we are searching
+     * @param point The point in time to start the search
+     * @param tagName Optional. Find for tags
+     */
+    
+    virtual void findNextValidCondDBObject( ICondDBObject*&  oblock,
+					    const string&    folderName,
+					    const CondDBKey& point,
+					    string           tagName = "" ) const
+      throw(CondDBException);
     
     /**
      * Find object for the given point in time
