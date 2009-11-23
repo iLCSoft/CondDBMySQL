@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBTagMgr.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: CondDBTagMgr.cxx,v 1.2 2009-11-23 11:56:49 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -165,32 +165,49 @@ void
 CondDBTagMgr::tag( const string& folderName,
 		   const string& tagName,
 		   string usingTagName)
-    throw(CondDBException)
+  throw(CondDBException)
 {
-    int folderId, tblPath;
-    int tagId = relTagMgr->getId(tagName);
-    relDBMgr->getFolderId(folderName, folderId, tblPath);
-    MySqlResult *res =relFolderMgr->find(folderId, MySqlFolderMgr::FolderSet);
+  int folderId, tblPath;
+  int tagId = relTagMgr->getId(tagName);
+  relDBMgr->getFolderId(folderName, folderId, tblPath);
+  try {
+    MySqlResult *res = relFolderMgr->find(folderId, MySqlFolderMgr::FolderSet); 
     if (res->countRows())
-    {
-	res = relFolderMgr->browseChilds(folderId, MySqlFolderMgr::Any);
+      {
+	try {
+	  res = relFolderMgr->browseChilds(folderId, MySqlFolderMgr::Any);
+	} catch ( CondDBException& err ) {
+	  std::cout << "should not happen: exception thown since folderSet " << folderName << " is empty" << std::endl;
+	}
 	if ( res->countRows()!=0 )
-	    do {
-		tag(res->getField(FOLDER_PATHNAME), tagName, usingTagName);
-	    } while ( res->nextRow() );
-    }
+	  do {
+	    tag(res->getField(FOLDER_PATHNAME), tagName, usingTagName);
+	  } while ( res->nextRow() );
+      }
     else
-    {
-	MySqlObjectMgr *objM = relDBMgr->getObjectMgr(tblPath);
-	if (usingTagName=="") {
+      {
+	try {
+	  MySqlObjectMgr *objM = relDBMgr->getObjectMgr(tblPath);
+	  if (usingTagName!="") {
 	    int oldId = relTagMgr->getId(usingTagName);
 	    objM->addTag(folderId, tagId, oldId);
-	}
-	else {
+	  }
+	  else {
 	    objM->addTag(folderId, tagId);
+	  }
+	  relFolderMgr->addTag(folderId, tagId);
+	} catch ( CondDBException& err ) {
+	  std::cout << "WARNING: folder " << folderName 
+		    << " is not found by MySqlObjectMgr - most probably " 
+		    << "because folder does not contain any objects" 
+		    << std::endl;
 	}
-	relFolderMgr->addTag(folderId, tagId);
-    }
+      }
+  } catch ( CondDBException& err ) {
+    std::cout << "should not happen: exception thrown since " 
+	      << folderName << " s a not a folderSet" << std::endl;
+  }
+  
 }
 
 
