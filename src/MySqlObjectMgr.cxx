@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: MySqlObjectMgr.cxx,v 1.2 2009-02-02 14:52:44 meyern Exp $ */
+/* $Id: MySqlObjectMgr.cxx,v 1.3 2009-11-23 11:56:33 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -190,7 +190,7 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
     MySqlResult *res;
 
     if ( tagId == 0 ) { //means we are looking at HEAD
-	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE ((h.since_t >=" << since << " AND h.till_t <=" << till << ") OR (h.since_t<" << till << " AND " << till << "<h.till_t) OR (h.since_t>=" << since << " AND " << till << ">=h.since_t)) AND h.obj_id=o.obj_id";
+	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE h.since_t <" << till << " AND h.till_t >" << since << " AND h.obj_id=o.obj_id";
     }
     else if(tagId==-1){
 	return NULL;
@@ -206,7 +206,7 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
 	    cerr << "No objects tagged for this folder" << endl;
 	}
 	else{
-	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N << folderId << " AS t, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE (((t.since_t >=" << since << " AND t.till_t <=" << till << " OR (t.since_t<" << till << " AND " << till << "<t.till_t) OR (t.since_t>=" << since << " AND " << till << ">=t.since_t)) AND t.tag_id=" << tagId << " AND t.obj_id=o.obj_id)";
+	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N << folderId << " AS t, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE h.since_t <" << till << " AND h.till_t >" << since << " AND t.tag_id=" << tagId << " AND t.obj_id=o.obj_id)";
 	}
 	delete res;
     }
