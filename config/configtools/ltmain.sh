@@ -858,7 +858,7 @@ EOF
     perm_rpath=
     temp_rpath=
     thread_safe=no
-    vinfo=
+    vinfo=1 1 7
 
     # We need to know -static, to get the right output filenames.
     for arg
