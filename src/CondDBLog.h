@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBLog.h,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: CondDBLog.h,v 1.2 2009-11-30 10:10:22 meyern Exp $ */
 
 // File: "CondDBLog.h"
 //
@@ -57,6 +57,8 @@ extern "C" {
 #include <mysql.h>
 #include <stdio.h>
 }
+
+#include <cstdlib>
 
 // NOTES: At creation of the object variable user takes a value. This means that at 
 //        assigent of the value of database variable, we can verify the existence of

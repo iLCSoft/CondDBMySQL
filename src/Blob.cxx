@@ -16,10 +16,11 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: Blob.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: Blob.cxx,v 1.2 2009-11-30 10:10:22 meyern Exp $ */
 
 #include "Blob.h"
 #include <iostream>
+#include <cstring>
 #ifndef _WIN32
 #include <config.h>
 #define atoi64(x) atoll(x)

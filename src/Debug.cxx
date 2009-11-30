@@ -15,7 +15,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: Debug.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: Debug.cxx,v 1.2 2009-11-30 10:10:22 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -38,6 +38,9 @@
 
 // for sprintf
 #include <stdio.h>
+
+#include <cstdlib>
+#include <cstring>
 
 #ifndef NO_DEBUG
 
