@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.cxx,v 1.7 2009-11-30 08:58:16 meyern Exp $ */
+/* $Id: CondDBDataAccess.cxx,v 1.8 2009-11-30 11:57:07 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -197,9 +197,9 @@ void CondDBDataAccess::findNextValidCondDBObject( ICondDBObject*&  oblock,
     if ( res!=NULL && res->countRows() ) {
       CondDBDataIterator condIterator( relDBMgr, res, folderId );
       condIterator.goToFirst();
-      for ( ICondDBObject* obj = condIterator.current(); condIterator.hasNext(); obj = condIterator.next() ) {
-//      while ( condIterator.hasNext() ) {
-//	ICondDBObject* obj = condIterator.next();
+      for ( ICondDBObject* obj = condIterator.current(); 
+	    /* terminates via 'break' at end of loop */;
+	    obj = condIterator.next() ) {
 	if ( obj->validSince() > point 
 	     && ( oblock == NULL 
 		  || obj->validSince() < oblock->validSince() ) 
@@ -209,19 +209,10 @@ void CondDBDataAccess::findNextValidCondDBObject( ICondDBObject*&  oblock,
 	} else {
 	  delete obj;
 	}
+	if ( !condIterator.hasNext() ) break;
       }
     }
     
-    /*
-      MySqlResult *res = objectMgr->find(point, folderId, tagId);
-      if (res->countRows()) 
-      {	
-      //	Assert ( res->countRows() == 1 );
-      condObject = new CondDBObject(relDBMgr, res, folderId);
-      oblock = static_cast<ICondDBObject*>(condObject);
-      }
-      delete res;
-    */
   }
 }
 
