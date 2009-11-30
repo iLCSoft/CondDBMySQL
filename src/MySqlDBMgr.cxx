@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: MySqlDBMgr.cxx,v 1.1 2006-11-15 14:04:44 poeschl Exp $ */
+/* $Id: MySqlDBMgr.cxx,v 1.2 2009-11-30 16:34:22 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -398,6 +398,8 @@ void MySqlDBMgr::getFolderType(string folderName, int& ftype)
     MYSQLSTREAM query;
     query << "SELECT ddtype FROM " FOLDERS_TBL " WHERE(fpath='" << folderName << "')";
     MySqlResult *res = select(query);
+    if ( res->countRows() == 0 ) 
+      std::cerr << "Non-existing (or empty?) folder " << folderName << std::endl;
     Assert ( res->countRows() != 0 );
     ftype = res->getIntField(0);
     delete res;
