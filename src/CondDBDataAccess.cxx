@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-/* $Id: CondDBDataAccess.cxx,v 1.4 2009-11-18 10:33:26 meyern Exp $ */
+/* $Id: CondDBDataAccess.cxx,v 1.5 2009-11-30 08:54:22 meyern Exp $ */
 
 // $HEAD 10
 //
@@ -197,8 +197,9 @@ void CondDBDataAccess::findNextValidCondDBObject( ICondDBObject*&  oblock,
     if ( res!=NULL && res->countRows() ) {
       CondDBDataIterator condIterator( relDBMgr, res, folderId );
       condIterator.goToFirst();
-      while ( condIterator.hasNext() ) {
-	ICondDBObject* obj = condIterator.next();
+      for ( ICondDBObject* obj = iter->current(); iter->hasNext(); obj = iter->next() ) {
+//      while ( condIterator.hasNext() ) {
+//	ICondDBObject* obj = condIterator.next();
 	if ( obj->validSince() > point 
 	     && ( oblock == NULL 
 		  || obj->validSince() < oblock->validSince() ) 
