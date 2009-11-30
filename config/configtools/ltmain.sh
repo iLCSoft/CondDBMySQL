@@ -2592,7 +2592,7 @@ EOF
 
 	# Parse the version information argument.
 	save_ifs="$IFS"; IFS=':'
-	set dummy $vinfo 0 7 2
+	set dummy $vinfo 0 7 3
 	IFS="$save_ifs"
 
 	if test -n "$8"; then
