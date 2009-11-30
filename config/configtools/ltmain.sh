@@ -858,7 +858,7 @@ EOF
     perm_rpath=
     temp_rpath=
     thread_safe=no
-    vinfo=1 1 7
+    vinfo=
 
     # We need to know -static, to get the right output filenames.
     for arg
@@ -2592,7 +2592,7 @@ EOF
 
 	# Parse the version information argument.
 	save_ifs="$IFS"; IFS=':'
-	set dummy $vinfo 0 0 0
+	set dummy $vinfo 0 7 2
 	IFS="$save_ifs"
 
 	if test -n "$8"; then
@@ -2601,9 +2601,13 @@ EOF
 	  exit 1
 	fi
 
-	current="$2"
-	revision="$3"
-	age="$4"
+	linux_major="$2"
+	linux_minor="$3"
+	linux_patch="$4"
+
+	current=`expr $linux_major + $linux_minor`
+	revision="$linux_patch"
+	age="$linux_minor"
 
 	# Check that each of the things are valid numbers.
 	case $current in
@@ -2689,8 +2693,10 @@ EOF
 	  ;;
 
 	linux)
-	  major=.`expr $current - $age`
-	  versuffix="$major.$age.$revision"
+#	  major=.`expr $current - $age`
+#	  versuffix="$major.$age.$revision"
+	  major=.$linux_major
+	  versuffix=$major.$linux_minor.$linux_patch
 	  ;;
 
 	osf)
