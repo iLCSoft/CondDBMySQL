@@ -56,8 +56,11 @@
 #else 
 #if __GNUC__ < 3
 #define NULLLONG -9223372036854775807LL
-#else
+#elif defined(LONG_LONG_MAX)
 #define NULLLONG -LONG_LONG_MAX
+#elif defined(__LONG_LONG_MAX__)
+/* Mac OS X & CYGWIN defintion */
+#define NULLLONG -__LONG_LONG_MAX__
 #endif
 #endif
 #ifdef _WIN32
