@@ -22,7 +22,7 @@
 #include <iostream>
 #include <cstring>
 #ifndef _WIN32
-#include <config.h>
+#include "config.h"
 #define atoi64(x) atoll(x)
 #else
 #define atoi64(x) _atoi64(x)
