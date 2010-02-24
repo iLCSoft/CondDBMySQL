@@ -197,18 +197,6 @@ SET( ${PROJECT_NAME}_VERSION
 ADD_SUBDIRECTORY( src )
 
 
-#####################################################################
-#                                                                   #
-# install configuration                                             #
-#                                                                   #
-#####################################################################
-# create configuration file from .in file
-CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" @ONLY )
-
-# install configuration file
-INSTALL( FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION . )
-
 
 #####################################################################
 #                                                                   #
