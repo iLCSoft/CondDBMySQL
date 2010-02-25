@@ -20,10 +20,34 @@ IF( CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" )
     SET( CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}" )
 ENDIF(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
 
-# project options
+#################################################################
+#                                                               #
+# project options                                               #
+#                                                               #
+#################################################################
 OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
-##SET( MYSQL_INIT_STR "localhost:mydb:calvin:hobbes")
+OPTION( BUILD_32BIT_COMPATIBLE "Set to ON to build in 32 bit compatibility mode" ON )
 
+# 32/64 bits issues
+IF( CMAKE_SIZEOF_VOID_P EQUAL 4 )
+    MESSAGE( STATUS "32 bit architecture detected" )
+ENDIF()
+
+IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    MESSAGE( STATUS "64 bit architecture detected" )
+
+    IF( BUILD_32BIT_COMPATIBLE )
+        IF( COMMAND SET_PROPERTY )
+            SET_PROPERTY(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS 0)
+            SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" )
+        ELSE()
+            MESSAGE( FATAL_ERROR "to build in 32 bit compatibility mode you need cmake >= 2.6" )
+        ENDIF()
+        MESSAGE( STATUS "Build in 32 bit compatibility mode" )
+    ELSE()
+        MESSAGE( STATUS "Build in native 64 bit mode" )
+    ENDIF()
+ENDIF()
 
 #################################################################
 #                                                               #
@@ -210,5 +234,8 @@ MESSAGE( STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}" )
 MESSAGE( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 MESSAGE( STATUS "CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}" )
 MESSAGE( STATUS "Change a value with: cmake -D<Variable>=<Value>" )
+IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    MESSAGE( STATUS "BUILD_32BIT_COMPATIBLE = ${BUILD_32BIT_COMPATIBLE}" )
+ENDIF()
 MESSAGE( STATUS "-------------------------------------------------------------------------------" )
 MESSAGE( STATUS )
