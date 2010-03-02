@@ -28,8 +28,12 @@ ENDIF()
 AUX_SOURCE_DIRECTORY(. ${lib1name}_src)
 
 # require proper c++
-#ADD_DEFINITIONS( -Wall -ansi -DMYSQL_INIT_STR=\\\"localhost:mydb:calvin:hobbes\\\" )
-ADD_DEFINITIONS( -Wall -ansi -DMYSQL_INIT_STR="localhost:mydb:calvin:hobbes" )
+ADD_DEFINITIONS( "-Wall -ansi" )
+IF( "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.6 )
+    ADD_DEFINITIONS( "-DMYSQL_INIT_STR=\\\"localhost:mydb:calvin:hobbes\\\"" )
+ELSE()
+    ADD_DEFINITIONS( -DMYSQL_INIT_STR="localhost:mydb:calvin:hobbes" )
+ENDIF()
 
 ADD_LIBRARY( ${lib1name} ${${lib1name}_src} )
 SET_TARGET_PROPERTIES( ${lib1name} PROPERTIES
@@ -48,8 +52,6 @@ ADD_CUSTOM_TARGET( bin )
 
 
 #####################################################
-# require proper c++
-#ADD_DEFINITIONS("-Wall -ansi -DMYSQL_INIT_STR=\"localhost:mydb:calvin:hobbes"\")
 
 SET( CONDDBMYSQL_EXEC_SRCS ../tests/basicSession/basicSession.cxx
                            ../tests/createTags/createTags.cxx

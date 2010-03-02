@@ -5,7 +5,7 @@ PROJECT( CondDBMySQL )
 # cmake options                                                 #
 #                                                               #
 #################################################################
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6.2 )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.4.6 )
 MARK_AS_ADVANCED(CMAKE_BACKWARDS_COMPATIBILITY)
 
 SET( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE )
