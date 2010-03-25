@@ -27,7 +27,7 @@ ENDIF(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
 #                                                               #
 #################################################################
 OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
-OPTION( BUILD_32BIT_COMPATIBLE "Set to ON to build in 32 bit compatibility mode" ON )
+##OPTION( BUILD_32BIT_COMPATIBLE "Set to ON to build in 32 bit compatibility mode" ON )
 
 # 32/64 bits issues
 IF( CMAKE_SIZEOF_VOID_P EQUAL 4 )
