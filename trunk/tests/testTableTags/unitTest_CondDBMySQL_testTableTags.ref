@@ -1,0 +1,232 @@
+JobStartTime: Thu Jul 22 11:36:13 CEST 2004
+Example -  tag objects
+CondDB(user): databaseInfo = atlobk01:conddblcg_avalassi:conddblcg:conddb
+CondDB(user):   serverName = atlobk01
+CondDB(user): databaseName = conddblcg_avalassi
+CondDB(user):     userName = conddblcg
+CondDB(user):     password = conddb
+CondDB(user): MySqlConnection::connect():
+	atlobk01
+	conddblcg
+	conddb
+
+CondDB(user): MySqlDBMgr::init() succeded.
+CondDB(user): MySqlConnection::changeDB("conddblcg_avalassi") succeded 
+CondDB(user): CondDBInterface::openDatabase completed
+CondDB(devl): CondDBTagMgr::init - Completed
+CondDB(devl): Creating tag Production
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Production')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"INSERT INTO tags_tbl (insert_t,tname,tdesc) VALUES(NOW(),'Production','Table with tags')"
+CondDB(devl):   Query succeded!
+CondDB(user): Tag Production successfully created
+Tag created
+ Tagging folder
+CondDB(devl): Issuing query:
+"SELECT * FROM folders_tbl WHERE fpath='/muon/dcs/tableTag'"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Production')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT fld_id, db_id FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT * FROM folders_tbl WHERE fld_id=13 && is_set=1"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT db_id, dbname, srvname
+  FROM databases_tbl
+  WHERE (db_id=1)"
+CondDB(devl):   Query succeded!
+CondDB(user): MySqlConnection::connect():
+	atlobk01
+	conddblcg
+	conddb
+
+CondDB(user): MySqlConnection::changeDB("conddblcg_avalassi") succeded 
+CondDB(devl): Issuing query:
+"SELECT obj_id, since_t, till_t FROM object_key_tbl_head_13"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"DELETE FROM tag2obj_tbl_13 WHERE tag_id = 4"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"INSERT INTO tag2obj_tbl_13
+ (tag_id,obj_id, since_t, till_t)
+   VALUES(4,1,10000000,20000000)"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"INSERT INTO tag2folder_tbl (tag_id,fld_id,insert_t) VALUES(4,13,NOW())"
+CondDB(devl):   Query succeded!
+Find tag
+CondDB(devl): Issuing query:
+"SELECT ddtype FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT fld_id, db_id FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT db_id, dbname, srvname
+  FROM databases_tbl
+  WHERE (db_id=1)"
+CondDB(devl):   Query succeded!
+CondDB(user): MySqlConnection::connect():
+	atlobk01
+	conddblcg
+	conddb
+
+CondDB(user): MySqlConnection::changeDB("conddblcg_avalassi") succeded 
+CondDB(devl): Issuing query:
+"SELECT part_id FROM partition_tbl_13
+  WHERE (15000000 BETWEEN since_t AND till_t)
+"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Production')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT t.since_t, t.till_t, d.*, o.layer FROM data_tbl_tag_13_1 AS d, object_key_tbl_13 AS o, tag2obj_tbl_13 AS t WHERE (15000000 >= t.since_t AND 15000000 < t.till_t AND t.tag_id=4 AND t.obj_id=o.obj_id AND d.dat_id=o.dat_id)"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SHOW COLUMNS FROM data_tbl_tag_13_1"
+CondDB(devl):   Query succeded!
+--------------------------- Table BEGIN  -----------------------------
+Table [1]x[13]
+{ Row  1 Begin }
+Since: 1900-Jan-1 0:0:0.10000000 (GMT) ----  Till: 1900-Jan-1 0:0:0.20000000 (GMT)
+Column name: Temperature
+Data in cell [1]x[1]: 1234.57
+Column name: Voltage
+Data in cell [1]x[2]: 1234567
+Column name: Distance
+Data in cell [1]x[3]: 1.23457e+07
+Column name: Name
+Data in cell [1]x[4]: Some String
+Column name: LongDistance
+Data in cell [1]x[5]: 12345678901234567
+Column name: Valid
+Data in cell [1]x[6]: 1
+Column name: Temperatures
+Data in cell [1]x[7]: 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 
+Column name: Voltages
+Data in cell [1]x[8]: 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 
+Column name: Distances
+Data in cell [1]x[9]: 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 
+Column name: Names
+Data in cell [1]x[10]: Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; 
+Column name: LongDistances
+Data in cell [1]x[11]: 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 
+Column name: Valids
+Data in cell [1]x[12]: 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 
+Column name: layer
+Data in cell [1]x[13]: 0
+{ Row  1 End }
+
+--------------------------- Table end  -----------------------------
+Browse hist
+CondDB(devl): Issuing query:
+"SELECT ddtype FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT fld_id, db_id FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT part_id FROM partition_tbl_13
+  WHERE (5000000 BETWEEN since_t AND till_t)
+"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Production')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT t.since_t, t.till_t, d.*, o.layer FROM data_tbl_tag_13_1 AS d, object_key_tbl_13 AS o, tag2obj_tbl_13 AS t WHERE (((t.since_t<5000000 AND 5000000<t.till_t) OR (t.since_t<100000000 AND 100000000<t.till_t) OR (t.since_t>=5000000 AND 100000000>=t.since_t)) AND t.tag_id=4 AND t.obj_id=o.obj_id AND d.dat_id=o.dat_id)"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SHOW COLUMNS FROM data_tbl_tag_13_1"
+CondDB(devl):   Query succeded!
+--------------------------- Table BEGIN  -----------------------------
+Table [1]x[13]
+{ Row  1 Begin }
+Since: 1900-Jan-1 0:0:0.10000000 (GMT) ----  Till: 1900-Jan-1 0:0:0.20000000 (GMT)
+Column name: Temperature
+Data in cell [1]x[1]: 1234.57
+Column name: Voltage
+Data in cell [1]x[2]: 1234567
+Column name: Distance
+Data in cell [1]x[3]: 1.23457e+07
+Column name: Name
+Data in cell [1]x[4]: Some String
+Column name: LongDistance
+Data in cell [1]x[5]: 12345678901234567
+Column name: Valid
+Data in cell [1]x[6]: 1
+Column name: Temperatures
+Data in cell [1]x[7]: 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 
+Column name: Voltages
+Data in cell [1]x[8]: 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 
+Column name: Distances
+Data in cell [1]x[9]: 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 
+Column name: Names
+Data in cell [1]x[10]: Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; 
+Column name: LongDistances
+Data in cell [1]x[11]: 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 
+Column name: Valids
+Data in cell [1]x[12]: 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 
+Column name: layer
+Data in cell [1]x[13]: 0
+{ Row  1 End }
+
+--------------------------- Table end  -----------------------------
+Browse tag
+CondDB(devl): Issuing query:
+"SELECT ddtype FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT fld_id, db_id FROM folders_tbl WHERE(fpath='/muon/dcs/tableTag')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Production')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SELECT t.since_t, t.till_t, d.*, o.layer FROM data_tbl_tag_13_1 AS d, object_key_tbl_13 AS o, tag2obj_tbl_13 AS t WHERE (t.tag_id=4 AND t.obj_id=o.obj_id AND d.dat_id=o.dat_id)"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"SHOW COLUMNS FROM data_tbl_tag_13_1"
+CondDB(devl):   Query succeded!
+--------------------------- Table BEGIN  -----------------------------
+Table [1]x[13]
+{ Row  1 Begin }
+Since: 1900-Jan-1 0:0:0.10000000 (GMT) ----  Till: 1900-Jan-1 0:0:0.20000000 (GMT)
+Column name: Temperature
+Data in cell [1]x[1]: 1234.57
+Column name: Voltage
+Data in cell [1]x[2]: 1234567
+Column name: Distance
+Data in cell [1]x[3]: 1.23457e+07
+Column name: Name
+Data in cell [1]x[4]: Some String
+Column name: LongDistance
+Data in cell [1]x[5]: 12345678901234567
+Column name: Valid
+Data in cell [1]x[6]: 1
+Column name: Temperatures
+Data in cell [1]x[7]: 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 1234.57 ; 
+Column name: Voltages
+Data in cell [1]x[8]: 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 1234567 ; 
+Column name: Distances
+Data in cell [1]x[9]: 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 1.23457e+07 ; 
+Column name: Names
+Data in cell [1]x[10]: Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; Some String ; 
+Column name: LongDistances
+Data in cell [1]x[11]: 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 12345678901234567 ; 
+Column name: Valids
+Data in cell [1]x[12]: 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 1 ; 
+Column name: layer
+Data in cell [1]x[13]: 0
+{ Row  1 End }
+
+--------------------------- Table end  -----------------------------
+JobEndTime: Thu Jul 22 11:36:13 CEST 2004

@@ -1,0 +1,59 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: CondDB - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16B.tmp" with contents
+[
+/nologo /ML /W3 /I "..\." /I ".\\" /I "C:\Programas\ETM\PVSS2\3.0\api\include\winnt\pvssincl" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Basics\Utilities" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Basics\Variables" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Basics\NoPosix" /I "C:\Programas\ETM\PVSS2\3.0\api\include\BCMNew" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Configs" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Datapoint" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Messages" /I "..\..\..\..\src" /I "..\..\..\..\ConditionsDB" /I "C:\Programas\ETM\PVSS2\3.0\api\include\Manager" /FI"C:\Programas\ETM\PVSS2\3.0\api\include\winnt\win32.h" /D "WIN32" /D "IS_MSWIN__" /D "_EXCURSION" /D "bcm_boolean_h" /D "FUNCPROTO" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Documents and Settings\PVSS\Ambiente de trabalho\conddb\CondDBMySQL\tests\PVSSManagerWin\CDBManager\CDBManager.cxx"
+]
+Creating command line "cl.exe @C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16B.tmp" 
+Creating temporary file "C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16C.tmp" with contents
+[
+C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\libManager.lib C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\libMessages.lib C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\libDatapoint.lib C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\libBasics.lib C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\bcm.lib wsock32.lib user32.lib advapi32.lib netapi32.lib C:\Programas\ETM\PVSS2\3.0\api\lib.winnt\libConfigs.lib ..\..\..\..\config\VS6.0_project\Release\condDB.lib \mysql\lib\opt\libmysql.lib libc.lib /nologo /subsystem:console /pdb:none /machine:I386 /nodefaultlib:"libc.lib" /out:"Release/PVSS00CDBManager.exe" 
+".\Release\addVerInfo.obj"
+".\Release\CDBMain.obj"
+".\Release\CDBManager.obj"
+".\Release\CDBResources.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16C.tmp"
+Creating temporary file "C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16D.bat" with contents
+[
+@echo off
+Release\addVerInfo.obj
+]
+Creating command line "C:\DOCUME~1\PVSS\DEFINI~1\Temp\RSP16D.bat"
+Compiling...
+CDBManager.cxx
+C:\Programas\ETM\PVSS2\3.0\api\include\Basics\Utilities\Resources.hxx(1024) : warning C4251: 'cfgStream' : class 'ifstream' needs to have dll-interface to be used by clients of class 'Resources'
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\fstream.h(98) : see declaration of 'ifstream'
+C:\Programas\ETM\PVSS2\3.0\api\include\Basics\Utilities\Resources.hxx(1105) : warning C4251: 'dbgStream' : class 'ifstream' needs to have dll-interface to be used by clients of class 'Resources'
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\fstream.h(98) : see declaration of 'ifstream'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\istream(547) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\ostream(234) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\ostream(229) : while compiling class-template member function 'class std::basic_ostream<char,struct std::char_traits<char> > &__thiscall std::basic_ostream<char,struct std::char_traits<char> >::put(char)'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\ostream(234) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\ostream(229) : while compiling class-template member function 'class std::basic_ostream<unsigned short,struct std::char_traits<unsigned short> > &__thiscall std::basic_ostream<unsigned short,struct std::char_traits<unsigned short> >::put(unsigned short)'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\istream(46) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\istream(41) : while compiling class-template member function 'bool __thiscall std::basic_istream<char,struct std::char_traits<char> >::ipfx(bool)'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\istream(46) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\istream(41) : while compiling class-template member function 'bool __thiscall std::basic_istream<unsigned short,struct std::char_traits<unsigned short> >::ipfx(bool)'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\xstring(525) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\xstring(521) : while compiling class-template member function 'void __thiscall std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Copy(unsigned int)'
+C:\Programas\Microsoft Visual Studio\VC98\INCLUDE\ostream(296) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify -GX
+        C:\Documents and Settings\PVSS\Ambiente de trabalho\conddb\CondDBMySQL\tests\PVSSManagerWin\CDBManager\CDBManager.cxx(122) : see reference to function template instantiation 'class std::basic_ostream<char,struct std::char_traits<char> > &__cdecl std::operator <<(class std::basic_ostream<char,struct std::char_traits<char> > &,const char *)' being compiled
+Linking...
+<h3>Output Window</h3>
+Performing Custom Build Step on .\Release\PVSS00CDBManager.exe
+
+
+
+<h3>Results</h3>
+PVSS00CDBManager.exe - 0 error(s), 9 warning(s)
+</pre>
+</body>
+</html>

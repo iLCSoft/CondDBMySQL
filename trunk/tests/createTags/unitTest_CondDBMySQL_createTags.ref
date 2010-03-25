@@ -1,0 +1,34 @@
+JobStartTime: Tue Apr 20 19:25:38 CEST 2004
+condDBmgr->init
+CondDB(user): databaseInfo = atlobk01:conddblcg_avalassi:conddblcg:conddb
+CondDB(user):   serverName = atlobk01
+CondDB(user): databaseName = conddblcg_avalassi
+CondDB(user):     userName = conddblcg
+CondDB(user):     password = conddb
+CondDB(user): MySqlConnection::connect():
+	atlobk01
+	conddblcg
+	conddb
+
+CondDB(user): MySqlDBMgr::init() succeded.
+Ok
+CondDB(user): MySqlConnection::changeDB("conddblcg_avalassi") succeded 
+CondDB(user): CondDBInterface::openDatabase completed
+CondDB(devl): CondDBTagMgr::init - Completed
+CondDB(devl): Creating tag TAG1
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='TAG1')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"INSERT INTO tags_tbl (insert_t,tname,tdesc) VALUES(NOW(),'TAG1','Test tag to be removed later')"
+CondDB(devl):   Query succeded!
+CondDB(user): Tag TAG1 successfully created
+CondDB(devl): Creating tag Prodution
+CondDB(devl): Issuing query:
+"SELECT * FROM tags_tbl WHERE(tname='Prodution')"
+CondDB(devl):   Query succeded!
+CondDB(devl): Issuing query:
+"INSERT INTO tags_tbl (insert_t,tname,tdesc) VALUES(NOW(),'Prodution','Those object are cool!')"
+CondDB(devl):   Query succeded!
+CondDB(user): Tag Prodution successfully created
+JobEndTime: Tue Apr 20 19:25:38 CEST 2004
