@@ -189,8 +189,13 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
     MYSQLSTREAM query;
     MySqlResult *res;
 
-    if ( tagId == 0 ) { //means we are looking at HEAD
-	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE h.since_t <" << till << " AND h.till_t >" << since << " AND h.obj_id=o.obj_id";
+    if ( tagId == 0 ) 
+      { //means we are looking at HEAD
+	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N 
+	      << folderId << " AS h, " << OBJECT_KEY_TBL_N 
+	      << folderId << " AS o WHERE h.since_t <" 
+	      << till     << " AND h.till_t >" 
+	      << since    << " AND h.obj_id=o.obj_id";
     }
     else if(tagId==-1){
 	return NULL;
@@ -206,7 +211,12 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
 	    cerr << "No objects tagged for this folder" << endl;
 	}
 	else{
-	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N << folderId << " AS t, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE h.since_t <" << till << " AND h.till_t >" << since << " AND t.tag_id=" << tagId << " AND t.obj_id=o.obj_id)";
+	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N 
+		  << folderId << " AS t, " << OBJECT_KEY_TBL_N 
+		  << folderId << " AS o WHERE t.since_t <" 
+		  << till     << " AND t.till_t >" 
+		  << since    << " AND t.tag_id=" 
+		  << tagId    << " AND t.obj_id=o.obj_id";
 	}
 	delete res;
     }
