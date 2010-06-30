@@ -216,6 +216,59 @@ void CondDBDataAccess::findNextValidCondDBObject( ICondDBObject*&  oblock,
   }
 }
 
+/**
+ * Find data which was last valid before a given point in time 
+ *   (latest version or tag)
+ * @param oblock The found data will be stored in this object
+ * @param folderName The folder in which we are searching
+ * @param point The point in time to start the search
+ * @param tagName Optional. Find for tags
+ */
+
+void CondDBDataAccess::findLastValidCondDBObject( ICondDBObject*&  oblock,
+						  const string&    folderName,
+						  const CondDBKey& point,
+						  string           tagName ) const
+    throw(CondDBException)
+{
+
+  if ( oblock != NULL && oblock->validTill() >= point ) {
+    std::cerr << "WARNING: does not make sense to call CondDBDataAccess::findLastValidCondDBObject with" << std::endl
+	      << " a default object which is already valid. Will reset return object to NULL" << std::endl;
+    delete oblock;
+  }
+
+  int tagId, folderId, dbPath, ftype;
+  std::string vObject;
+  CONDDBACCESSSTREAM m_Object;
+  
+  relDBMgr->getFolderType(folderName, ftype);
+  if (ftype == CondFolder::BLOBTAG) {
+    relDBMgr->getFolderId(folderName, folderId, dbPath);
+    relDBMgr->getTagId(tagName, tagId);
+    MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(dbPath);
+    MySqlResult *res = objectMgr->browseTagged( folderId, tagId );
+    if ( res!=NULL && res->countRows() ) {
+      CondDBDataIterator condIterator( relDBMgr, res, folderId );
+      condIterator.goToFirst();
+      for ( ICondDBObject* obj = condIterator.current(); /* terminates via 'break' at end of loop */; obj = condIterator.next() ) {
+
+	if ( obj->validTill() < point && ( oblock == NULL || obj->validTill() > oblock->validTill() ) ) {
+
+	  if ( oblock != NULL ) delete oblock;
+	  
+	  oblock = obj;
+	
+	} else {
+	  delete obj;
+	}
+	if ( !condIterator.hasNext() ) break;
+      }
+    }
+    
+  }
+}
+
 
 /**
  * Find data for the given point in time (latest version or tag)

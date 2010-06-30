@@ -71,6 +71,12 @@ public:
 					  string           tagName = "" ) const
     throw(CondDBException) = 0;
 
+  virtual void findLastValidCondDBObject( ICondDBObject*&  oblock,
+					  const string&    folderName,
+					  const CondDBKey& point,
+					  string           tagName = "" ) const
+    throw(CondDBException) = 0;
+
   // Browsing
 
   /**

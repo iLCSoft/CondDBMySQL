@@ -298,11 +298,12 @@ void MySqlDBMgr::getTagId(const string& tagName, int& tag_id)
     tag_id = relTagMgr->getId(tagName);
     if (tag_id<0) {
 // CondDBLog
+      std::string message = EXP_BADTAGNAME_MESS + tagName; 	
 	if (cdbLog->isUsable())
 	{
 	    cdbLog->StoreLog(EXP_BADTAGNAME_MESS ,  __FILE__  , __LINE__ );
 	}
-	THROWEX(EXP_BADTAGNAME_MESS,EXP_BADTAGNAME_CODE);
+	THROWEX( message, EXP_BADTAGNAME_CODE);
     }
 }
 

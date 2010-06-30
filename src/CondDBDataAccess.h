@@ -121,6 +121,22 @@ public:
 					    const CondDBKey& point,
 					    string           tagName = "" ) const
       throw(CondDBException);
+
+    /**
+     * Find data which was last valid before the given point in time 
+     *   (latest version or tag)
+     * @param oblock The found data will be stored in this object
+     * @param folderName The folder in which we are searching
+     * @param point The point in time to start the search
+     * @param tagName Optional. Find for tags
+     */
+    
+    virtual void findLastValidCondDBObject( ICondDBObject*&  oblock,
+					    const string&    folderName,
+					    const CondDBKey& point,
+					    string           tagName = "" ) const
+      throw(CondDBException);
+
     
     /**
      * Find object for the given point in time
