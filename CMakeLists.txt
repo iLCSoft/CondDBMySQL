@@ -16,6 +16,26 @@ IF( NOT CMAKE_BUILD_TYPE )
     SET( CMAKE_BUILD_TYPE "RelWithDebInfo" )
 ENDIF()
 
+
+#################
+# project version
+#################
+
+SET( ${PROJECT_NAME}_MAJOR_VERSION 0  )
+SET( ${PROJECT_NAME}_MINOR_VERSION 8 )
+SET( ${PROJECT_NAME}_PATCH_LEVEL   1  )
+
+# library Unix style versioning
+SET( ${PROJECT_NAME}_SOVERSION
+    "${${PROJECT_NAME}_MAJOR_VERSION}" )
+SET( ${PROJECT_NAME}_VERSION
+    "${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL}" )
+
+#################
+# install prefix
+#################
+
+
 # set default install prefix to project root directory
 IF( CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" )
     SET( CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}" )
@@ -195,20 +215,6 @@ SET( EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" CACHE PATH
 SET( LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib" CACHE PATH
     "LIBRARY_OUTPUT_PATH" FORCE )
 MARK_AS_ADVANCED( EXECUTABLE_OUTPUT_PATH LIBRARY_OUTPUT_PATH )
-
-#################
-# project version
-#################
-
-SET( ${PROJECT_NAME}_MAJOR_VERSION 0  )
-SET( ${PROJECT_NAME}_MINOR_VERSION 5 )
-SET( ${PROJECT_NAME}_PATCH_LEVEL   10  )
-
-# library Unix style versioning
-SET( ${PROJECT_NAME}_SOVERSION
-    "${${PROJECT_NAME}_MAJOR_VERSION}" )
-SET( ${PROJECT_NAME}_VERSION
-    "${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL}" )
 
 
 
