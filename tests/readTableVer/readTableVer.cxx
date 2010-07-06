@@ -31,7 +31,7 @@
 #include "ConditionsDB/CondDBMySQLTableFactory.h"
 #include "ConditionsDB/ICondDBTable.h"
 
-
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <vector>

@@ -27,6 +27,7 @@
 #include <string>
 #include <iostream>
 #include <stdio.h>
+#include <cstdlib>
 
 #include <mysql.h>
 #include "sys/time.h"

@@ -24,6 +24,7 @@ ENDIF()
 
 MESSAGE (STATUS "")
 MESSAGE (STATUS "MySQL_INCLUDE_DIR=${MySQL_INCLUDE_DIR}")
+MESSAGE (STATUS "MySQL_LIB=${MySQL_LIB}")
 
 ##############################################################
 # sources                                                    #
