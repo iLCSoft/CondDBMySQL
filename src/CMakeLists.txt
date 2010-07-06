@@ -22,6 +22,9 @@ IF( DEFINED ${PROJECT_NAME}_DEPENDS OR DEFINED BUILD_WITH OR DEFINED LINK_WITH )
     CHECK_DEPS()
 ENDIF()
 
+MESSAGE (STATUS "")
+MESSAGE (STATUS "MySQL_INCLUDE_DIR=${MySQL_INCLUDE_DIR}")
+
 ##############################################################
 # sources                                                    #
 ##############################################################
