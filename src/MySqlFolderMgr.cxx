@@ -250,7 +250,7 @@ bool MySqlFolderMgr::isTagged(int folderId, int tagId)
     query << "SELECT * FROM " TAG2FOLDER_TBL " WHERE fld_id=" 
 	  << folderId << " AND tag_id=" << tagId;
     MySqlResult *res = select(query);
-    if ( res->countRows() )
+    if ( res->countRows() > 0 )
 	return true;
     else
 	return false;
@@ -265,10 +265,41 @@ void MySqlFolderMgr::removeTag(int folderId, int tagId)
     throw(CondDBException)
 {
     MYSQLSTREAM query;
-    query << "DELETE FROM " TAG2FOLDER_TBL " WHERE fld_id=" 
-	  << folderId << " AND tag_id=" << tagId;
-    execute(query);
+    if ( !isTagged( folderId, tagId) ) {
+      query << "DELETE FROM " TAG2FOLDER_TBL " WHERE fld_id="
+           << folderId << " AND tag_id=" << tagId;
+      execute(query);
+    }
+    else {
+      MYSQLSTREAM fquery ;
+      fquery << "SELECT fpath FROM folders_tbl\n  WHERE fld_id=" << folderId;
+      MySqlResult *fres = select(fquery);
+      // check consistency
+      if ( fres->countRows() == 0 ) {
+       string msg = "Folder not found in folders_tbl with folder id : ";
+       msg += folderId;
+       THROWEX( msg, 0); // should not happen since checked before
+      }
+      MYSQLSTREAM tquery;
+      tquery << "SELECT tname FROM tags_tbl\n  WHERE tag_id=" << tagId;
+      MySqlResult *tres = select(tquery);
+      if ( tres->countRows() == 0  ) {
+       string msg = "Tag not found in tags_tbl with tag id : ";
+       msg += tagId;
+       THROWEX( msg, 0); // should not happen since checked before
+      }
+      // tag status should have been checked before,
+      // throw an exception if an already tagged folder is found
+      string msg = "CondDBMySQL: MySqlFolderMgr::addTag: folder ";
+      msg += fres->getField(0);
+      msg += " was already tagged with tag ";
+      msg += tres->getField(0);
+      delete fres;
+      delete tres;
+      THROWEX( msg, 0); // should not happen since it should have been checked before
+    }
 }
+
 
 /**
  * Associate the tag given by 'tagId' with the folder given by 'folderId'.

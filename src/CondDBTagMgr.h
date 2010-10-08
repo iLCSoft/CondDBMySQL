@@ -78,6 +78,10 @@ class CondDBTagMgr : public ICondDBTagMgr {
 		      std::string usingTagName = "")
 	throw(CondDBException);
 
+    virtual bool isTagged( const std::string& folderName,
+                          const std::string& tagName)
+       throw(CondDBException);
+
     virtual void untag( const std::string& folderName,
 			const std::string& tagName)
 	throw(CondDBException);

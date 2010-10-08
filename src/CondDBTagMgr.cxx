@@ -169,6 +169,25 @@ CondDBTagMgr::tag( const string& folderName,
 {
   int folderId, tblPath;
   int tagId = relTagMgr->getId(tagName);
+
+    if ( tagId == -1 ) {
+       string msg = "No tag was found under the tag name ";
+        msg += tagName;
+        msg += ". So no folder will be tagged.";
+       THROWEX( msg, 0);
+  }
+
+  /*
+  if ( (isTagged(folderName, tagName)) ) {
+       string msg = "The folder ";
+        msg += folderName;
+        msg += " or one of its sub folders has been already tagged with the tag ";
+        msg += tagName;
+        msg += ". Therefore the tag has not been applied to any folder.";
+       THROWEX( msg, 0);
+  }
+  */
+
   relDBMgr->getFolderId(folderName, folderId, tblPath);
   try {
     MySqlResult *res = relFolderMgr->find(folderId, MySqlFolderMgr::FolderSet); 
@@ -177,7 +196,7 @@ CondDBTagMgr::tag( const string& folderName,
 	try {
 	  res = relFolderMgr->browseChilds(folderId, MySqlFolderMgr::Any);
 	} catch ( CondDBException& err ) {
-	  std::cout << "should not happen: exception thown since folderSet " << folderName << " is empty" << std::endl;
+         std::cout << "should not happen: exception thrown since folderSet " << folderName << " is empty" << std::endl;
 	}
 	if ( res->countRows()!=0 )
 	  do {
@@ -207,8 +226,49 @@ CondDBTagMgr::tag( const string& folderName,
     std::cout << "should not happen: exception thrown since " 
 	      << folderName << " s a not a folderSet" << std::endl;
   }
-  
+
 }
+
+bool
+CondDBTagMgr::isTagged( const string& folderName,
+                       const string& tagName )
+  throw(CondDBException)
+{
+  int folderId, tblPath;
+  int tagId = relTagMgr->getId(tagName);
+  relDBMgr->getFolderId(folderName, folderId, tblPath);
+
+  try {
+    MySqlResult *res = relFolderMgr->find(folderId, MySqlFolderMgr::FolderSet);
+    if (res->countRows() > 0)
+      {
+        // the result of the isTagged test in the MySQLFolderMgr class is reverse than as used here
+        if ( (relFolderMgr->isTagged(folderId, tagId)) ) {
+            return true;
+        }
+       try {
+         res = relFolderMgr->browseChilds(folderId, MySqlFolderMgr::Any);
+       } catch ( CondDBException& err ) {
+         std::cout << "should not happen: exception thrown since folderSet " << folderName << " is empty" << std::endl;
+       }
+       if ( res->countRows() > 0 )
+         do {
+           if ( (isTagged(res->getField(FOLDER_PATHNAME), tagName)) )
+                return true;
+         } while ( res->nextRow() );
+      }
+    else
+      {
+        return (relFolderMgr->isTagged(folderId, tagId));
+      }
+  } catch ( CondDBException& err ) {
+    std::cout << "should not happen: exception thrown since "
+             << folderName << " is a not a folderSet" << std::endl;
+  }
+  return false;
+}
+
+
 
 
 void
