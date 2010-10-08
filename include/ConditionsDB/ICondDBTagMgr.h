@@ -105,6 +105,14 @@ public:
     throw(CondDBException) = 0;
 
   /**
+   * This methods checks if a folder "folderName" is already tagged with the
+   * tag "tagName"
+   */
+  virtual bool isTagged( const std::string& folderName,
+                         const std::string& tagName)
+    throw(CondDBException) = 0;
+
+  /**
    * This methods allows to remove the defined CondDBTag from the CondDBFolder or
    * CondDBFolderSet to which it had been previously associated.
    * 
