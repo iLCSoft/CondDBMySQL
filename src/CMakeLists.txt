@@ -98,12 +98,17 @@ INSTALL( TARGETS storeDataOnChange DESTINATION bin )
 ###########################################################################
 INSTALL( DIRECTORY "${${PROJECT_NAME}_SOURCE_DIR}/include/" DESTINATION ${INCLUDE_INSTALL_DIR}
          PATTERN "*~" EXCLUDE
-         PATTERN "*CVS*" EXCLUDE )
+         PATTERN "*CVS*" EXCLUDE
+         PATTERN "*.svn" EXCLUDE
+)
 
 INSTALL( DIRECTORY "${${PROJECT_NAME}_SOURCE_DIR}/src/" DESTINATION ${INCLUDE_INSTALL_DIR}
          PATTERN "*~" EXCLUDE
          PATTERN "*.cxx" EXCLUDE
-         PATTERN "*CVS*" EXCLUDE )
+         PATTERN "*CVS*" EXCLUDE
+         PATTERN "*.svn" EXCLUDE
+         PATTERN "*.txt" EXCLUDE
+)
 
 
 INSTALL( TARGETS ${lib1name}
