@@ -73,7 +73,7 @@ void printAllObjs(ICondDBDataIterator* iterObjs)
 
 
 
-int main ( int /*argc*/, char* /*argv[]*/ )
+int main ()
 {
   string folder = "/cal/temp";
   //  CondDBKey point = 15;
