@@ -43,7 +43,7 @@
 using namespace std;
 // this requires the previous run of example basicSession
 
-int main ( int /*argc*/, char* /*argv[]*/ )
+int main ()
 {
     string folder = "/LHCb/Atlas/Tile/cal/Module_1";
 

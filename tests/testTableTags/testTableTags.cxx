@@ -44,7 +44,7 @@ bool createTag (string tagName, string tagDescr, ICondDBTagMgr *tagMgr)
 }
 
 
-int main ( int /*argc*/, char* /*argv[]*/ )
+int main ()
 {
     string folder = "/muon/dcs/tableTag";
 
