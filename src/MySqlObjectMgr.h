@@ -104,6 +104,9 @@ public:
 
     int getDatabaseId();
 
+    int getDBId(CondDBKey point, int folderId)
+        throw(CondDBException);
+
     int getPartitionId(CondDBKey point, int folderId)
 	throw(CondDBException);
 

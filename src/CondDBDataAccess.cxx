@@ -87,7 +87,7 @@ CondDBDataAccess::storeCondDBObject(const string& folderName, ICondDBObject* Con
     string theData;
     string theDesc;
 
-    int data_id, folder_id, part_id, okey_path, ftype;
+    int data_id, folder_id, part_id, part_dbid, okey_path, ftype;
     CondDBObject* obj = static_cast<CondDBObject*>(CondObject);
  
 // nbarros: does this methods create connections to fetch the data? NO!!  
@@ -101,7 +101,8 @@ CondDBDataAccess::storeCondDBObject(const string& folderName, ICondDBObject* Con
 	relDBMgr->getFolderId(folderName, folder_id, okey_path);
 	
 	MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(okey_path);
-	
+
+	part_dbid = objectMgr->getDBId(obj->validSince(), folder_id);
 	part_id = objectMgr->getPartitionId(obj->validSince(), folder_id);
 	
 	MySqlDataMgr *dataMgr = relDBMgr->getDataMgr(part_id);

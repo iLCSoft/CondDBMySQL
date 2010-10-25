@@ -307,6 +307,30 @@ int MySqlObjectMgr::getDatabaseId()
 }
 
 /**
+ * Return the database id for the time partition that contains
+ * the time given by 'point'.
+ */
+
+int MySqlObjectMgr::getDBId(CondDBKey point, int folderId)
+    throw(CondDBException)
+{
+    MYSQLSTREAM query;
+
+    query << "SELECT db_id FROM " PARTITION_TBL_N << folderId << "\n"
+    "  WHERE (" << point << " BETWEEN since_t AND till_t)\n";
+
+    MySqlResult *res = select(query);
+
+    if ( res->countRows() == 0 ) {
+        THROWEX("No partition has been created yet!",0);
+    }
+
+    int dbid = res->getIntField(0);
+    delete res;
+    return dbid;
+}
+
+/**
  * Return the partition id for the time partition that contains
  * the time given by 'point'.
  */
