@@ -105,10 +105,10 @@ CondDBDataAccess::storeCondDBObject(const string& folderName, ICondDBObject* Con
 	part_dbid = objectMgr->getDBId(obj->validSince(), folder_id);
 	part_id = objectMgr->getPartitionId(obj->validSince(), folder_id);
 	
-	MySqlDataMgr *dataMgr = relDBMgr->getDataMgr(part_id);
+	MySqlDataMgr *dataMgr = relDBMgr->getDataMgr(part_dbid);
 	data_id = dataMgr->store(folder_id, part_id , theDesc, theData);
 	objectMgr->store(obj->validSince(), obj->validTill(), 
-			 folder_id, part_id, data_id);
+			 folder_id, part_dbid, data_id);
 //e aqui............................................................
 	DebugMesg(CondDB, user, "Object stored");
     }
