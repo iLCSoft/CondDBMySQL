@@ -10,21 +10,11 @@ INCLUDE_DIRECTORIES( "${${PROJECT_NAME}_SOURCE_DIR}/tests/storeDataOnChange" )
 ##############################################################
 # dependencies                                               #
 ##############################################################
-# DEPENDENCIES: this code has to be placed before adding any library or
-# executable so that these are linked properly against the dependencies
-IF( DEFINED ${PROJECT_NAME}_DEPENDS OR DEFINED BUILD_WITH OR DEFINED LINK_WITH )
-    IF( NOT DEFINED CMAKE_MODULE_PATH )
-        MESSAGE( FATAL_ERROR "CMAKE_MODULE_PATH not set! Set it with: "
-            "-DCMAKE_MODULE_PATH=\"/path_to_ilcsoft/CMakeModules\"" )
-    ENDIF()
-    # load macro
-    INCLUDE( "MacroCheckDeps" )
-    CHECK_DEPS()
-ENDIF()
+INCLUDE_DIRECTORIES( "${MySQL_INCLUDE_DIRS}" )
+LINK_LIBRARIES( "${MySQL_LIBRARIES}" )
 
-MESSAGE (STATUS "")
-MESSAGE (STATUS "MySQL_INCLUDE_DIR=${MySQL_INCLUDE_DIR}")
-MESSAGE (STATUS "MySQL_LIB=${MySQL_LIB}")
+MESSAGE (STATUS "Check for MySQL_INCLUDE_DIRS: ${MySQL_INCLUDE_DIRS}")
+MESSAGE (STATUS "Check for MySQL_LIBRARIES: ${MySQL_LIBRARIES}")
 
 ##############################################################
 # sources                                                    #

@@ -23,7 +23,7 @@ ENDIF()
 
 SET( ${PROJECT_NAME}_MAJOR_VERSION 0  )
 SET( ${PROJECT_NAME}_MINOR_VERSION 9 )
-SET( ${PROJECT_NAME}_PATCH_LEVEL   1  )
+SET( ${PROJECT_NAME}_PATCH_LEVEL   2  )
 
 # library Unix style versioning
 SET( ${PROJECT_NAME}_SOVERSION
@@ -80,11 +80,8 @@ SET( CMAKE_MODULE_PATH  "${CMAKE_MODULE_PATH}" "${${PROJECT_NAME}_SOURCE_DIR}/cm
 ##################################################################
 # find packages (dependencies)                                   #
 ##################################################################
-#use the ILC cmake macro MacroCheckDeps.cmake
-#this has the advantage that it look for <PACKAGE>_HOME
-#whereas the FIND_PACKAGE(<PACKAGE>) looks for the
-#<PACKAGE_DIR> variable
-SET( ${PROJECT_NAME}_DEPENDS "MySQL" )
+# looks for mysql in MySQL_DIR
+FIND_PACKAGE( MySQL REQUIRED )
 
 
 
@@ -115,7 +112,7 @@ CHECK_INCLUDE_FILES( dlfcn.h     HAVE_DLFCN_H )
 CHECK_INCLUDE_FILES( inttypes.h  HAVE_INTTYPES_H )
 
 #Define to 1 if you have the 'mysqlclient' library (-lmysqlclient)
-IF(MYSQL_LIBRARY)
+IF(MYSQL_LIBRARIES)
  SET(HAVE_LIBMYSQLCLIENT TRUE)
 ENDIF()
 
