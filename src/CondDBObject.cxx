@@ -77,6 +77,7 @@ CondDBObject::CondDBObject(MySqlDBMgr *dbMgr, MySqlResult *res, int folderId)
 {
     int db_id;
     int data_id;
+    int part_id;
     SimpleTime insertTime;
     // standard object fields
 
@@ -94,9 +95,11 @@ CondDBObject::CondDBObject(MySqlDBMgr *dbMgr, MySqlResult *res, int folderId)
       DebugMesg(CondDB, devl, "CondDBObject: LAYER="<<theLayer);
     */
     if ( db_id != 0 ) {
-	MySqlDataMgr *dataMgr = dbMgr->getDataMgr(db_id);
-	// DebugMesg(CondDB, devl, "CondDBObject: *dataMgr=" << (void*)(dataMgr));
-	MySqlResult *datarec = dataMgr->fetch(folderId, db_id, data_id);
+        MySqlObjectMgr *objectMgr = dbMgr->getObjectMgr(db_id);
+        part_id = objectMgr->getPartitionId(theSince, folderId);
+        MySqlDataMgr *dataMgr = dbMgr->getDataMgr(db_id);
+        // DebugMesg(CondDB, devl, "CondDBObject: *dataMgr=" << (void*)(dataMgr));
+        MySqlResult *datarec = dataMgr->fetch(folderId, part_id, data_id);        
 	if ( datarec->countRows() == 0 ) {
 	    DebugMesg(CondDB,devl,"CondDBObject: NO DATA ROWS");
 	    theDescription = "";
