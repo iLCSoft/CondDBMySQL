@@ -112,7 +112,7 @@ CHECK_INCLUDE_FILES( dlfcn.h     HAVE_DLFCN_H )
 CHECK_INCLUDE_FILES( inttypes.h  HAVE_INTTYPES_H )
 
 #Define to 1 if you have the 'mysqlclient' library (-lmysqlclient)
-IF(MYSQL_LIBRARIES)
+IF(MySQL_LIBRARIES)
  SET(HAVE_LIBMYSQLCLIENT TRUE)
 ENDIF()
 
