@@ -26,10 +26,10 @@ SET( ${PROJECT_NAME}_MINOR_VERSION 9 )
 SET( ${PROJECT_NAME}_PATCH_LEVEL   2  )
 
 # library Unix style versioning
-SET( ${PROJECT_NAME}_SOVERSION
-    "${${PROJECT_NAME}_MAJOR_VERSION}" )
-SET( ${PROJECT_NAME}_VERSION
-    "${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL}" )
+SET( ${PROJECT_NAME}_SOVERSION "${${PROJECT_NAME}_MAJOR_VERSION}" )
+SET( ${PROJECT_NAME}_VERSION "${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL}" )
+
+
 
 #################
 # install prefix
@@ -40,6 +40,8 @@ SET( ${PROJECT_NAME}_VERSION
 IF( CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" )
     SET( CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}" )
 ENDIF(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
+
+
 
 #################################################################
 #                                                               #
@@ -70,12 +72,16 @@ IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
     ENDIF()
 ENDIF()
 
+
+
 #################################################################
 #                                                               #
 # CMAKE module path                                             #
 #                                                               #
 #################################################################
-SET( CMAKE_MODULE_PATH  "${CMAKE_MODULE_PATH}" "${${PROJECT_NAME}_SOURCE_DIR}/cmake" )
+LIST( APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
+
+
 
 ##################################################################
 # find packages (dependencies)                                   #
@@ -243,3 +249,14 @@ IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
 ENDIF()
 MESSAGE( STATUS "-------------------------------------------------------------------------------" )
 MESSAGE( STATUS )
+
+
+CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+                ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake @ONLY
+)
+INSTALL( FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION . )
+
+CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}ConfigVersion.cmake.in
+                ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake @ONLY
+)
+INSTALL( FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION . )

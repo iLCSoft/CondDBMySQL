@@ -1,0 +1,58 @@
+##############################################################################
+# cmake configuration file for CondDBMySQL
+#
+# returns following variables:
+#
+#   CondDBMySQL_FOUND      : set to TRUE if CondDBMySQL found
+#   CondDBMySQL_ROOT       : path to this CondDBMySQL installation
+#   CondDBMySQL_LIBRARIES  : list of CondDBMySQL libraries
+#   CondDBMySQL_INCLUDE_DIRS  : list of paths to be used with INCLUDE_DIRECTORIES
+#   CondDBMySQL_LIBRARY_DIRS  : list of paths to be used with LINK_DIRECTORIES
+#
+# @author Jan Engels, Desy
+##############################################################################
+
+SET( CondDBMySQL_ROOT "@CMAKE_INSTALL_PREFIX@" )
+
+
+# ---------- include dirs -----------------------------------------------------
+# do not store find results in cache
+SET( CondDBMySQL_INCLUDE_DIRS CondDBMySQL_INCLUDE_DIRS-NOTFOUND )
+MARK_AS_ADVANCED( CondDBMySQL_INCLUDE_DIRS )
+
+FIND_PATH( CondDBMySQL_INCLUDE_DIRS
+	NAMES CondDBInterface.h
+	PATHS ${CondDBMySQL_ROOT}
+    PATH_SUFFIXES include
+	NO_DEFAULT_PATH
+)
+
+
+
+# ---------- libraries --------------------------------------------------------
+# do not store find results in cache
+SET( CondDBMySQL_LIBRARY_DIRS ${CondDBMySQL_ROOT}/lib )
+SET( CondDBMySQL_LIBRARIES CondDBMySQL_LIBRARIES-NOTFOUND )
+MARK_AS_ADVANCED( CondDBMySQL_LIBRARY_DIRS CondDBMySQL_LIBRARIES )
+
+FIND_LIBRARY( CondDBMySQL_LIBRARIES
+    NAMES conddb
+    PATHS ${CondDBMySQL_LIBRARY_DIRS}
+    NO_DEFAULT_PATH
+)
+
+
+
+# ---------- libraries dependencies -------------------------------------------
+# this sets CondDBMySQL_${COMPONENT}_LIB_DEPENDS variables
+INCLUDE( "${CondDBMySQL_ROOT}/lib/cmake/CondDBMySQLLibDeps.cmake" )
+ 
+
+
+
+# ---------- final checking ---------------------------------------------------
+INCLUDE( FindPackageHandleStandardArgs )
+# set CondDBMySQL_FOUND to TRUE if all listed variables are TRUE and not empty
+# CondDBMySQL_COMPONENT_VARIABLES will be set if FIND_PACKAGE is called with REQUIRED argument
+FIND_PACKAGE_HANDLE_STANDARD_ARGS( CondDBMySQL DEFAULT_MSG CondDBMySQL_ROOT CondDBMySQL_INCLUDE_DIRS CondDBMySQL_LIBRARIES )
+
