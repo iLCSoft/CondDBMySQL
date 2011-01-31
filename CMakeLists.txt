@@ -1,93 +1,40 @@
+#################################################################
+# CMakeLists to build CondDBMySQL
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6 FATAL_ERROR)
+#################################################################
+
+
+
+# project name
 PROJECT( CondDBMySQL )
 
-#################################################################
-#                                                               #
-# cmake options                                                 #
-#                                                               #
-#################################################################
-CMAKE_MINIMUM_REQUIRED( VERSION 2.6.2 )
-SET( CMAKE_BACKWARDS_COMPATIBILITY 2.4.6 )
-MARK_AS_ADVANCED(CMAKE_BACKWARDS_COMPATIBILITY)
 
-SET( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE )
-
-# set default cmake build type to RelWithDebInfo
-IF( NOT CMAKE_BUILD_TYPE )
-    SET( CMAKE_BUILD_TYPE "RelWithDebInfo" )
-ENDIF()
-
-
-#################
 # project version
-#################
-
-SET( ${PROJECT_NAME}_MAJOR_VERSION 0  )
-SET( ${PROJECT_NAME}_MINOR_VERSION 9 )
-SET( ${PROJECT_NAME}_PATCH_LEVEL   2  )
-
-# library Unix style versioning
-SET( ${PROJECT_NAME}_SOVERSION "${${PROJECT_NAME}_MAJOR_VERSION}" )
-SET( ${PROJECT_NAME}_VERSION "${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL}" )
+SET( ${PROJECT_NAME}_VERSION_MAJOR 0 )
+SET( ${PROJECT_NAME}_VERSION_MINOR 9 )
+SET( ${PROJECT_NAME}_VERSION_PATCH 3 )
 
 
 
-#################
-# install prefix
-#################
+### DEPENDENCIES ############################################################
+
+FIND_PACKAGE( ILCUTIL COMPONENTS ILCSOFT_CMAKE_MODULES REQUIRED )
+
+# load default settings from ILCSOFT_CMAKE_MODULES
+INCLUDE( ilcsoft_default_settings )
 
 
-# set default install prefix to project root directory
-IF( CMAKE_INSTALL_PREFIX STREQUAL "/usr/local" )
-    SET( CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}" )
-ENDIF(CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
-
-
-
-#################################################################
-#                                                               #
-# project options                                               #
-#                                                               #
-#################################################################
-OPTION( BUILD_SHARED_LIBS "Set to OFF to build static libraries" ON )
-OPTION( BUILD_32BIT_COMPATIBLE "Set to ON to build in 32 bit compatibility mode" OFF )
-
-# 32/64 bits issues
-IF( CMAKE_SIZEOF_VOID_P EQUAL 4 )
-    MESSAGE( STATUS "32 bit architecture detected" )
-ENDIF()
-
-IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    MESSAGE( STATUS "64 bit architecture detected" )
-
-    IF( BUILD_32BIT_COMPATIBLE )
-        IF( COMMAND SET_PROPERTY )
-            SET_PROPERTY(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS 0)
-            SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32" )
-        ELSE()
-            MESSAGE( FATAL_ERROR "to build in 32 bit compatibility mode you need cmake >= 2.6" )
-        ENDIF()
-        MESSAGE( STATUS "Build in 32 bit compatibility mode" )
-    ELSE()
-        MESSAGE( STATUS "Build in native 64 bit mode" )
-    ENDIF()
-ENDIF()
-
-
-
-#################################################################
-#                                                               #
-# CMAKE module path                                             #
-#                                                               #
-#################################################################
-LIST( APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
-
-
-
-##################################################################
-# find packages (dependencies)                                   #
-##################################################################
+# ----------- MySQL --------------------------------------------------------
 # looks for mysql in MySQL_DIR
 FIND_PACKAGE( MySQL REQUIRED )
+
+INCLUDE_DIRECTORIES( "${MySQL_INCLUDE_DIRS}" )
+LINK_LIBRARIES( "${MySQL_LIBRARIES}" )
+
+MESSAGE (STATUS "Check for MySQL_INCLUDE_DIRS: ${MySQL_INCLUDE_DIRS}")
+MESSAGE (STATUS "Check for MySQL_LIBRARIES: ${MySQL_LIBRARIES}")
+# --------------------------------------------------------------------------
+
 
 
 
@@ -176,23 +123,13 @@ MESSAGE( STATUS "-----------------------------------------------------------" )
 
 
 
-###################################################################################
-#                                                                                 #
-# installation options                                                            #
-#                                                                                 #
-###################################################################################
-# add install path to the rpath list
-SET( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" )
-MARK_AS_ADVANCED( CMAKE_INSTALL_RPATH )
 
-# add install path to the rpath list (apple)
-IF( APPLE )
-    SET( CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib" )
-    MARK_AS_ADVANCED( CMAKE_INSTALL_NAME_DIR )
-ENDIF()
-# append link pathes to rpath list
-SET( CMAKE_INSTALL_RPATH_USE_LINK_PATH 1 )
-MARK_AS_ADVANCED( CMAKE_INSTALL_RPATH_USE_LINK_PATH )
+#####################################################################
+#                                                                   #
+# installation directories                                          #
+#                                                                   #
+#####################################################################
+
 
 
 #default destination for header files: ${CMAKE_INSTALL_PREFIX}/include
@@ -212,23 +149,75 @@ SET( EXECUTABLE_INSTALL_DIR "bin" CACHE PATH "Directory to install the executabl
 MARK_AS_ADVANCED( EXECUTABLE_INSTALL_DIR )
 
 
-# provide nicer directory layout in build directory
-SET( EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin" CACHE PATH
-    "EXECUTABLE_OUTPUT_PATH" FORCE )
-SET( LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib" CACHE PATH
-    "LIBRARY_OUTPUT_PATH" FORCE )
-MARK_AS_ADVANCED( EXECUTABLE_OUTPUT_PATH LIBRARY_OUTPUT_PATH )
+
+
+#####################################################################
+#                                                                   #
+# library                                                           #
+#                                                                   #
+#####################################################################
 
 
 
-######################################################################
-#                                                                    #
-# subdirectories                                                     #
-#                                                                    #
-######################################################################
-#add only the src directory (the other directories: tests and tools
-# are included in the src/CMakeLists.txt)
-ADD_SUBDIRECTORY( src )
+INCLUDE_DIRECTORIES( ./include )
+
+
+ADD_DEFINITIONS( "-Wall -ansi" )
+ADD_DEFINITIONS( -DMYSQL_INIT_STR="localhost:mydb:calvin:hobbes" )
+
+AUX_SOURCE_DIRECTORY( ./src library_sources )
+ADD_SHARED_LIBRARY( conddb ${library_sources} )
+
+
+# ------------ install header files + conddb library ---------------------
+INSTALL_SHARED_LIBRARY( conddb DESTINATION ${LIB_INSTALL_DIR} )
+INSTALL_DIRECTORY( ./include/ DESTINATION ${INCLUDE_INSTALL_DIR} FILES_MATCHING PATTERN "*.h" )
+INSTALL_DIRECTORY( ./src/ DESTINATION ${INCLUDE_INSTALL_DIR} FILES_MATCHING PATTERN "*.h" )
+# ------------------------------------------------------------------------
+
+
+
+
+#####################################################################
+#                                                                   #
+# tests                                                             #
+#                                                                   #
+#####################################################################
+
+
+INCLUDE_DIRECTORIES( ./scramIncludes ./tests/storeDataOnChange )
+
+
+ADD_CUSTOM_TARGET( tests )
+MACRO( ADD_CONDDBMYSQL_TEST _testname )
+    IF( BUILD_TESTING )
+        ADD_EXECUTABLE( ${_testname} ${ARGN} )
+    ELSE()
+        ADD_EXECUTABLE( ${_testname} EXCLUDE_FROM_ALL ${ARGN} )
+    ENDIF()
+    ADD_DEPENDENCIES( tests ${_testname} )
+    TARGET_LINK_LIBRARIES( ${_testname} conddb )
+    #INSTALL( TARGETS ${_testname} DESTINATION ${EXECUTABLE_INSTALL_DIR}/conddbmysql_tests )
+ENDMACRO( ADD_CONDDBMYSQL_TEST )
+
+
+
+ADD_CONDDBMYSQL_TEST( basicSession ./tests/basicSession/basicSession.cxx )
+ADD_CONDDBMYSQL_TEST( createTags ./tests/createTags/createTags.cxx )
+ADD_CONDDBMYSQL_TEST( performanceTests ./tests/performanceTests/performanceTests.cxx )
+ADD_CONDDBMYSQL_TEST( readDatax ./tests/readDatax/readDatax.cxx )
+ADD_CONDDBMYSQL_TEST( readTable ./tests/readTable/readTable.cxx )
+ADD_CONDDBMYSQL_TEST( readTableVer ./tests/readTableVer/readTableVer.cxx )
+ADD_CONDDBMYSQL_TEST( storeDatax ./tests/storeDatax/storeDatax.cxx )
+ADD_CONDDBMYSQL_TEST( storeDatay ./tests/storeDatay/storeDatay.cxx )
+ADD_CONDDBMYSQL_TEST( storeTable ./tests/storeTable/storeTable.cxx )
+ADD_CONDDBMYSQL_TEST( storeTableVer ./tests/storeTableVer/storeTableVer.cxx )
+ADD_CONDDBMYSQL_TEST( testFolders ./tests/testFolders/testFolders.cxx )
+ADD_CONDDBMYSQL_TEST( testTableTags ./tests/testTableTags/testTableTags.cxx )
+ADD_CONDDBMYSQL_TEST( testTags ./tests/testTags/testTags.cxx )
+ADD_CONDDBMYSQL_TEST( teste ./tools/migration/teste.cxx )
+ADD_CONDDBMYSQL_TEST( storeDataOnChange ./tests/storeDataOnChange/storeDataOnChange.cxx ./tests/storeDataOnChange/cdbStore.cxx )
+
 
 
 
@@ -237,26 +226,11 @@ ADD_SUBDIRECTORY( src )
 # print status                                                      #
 #                                                                   #
 #####################################################################
-MESSAGE( STATUS )
-MESSAGE( STATUS "-------------------------------------------------------------------------------" )
-MESSAGE( STATUS "BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}" )
-MESSAGE( STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}" )
-MESSAGE( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
-MESSAGE( STATUS "CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}" )
-MESSAGE( STATUS "Change a value with: cmake -D<Variable>=<Value>" )
-IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    MESSAGE( STATUS "BUILD_32BIT_COMPATIBLE = ${BUILD_32BIT_COMPATIBLE}" )
-ENDIF()
-MESSAGE( STATUS "-------------------------------------------------------------------------------" )
-MESSAGE( STATUS )
+
+# display some variables and write them to cache
+DISPLAY_STD_VARIABLES()
 
 
-CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-                ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake @ONLY
-)
-INSTALL( FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION . )
+# generate and install following configuration files
+GENERATE_PACKAGE_CONFIGURATION_FILES( CondDBMySQLConfig.cmake CondDBMySQLConfigVersion.cmake CondDBMySQLLibDeps.cmake )
 
-CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}ConfigVersion.cmake.in
-                ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake @ONLY
-)
-INSTALL( FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION . )
