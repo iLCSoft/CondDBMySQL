@@ -36,16 +36,12 @@ FIND_PATH( CondDBMySQL_INCLUDE_DIRS
 
 
 # ---------- libraries --------------------------------------------------------
-# do not store find results in cache
-SET( CondDBMySQL_LIBRARY_DIRS ${CondDBMySQL_ROOT}/lib )
-SET( CondDBMySQL_LIBRARIES CondDBMySQL_LIBRARIES-NOTFOUND )
-MARK_AS_ADVANCED( CondDBMySQL_LIBRARY_DIRS CondDBMySQL_LIBRARIES )
+INCLUDE( "@ILCSOFT_CMAKE_MODULES_ROOT@/MacroCheckPackageLibs.cmake" )
 
-FIND_LIBRARY( CondDBMySQL_LIBRARIES
-    NAMES conddb
-    PATHS ${CondDBMySQL_LIBRARY_DIRS}
-    NO_DEFAULT_PATH
-)
+# only standard libraries should be passed as arguments to CHECK_PACKAGE_LIBS
+# additional components are set by cmake in variable PKG_FIND_COMPONENTS
+# first argument should be the package name
+CHECK_PACKAGE_LIBS( CondDBMySQL conddb )
 
 
 
@@ -55,6 +51,7 @@ INCLUDE( "${CondDBMySQL_ROOT}/lib/cmake/CondDBMySQLLibDeps.cmake" )
  
 
 
+
 # ---------- final checking ---------------------------------------------------
 INCLUDE( FindPackageHandleStandardArgs )
 # set CONDDBMYSQL_FOUND to TRUE if all listed variables are TRUE and not empty
@@ -62,4 +59,3 @@ INCLUDE( FindPackageHandleStandardArgs )
 FIND_PACKAGE_HANDLE_STANDARD_ARGS( CondDBMySQL DEFAULT_MSG CondDBMySQL_ROOT CondDBMySQL_INCLUDE_DIRS CondDBMySQL_LIBRARIES )
 
 SET( CondDBMySQL_FOUND ${CONDDBMYSQL_FOUND} )
-
