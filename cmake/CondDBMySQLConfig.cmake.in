@@ -55,7 +55,6 @@ INCLUDE( "${CondDBMySQL_ROOT}/lib/cmake/CondDBMySQLLibDeps.cmake" )
  
 
 
-
 # ---------- final checking ---------------------------------------------------
 INCLUDE( FindPackageHandleStandardArgs )
 # set CONDDBMYSQL_FOUND to TRUE if all listed variables are TRUE and not empty
@@ -63,3 +62,4 @@ INCLUDE( FindPackageHandleStandardArgs )
 FIND_PACKAGE_HANDLE_STANDARD_ARGS( CondDBMySQL DEFAULT_MSG CondDBMySQL_ROOT CondDBMySQL_INCLUDE_DIRS CondDBMySQL_LIBRARIES )
 
 SET( CondDBMySQL_FOUND ${CONDDBMYSQL_FOUND} )
+
