@@ -5,14 +5,20 @@
 #
 #   CondDBMySQL_FOUND      : set to TRUE if CondDBMySQL found
 #   CondDBMySQL_ROOT       : path to this CondDBMySQL installation
+#   CondDBMySQL_VERSION    : package version
 #   CondDBMySQL_LIBRARIES  : list of CondDBMySQL libraries
 #   CondDBMySQL_INCLUDE_DIRS  : list of paths to be used with INCLUDE_DIRECTORIES
 #   CondDBMySQL_LIBRARY_DIRS  : list of paths to be used with LINK_DIRECTORIES
+#   CondDBMySQL_COMPONENT_LIBRARIES      : list of CondDBMySQL component libraries
+#   CondDBMySQL_${COMPONENT}_FOUND       : set to TRUE or FALSE for each library
+#   CondDBMySQL_${COMPONENT}_LIBRARY     : path to individual libraries
+#   CondDBMySQL_${COMPONENT}_LIB_DEPENDS : individual library dependencies
 #
 # @author Jan Engels, Desy
 ##############################################################################
 
 SET( CondDBMySQL_ROOT "@CMAKE_INSTALL_PREFIX@" )
+SET( CondDBMySQL_VERSION "@CondDBMySQL_VERSION@" )
 
 
 # ---------- include dirs -----------------------------------------------------
@@ -52,7 +58,8 @@ INCLUDE( "${CondDBMySQL_ROOT}/lib/cmake/CondDBMySQLLibDeps.cmake" )
 
 # ---------- final checking ---------------------------------------------------
 INCLUDE( FindPackageHandleStandardArgs )
-# set CondDBMySQL_FOUND to TRUE if all listed variables are TRUE and not empty
+# set CONDDBMYSQL_FOUND to TRUE if all listed variables are TRUE and not empty
 # CondDBMySQL_COMPONENT_VARIABLES will be set if FIND_PACKAGE is called with REQUIRED argument
 FIND_PACKAGE_HANDLE_STANDARD_ARGS( CondDBMySQL DEFAULT_MSG CondDBMySQL_ROOT CondDBMySQL_INCLUDE_DIRS CondDBMySQL_LIBRARIES )
 
+SET( CondDBMySQL_FOUND ${CONDDBMYSQL_FOUND} )
