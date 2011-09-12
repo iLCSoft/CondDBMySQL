@@ -172,7 +172,7 @@ inline MySqlHandle::MySqlHandle()
     mysql_init(&mysqlApp);
     usage_count = 1;
     is_opened = false;
-    
+    theLog= 0; // avoid uninitialized pointer here
 }
 
 
