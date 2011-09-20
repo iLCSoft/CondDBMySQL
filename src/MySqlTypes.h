@@ -170,6 +170,12 @@ inline MySqlHandle::MySqlHandle()
 {
 
     mysql_init(&mysqlApp);
+    
+    //adding reconnect option.
+    my_bool reconnect=1;
+    mysql_options(&mysqlApp, MYSQL_OPT_RECONNECT, (const char*) &reconnect);
+    // Ouch, the mysql C api is really ugly. 
+
     usage_count = 1;
     is_opened = false;
     theLog= 0; // avoid uninitialized pointer here
@@ -248,8 +254,8 @@ inline void MySqlHandle::open(const char *host, const char *user,
 inline void MySqlHandle::exec(const char *buf, unsigned int size)
     throw(CondDBException)
 {
-
-    if (mysql_real_query(&mysqlApp, buf, size))
+  // first use mysql_ping to enforce reconnect, if needed
+  if (mysql_ping(&mysqlApp) || mysql_real_query(&mysqlApp, buf, size))
     {
 //NBARROS
 	if (theLog->isUsable())
