@@ -48,7 +48,7 @@
   db_id int(11),\
   is_set bool default 0,\
   PRIMARY KEY (fld_id)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define DATABASES_TBL "databases_tbl"
 #define DATABASES_TBL_SCHEMA \
@@ -59,7 +59,7 @@
   username char(16),\
   password char(16),\
   PRIMARY KEY (db_id)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define TAGS_TBL "tags_tbl"
 #define TAGS_TBL_SCHEMA \
@@ -70,7 +70,7 @@
   tattr varchar(64) default NULL,\
   tdesc varchar(255) default NULL,\
   PRIMARY KEY (tag_id)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define TAG2FOLDER_TBL "tag2folder_tbl"
 #define TAG2FOLDER_TBL_SCHEMA \
@@ -78,7 +78,7 @@
   tag_id int(11) NOT NULL,\
   fld_id int(11) NOT NULL,\
   insert_t timestamp\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 
 /*
@@ -99,7 +99,7 @@
   PRIMARY KEY (obj_id),\
   INDEX isin (since_t),\
   INDEX itil (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define TABLE_KEY_TBL_SCHEMA \
 "(\
@@ -114,7 +114,7 @@
   PRIMARY KEY (obj_id),\
   INDEX isin (since_t),\
   INDEX itil (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define OBJECT_KEY_TBL_HEAD_N "object_key_tbl_head_"
 #define OBJECT_KEY_TBL_HEAD_SCHEMA \
@@ -125,7 +125,7 @@
   INDEX iobjh (obj_id),\
   INDEX isinh (since_t),\
   INDEX itilh (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define TABLE_KEY_TBL_HEAD_SCHEMA \
 "(\
@@ -135,7 +135,7 @@
   INDEX iobjh (obj_id),\
   INDEX isinh (since_t),\
   INDEX itilh (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define TAG2OBJ_TBL_N "tag2obj_tbl_"
 #define TAG2OBJ_TBL_SCHEMA \
@@ -147,7 +147,7 @@
   INDEX iobjt (obj_id),\
   INDEX isint (since_t),\
   INDEX itilt (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define PARTITION_TBL_N "partition_tbl_"
 #define PARTITION_TBL_SCHEMA \
@@ -159,7 +159,7 @@
   PRIMARY KEY (part_id),\
   KEY (since_t),\
   KEY (till_t)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 #define DATA_TBL_ONL_N "data_tbl_onl_"
 
@@ -176,14 +176,14 @@
   description varchar(255),\
   oblock longblob,\
   PRIMARY KEY (dat_id)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 
 
 /*#define LOG_TBL "log_tbl"
 #define LOG_TBL_SCHEMA \
 "(time timestamp default NULL, \
  description varchar(255)\
-) TYPE=MyISAM"
+) ENGINE=MyISAM"
 */
 
 #endif /* _BOOT_SQL_H */
