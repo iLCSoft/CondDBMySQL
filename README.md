@@ -1,5 +1,6 @@
 # CondDBMySQL
 [![Build Status](https://travis-ci.org/iLCSoft/CondDBMySQL.svg?branch=master)](https://travis-ci.org/iLCSoft/CondDBMySQL)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/12347/badge.svg)](https://scan.coverity.com/projects/ilcsoft-conddbmysql)
 
 Interface to MySQL Conditions Database 
 
