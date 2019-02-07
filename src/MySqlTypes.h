@@ -172,7 +172,7 @@ inline MySqlHandle::MySqlHandle()
     mysql_init(&mysqlApp);
     
     //adding reconnect option.
-    my_bool reconnect=1;
+    bool reconnect=1;
     mysql_options(&mysqlApp, MYSQL_OPT_RECONNECT, (const char*) &reconnect);
     // Ouch, the mysql C api is really ugly. 
 
