@@ -41,7 +41,7 @@
 #endif
 
 MySqlConnection::MySqlConnection()
-    throw(CondDBException)
+
 {
     mysqlHandle = new MySqlHandle();
     Assert(mysqlHandle != 0);
@@ -52,11 +52,11 @@ MySqlConnection::MySqlConnection()
 }
 
 MySqlConnection::MySqlConnection(MySqlHandle *mysqlH)
-    throw(CondDBException)
+
 {
     mysqlHandle = 0;
     Assert(mysqlH != 0);
-    
+
     mysqlH->link(mysqlHandle);
     cdbLog = mysqlH->theLog;
     next = 0;
@@ -72,7 +72,7 @@ MySqlConnection::~MySqlConnection()
     else
     {
 	mysqlHandle->unlink(mysqlHandle);
-/***** CondDBLog ***/    
+/***** CondDBLog ***/
 	if (cdbLog) delete cdbLog;
     }
 }
@@ -86,34 +86,34 @@ void MySqlConnection::connect(const string& server,
 			      const string& username,
 			      const string& password,
 			      unsigned int port)
-  throw(CondDBException)
+
 {
   const char *host = "localhost"; // Default server is in localhost
   const char *user = NULL;        // Default user is no user
   const char *passwd = NULL;      // Default password is nopassword
   unsigned int p_port = 0;
 
-  if  (server!="") host = server.c_str(); 
-  if  (username!="") user = username.c_str(); 
-  if  (password!="") passwd = password.c_str(); 
+  if  (server!="") host = server.c_str();
+  if  (username!="") user = username.c_str();
+  if  (password!="") passwd = password.c_str();
   if (port){
     p_port = port;
   }
-  
+
   /************* CondDBLog *************/
   // Let's create the logging object!!!
-  
+
   const char* isDebug = getenv("CONDDB_LOG");
-  
+
   if (isDebug) {
-    
+
     if (atoi(isDebug) == 1)
       //	     if(!cdbLog)
       {
 	cdbLog = new CondDBLog(host, user, passwd,p_port);
 	mysqlHandle->theLog = cdbLog;
       }
-    
+
     else {
       cdbLog = new CondDBLog();
       mysqlHandle->theLog = cdbLog;
@@ -122,10 +122,10 @@ void MySqlConnection::connect(const string& server,
     cdbLog = new CondDBLog();
     mysqlHandle->theLog = cdbLog;
   }
-  
+
   DebugMesg(CondDB, user, "MySqlConnection::connect():" << "\n\t" << host <<
 	    "\n\t" << user << "\n\t" << passwd << endl);
-  
+
 //nbarros
 //    mysqlHandle->open(host, user, passwd, dbname);
     mysqlHandle->open(host, user, passwd,p_port);//, 0);
@@ -142,13 +142,13 @@ bool MySqlConnection::changeDB(const string& dbname)
     cdbLog->setDbName(dbname.c_str());
 
   if( mysqlHandle->changeDB(dbname.c_str()) ) {
-	DebugMesg(CondDB, user, 
+	DebugMesg(CondDB, user,
 		  "MySqlConnection::changeDB(\"" << dbname << "\") failed");
 	/***** CondDBLog *******/
 	if (cdbLog->isUsable())
 	    cdbLog->StoreMySqlLog(mysqlHandle->handle(), __FILE__, __LINE__);
 	return false;
-    } 
+    }
     if (cdbLog->isUsable())
 	cdbLog->StoreLog("MySqlConnection:: Connection successfully opened.");
 
@@ -164,11 +164,11 @@ bool MySqlConnection::changeDB(const string& dbname)
  * reused by the caller
  */
 void MySqlConnection::execute(MYSQLSTREAM& query)
-    throw(CondDBException)
+
 {
 
 #ifdef USE_OLD_STREAMS
-    // Is this really necessary ? Apparently calling strstream::str() 
+    // Is this really necessary ? Apparently calling strstream::str()
     // already freezes it.
     query.rdbuf()->freeze(true);
     // Because strstream::str() doesn't return a null terminated
@@ -177,12 +177,12 @@ void MySqlConnection::execute(MYSQLSTREAM& query)
     // need to call strlen()
     string querystr(query.str(),query.pcount());
     DebugMesg(CondDB, devl, "Issuing query:\n\"" << querystr.c_str() << "\"");
-    
+
     //Time for querying
     #ifdef TIMETESTS
        struct timeval t_start, t_end;
        long t;
-       gettimeofday(&t_start, 0); 
+       gettimeofday(&t_start, 0);
     #endif
 
     mysqlHandle->exec(query.str(), query.pcount());
@@ -201,8 +201,8 @@ void MySqlConnection::execute(MYSQLSTREAM& query)
     query.width(0);
 #else
     //ostringstream doesen't nedd to be freezed
-    //query.str() returns a c++ string 
-    //using query.str().c_str() to convert into a char * 
+    //query.str() returns a c++ string
+    //using query.str().c_str() to convert into a char *
     DebugMesg(CondDB, devl, "Issuing query:\n\"" << query.str().c_str() << "\"");
     //query.str().size() returns the size of the string
 
@@ -220,7 +220,7 @@ void MySqlConnection::execute(MYSQLSTREAM& query)
     #else
        DebugMesg(CondDB, devl, "  Query succeded!");
     #endif
-   
+
     //clears the buffer
     query.str("");
 #endif
@@ -232,7 +232,7 @@ void MySqlConnection::execute(MYSQLSTREAM& query)
  * to return the corresponding 'MySqlResult' object.
  */
 MySqlResult *MySqlConnection::select(MYSQLSTREAM& query)
-    throw(CondDBException)
+
 {
     execute(query);
     MySqlResult *res = new MySqlResult(mysqlHandle->getres(),mysqlHandle);

@@ -50,20 +50,20 @@ class CondDBTag : public ICondDBTag {
 
     // Constructors
     CondDBTag(const CondDBTagMgr* inCondTagMgr, MySqlResult* res)
-	throw(CondDBException);
+	;
 
     // Destructor
     virtual ~CondDBTag();
-    
+
     virtual std::string getName() const;
-    
+
     virtual std::string getDescription() const;
-    
+
     virtual void getCreationTime( SimpleTime& creationTime ) const;
-    
+
     virtual void changeName( const std::string& newName )
-	throw(CondDBException);
-  
+	;
+
     virtual void
 	getTaggedFolder( std::vector<std::string>& allFolder,
 			 std::vector<SimpleTime>& allApplicationTime ) const;
@@ -81,9 +81,3 @@ class CondDBTag : public ICondDBTag {
 };
 
 #endif
-
-
-
-
-
-

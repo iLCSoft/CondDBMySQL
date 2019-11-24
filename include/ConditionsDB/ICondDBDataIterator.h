@@ -17,7 +17,7 @@
 class ICondDBDataIterator {
 
 public:
-  
+
   /// Virtual destructor
   virtual ~ICondDBDataIterator(){};
 
@@ -36,9 +36,9 @@ public:
    *
    * Returns true is the iteration set has at least one element before the current location;
    * otherwise false.
-   */  
+   */
   virtual bool hasPrevious() const = 0;
-  
+
   /// Finding elements
 
   /**
@@ -52,8 +52,8 @@ public:
    * at the end of its usage.
    */
   virtual ICondDBObject* current()
-    throw(CondDBException) = 0;
-  
+     = 0;
+
   /**
    * Finds the previous object in this iterator's iteration set.
    *
@@ -64,7 +64,7 @@ public:
    * at the end of its usage.
    */
   virtual ICondDBObject* previous()
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Finds the next object in this iterator's iteration set.
@@ -76,7 +76,7 @@ public:
    * at the end of its usage.
    */
   virtual ICondDBObject* next()
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Positions the iterator on the last object in this iterator's iteration set.
@@ -87,9 +87,8 @@ public:
    * Positions the iterator on the first object in this iterator's iteration set.
    */
   virtual void goToFirst() = 0;
-  
+
 };
 
 
 #endif /* ICondDBDataIterator_h */
-

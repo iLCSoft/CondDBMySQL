@@ -70,63 +70,55 @@ public:
     ~MySqlFolderMgr();
 
     MySqlResult *find(const string& pathName, folder_type type)
-	throw(CondDBException);
+	;
 
     MySqlResult *find(int folderId, folder_type type)
-	throw(CondDBException);
+	;
 
     int getId(const string& pathName, folder_type type)
-	throw(CondDBException);
+	;
 
     MySqlResult *browse(const string& basename, folder_type type)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseChilds(int parentId, folder_type type)
-	throw(CondDBException);
+	;
 
     int getFolderType(const string& fullPathName)
-	throw(CondDBException);
+	;
 
     bool exist(const string& pathName, folder_type type)
-	throw(CondDBException);
+	;
 
     bool exist(int folderId, folder_type type)
-	throw(CondDBException);
+	;
 
     int store(const string& pathName,
 	      const string& description,
 	      const string& attributes,
 	      int parentId, int tblId, folder_type type, int ddtype = 0)
-	throw(CondDBException);
+	;
 
     void deleteFolder(int folderId)
-	throw(CondDBException);
+	;
 
 // Associate tags to folders
 // This operation must be paired with the tag object association
     bool isTagged(int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     void addTag(int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     void removeTag(int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseTaggedFolders(const std::string& tagName)
-	throw(CondDBException);
- 
+	;
+
 private:
     MySqlDBMgr *databaseMgr;
 
 };
 
 #endif /* MYSQL_FOLDERMGR_H */
-
-
-
-
-
-
-
-

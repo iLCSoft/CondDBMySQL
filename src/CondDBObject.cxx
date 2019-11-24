@@ -69,11 +69,11 @@ CondDBObject::CondDBObject(const CondDBKey&    since,
     theInsertionTime = insertionTime;
 }
 
-/** 
+/**
  * MySQL Specific Constructor
- */ 
+ */
 CondDBObject::CondDBObject(MySqlDBMgr *dbMgr, MySqlResult *res, int folderId)
-    throw(CondDBException)
+
 {
     int db_id;
     int data_id;
@@ -99,7 +99,7 @@ CondDBObject::CondDBObject(MySqlDBMgr *dbMgr, MySqlResult *res, int folderId)
         part_id = objectMgr->getPartitionId(theSince, folderId);
         MySqlDataMgr *dataMgr = dbMgr->getDataMgr(db_id);
         // DebugMesg(CondDB, devl, "CondDBObject: *dataMgr=" << (void*)(dataMgr));
-        MySqlResult *datarec = dataMgr->fetch(folderId, part_id, data_id);        
+        MySqlResult *datarec = dataMgr->fetch(folderId, part_id, data_id);
 	if ( datarec->countRows() == 0 ) {
 	    DebugMesg(CondDB,devl,"CondDBObject: NO DATA ROWS");
 	    theDescription = "";
@@ -129,7 +129,7 @@ CondDBObject::~CondDBObject()
 {
 }
 
-/** 
+/**
  * Return the time since when the object is valid as a CondDBKey
  */
 CondDBKey CondDBObject::validSince() const
@@ -137,7 +137,7 @@ CondDBKey CondDBObject::validSince() const
     return theSince;
 }
 
-/** 
+/**
  * Return the time till when the object is valid as a CondDBKey
  */
 CondDBKey CondDBObject::validTill() const
@@ -158,7 +158,7 @@ bool CondDBObject::contains(const CondDBKey& point) const
 }
 
 /**
- * Checks whether the interval is Null, i.e, if the object represents 
+ * Checks whether the interval is Null, i.e, if the object represents
  * an interval where no Conditions Object is defined.
  */
 bool CondDBObject::isNullInterval() const
@@ -178,7 +178,7 @@ void CondDBObject::data(string& dataValue) const
  * Gets the data as a ICondDBStreamable object
  */
 void CondDBObject::data(ICondDBStreamable& obj) const
-    throw(CondDBException)
+
 {
     // the conversion could generate an exception (in principle)
     obj.retrieveFromDB(theData);
@@ -211,8 +211,3 @@ void CondDBObject::allTags(list<string>::iterator& /* assTags */) const
     // WARN: to be implemented
     DebugMesg(CondDB, user, "CondDBObject::allTags yet to be implemented");
 }
-
-
-
-
-

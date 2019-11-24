@@ -48,15 +48,15 @@ class CondDBTagMgr;
 #ifdef __GNUC__
 # if __GNUC__ < 3
 #  include <strstream>
-#  define CONDDBACCESSSTREAM strstream 
+#  define CONDDBACCESSSTREAM strstream
 #  define USE_OLD_STREAMS
 # else
 #  include <sstream>
-#  define CONDDBACCESSSTREAM std::ostringstream 
+#  define CONDDBACCESSSTREAM std::ostringstream
 # endif
 #else
 #  include <sstream>
-#  define CONDDBACCESSSTREAM std::ostringstream 
+#  define CONDDBACCESSSTREAM std::ostringstream
 #endif
 #endif
 
@@ -81,9 +81,8 @@ public:
     // Destructor
     virtual ~CondDBDataAccess();
 
-    virtual void init()
-	throw(CondDBException);
-    
+    virtual void init() ;
+
     // Storing
 
     /**
@@ -93,8 +92,7 @@ public:
      */
 
     virtual void storeCondDBObject( const std::string& folderName,
-				    ICondDBObject* CondObject )
-	throw(CondDBException);
+				    ICondDBObject* CondObject ) ;
 
     /**
      * Store table in the given folder
@@ -102,42 +100,39 @@ public:
      * @param table The table to be stored
      */
 
-    virtual void storeCondDBObject( const std::string& folderName, ICondDBTable *table)
-	throw(CondDBException);
+    virtual void storeCondDBObject( const std::string& folderName, ICondDBTable *table) ;
 
     // Queries
-    
+
     /**
-     * Find data which next becomes valid after given point in time 
+     * Find data which next becomes valid after given point in time
      *   (latest version or tag)
      * @param oblock The found data will be stored in this object
      * @param folderName The folder in which we are searching
      * @param point The point in time to start the search
      * @param tagName Optional. Find for tags
      */
-    
+
     virtual void findNextValidCondDBObject( ICondDBObject*&  oblock,
 					    const string&    folderName,
 					    const CondDBKey& point,
-					    string           tagName = "" ) const
-      throw(CondDBException);
+					    string           tagName = "" ) const ;
 
     /**
-     * Find data which was last valid before the given point in time 
+     * Find data which was last valid before the given point in time
      *   (latest version or tag)
      * @param oblock The found data will be stored in this object
      * @param folderName The folder in which we are searching
      * @param point The point in time to start the search
      * @param tagName Optional. Find for tags
      */
-    
+
     virtual void findLastValidCondDBObject( ICondDBObject*&  oblock,
 					    const string&    folderName,
 					    const CondDBKey& point,
-					    string           tagName = "" ) const
-      throw(CondDBException);
+					    string           tagName = "" ) const;
 
-    
+
     /**
      * Find object for the given point in time
      * @param oblock The data found will be stored in this object
@@ -150,7 +145,7 @@ public:
 				   const std::string& folderName,
 				   const CondDBKey&   point,
 				   std::string        tagName = "" ) const
-	throw(CondDBException);
+	;
 
     /**
      * Find object for the given point in time (latest version or tag)
@@ -167,28 +162,28 @@ public:
 				   const std::string&  selection = "",
 				   const std::vector <std::string> *nullValues = 0,
 				   std::string tagName = "") const
-	throw(CondDBException);
+	;
 
     // Browsing
-    
+
     /**
      * Browse for data at the given point in time (all versions)
      * @param iterObjects An object iterator to store the data found
      * @param folderName The folder in which we are searching
      * @param point The point in time for which we are searching
      */
-    
+
     virtual void browseObjectsAtPoint( ICondDBDataIterator*& iterObjects,
 				       const std::string&    folderName,
 				       const CondDBKey&      point ) const
-	throw(CondDBException);
-    
+	;
+
     virtual void browseObjectsAtPoint( ICondDBTable *table,
 				       const std::string&    folderName,
 				       const CondDBKey&      point,
 				       const std::string& selection = "",
 				       const std::vector <std::string> *nullValues = 0) const
-	throw(CondDBException);
+	;
 
     /**
      * Browse for data inside the given interval in time (all versions)
@@ -197,13 +192,13 @@ public:
      * @param begin Search interval start point in time
      * @param end Interval end point
      */
-    
+
     virtual void browseObjectsInInterval( ICondDBDataIterator*& iterObjects,
 				       const std::string&    folderName,
 				       const CondDBKey&      begin,
 				       const CondDBKey&      end ) const
-	throw(CondDBException);
-    
+	;
+
 
     /**
      * Browse for data at the given point in time (for tag)
@@ -211,19 +206,19 @@ public:
      * @param folderName The folder in which we are searching
      * @param tagName The tag for which we are searching, no tag means head
      */
- 
+
     virtual void browseObjectsInTag( ICondDBDataIterator*& iterObjects,
 				     const std::string&    folderName,
 				     std::string           tagName = "" ) const
-	throw(CondDBException);
+	;
 
     virtual void browseObjectsInTag( ICondDBTable         *table,
 				     const std::string&    folderName,
 				     const std::string&    tagName = "",
 				     const std::string&    selection = "",
 				     const std::vector <std::string> *nullValues = 0 ) const
-	throw(CondDBException);
-    
+	;
+
     /**
      * Browse for data at the given point in time (all objects)
      * @param iterObjects An object iterator to store the data found
@@ -232,14 +227,14 @@ public:
 
     virtual void browseAllObjects( ICondDBDataIterator*& iterObjects,
 				   const std::string&    folderName ) const
-	throw(CondDBException);
+	;
 
     virtual void browseAllObjects( ICondDBTable         *table,
 				   const std::string&    folderName,
 				   const std::string&    selection = "",
 				   const std::vector <std::string> *nullValues = 0) const
-	throw(CondDBException);
-   
+	;
+
     /**
      * Browse folder for a given time interval
      * @param folder The folder to be browsed
@@ -247,14 +242,14 @@ public:
      * @param since The lower limit of the time interval
      * @param till The upper limit of the time interval
      */
-    
+
     virtual void browseHistory(ICondDBDataIterator*& iterObjects,
 			       const std::string&    folderName,
 			       const CondDBKey since,
 			       const CondDBKey till,
 			       std::string tagName = "") const
-	throw(CondDBException);
-    
+	;
+
     /**
      * Browse folder for a given time interval
      * @param folder The folder to be browsed
@@ -262,7 +257,7 @@ public:
      * @param since The lower limit of the time interval
      * @param till The upper limit of the tim e interval
      */
-    
+
     virtual void browseHistory(const std::string& folder,
 			       ICondDBTable *table,
 			       const CondDBKey& since,
@@ -271,7 +266,7 @@ public:
 			       const std::string&  selection = "",
 			       const std::vector <std::string> *nullValues = 0,
 			       string tagName = "") const
-	throw(CondDBException);
+	;
 
     /**
      * Browse folder for Ids with optional tag
@@ -279,24 +274,24 @@ public:
      * @param folder The folder name in which to search
      * @param tagName Optional. Search for the given tag. If no tag is give HEAD is used
      */
-    
-    virtual void browseId (ICondDBTimePath& path, 
-			   std::string folder, 
+
+    virtual void browseId (ICondDBTimePath& path,
+			   std::string folder,
 			   std::string tagName = "") const
-	throw(CondDBException);
-    
+	;
+
     /**
      * Build tag entries in database from the ICondDBTimePath container
      * @param folder The folder name to be associated to the tag
      * @param tagName The tagName to be used
      * @param path The container
      */
-    
+
     virtual void tagFromTimePath (std::string folder, std::string tagName, ICondDBTimePath& path) const
-	throw(CondDBException);
+	;
 
 
-	
+
     /**
      * Get the table schema
      * @param folder The folder whose schema we want
@@ -304,30 +299,20 @@ public:
      */
 
     virtual void getTableSchema (std::string folder, ICondDBTable *table)
-	throw(CondDBException);
+	;
 
     virtual void dump( std::string folderName = "" ) const
-	throw(CondDBException);
-    
+	;
+
  private:
-    
+
     // Interface to the relational dbms
     MySqlDBMgr*  relDBMgr;
-    
+
     //  mutable std::map<std::string, d_ULong>  tagNameMap;
-    
+
     //  d_ULong  getTagId(const std::string& tagName) const
-    //    throw(CondDBException);
+    //    ;
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-

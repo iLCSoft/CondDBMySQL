@@ -70,10 +70,10 @@ extern "C"
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 
-#ifdef HAVE_UNISTD_H 
+#ifdef HAVE_UNISTD_H
 # ifdef HAVE_PWD_H
 #  ifdef HAVE_SYS_TYPES_H
-extern "C" 
+extern "C"
 {
 #include <sys/types.h>
 #include <pwd.h>
@@ -141,7 +141,7 @@ void MySqlDBMgr::startRead() {}
  */
 
 void MySqlDBMgr::init(string& databaseInfo)
-    throw(CondDBException)
+
 {
 
 // This is needed and are local connections
@@ -149,9 +149,9 @@ void MySqlDBMgr::init(string& databaseInfo)
     relFolderMgr = getFolderMgr();
 // relTagMgr => MySqlTagMgr
     relTagMgr = getTagMgr();
-    
+
     DebugMesg(CondDB, user, "databaseInfo = " << databaseInfo);
-    
+
     unsigned int sep = databaseInfo.find_first_of(":");
     int end = databaseInfo.size();
     serverName = databaseInfo.substr(0, sep);
@@ -178,7 +178,7 @@ void MySqlDBMgr::init(string& databaseInfo)
       userName = getenv("USER");
 #endif
     DebugMesg(CondDB, user, "userName = " << userName);
-    
+
     sep = databaseInfo.find_first_of(":");
     // if there are no more separators
     //it means that there is no port specified...
@@ -192,7 +192,7 @@ void MySqlDBMgr::init(string& databaseInfo)
       if (aux !=  NULL)
 	port = atoi(aux);
 #endif
-      
+
    }
     else {
       // there si a separator...let's get the port
@@ -202,10 +202,10 @@ void MySqlDBMgr::init(string& databaseInfo)
 
 
 /*
-#ifdef HAVE_UNISTD_H 
+#ifdef HAVE_UNISTD_H
 # ifdef HAVE_PWD_H
 #  ifdef HAVE_SYS_TYPES_H
-    
+
     if (userName.size() == 0)
     {
 	struct passwd * userInfo = getpwuid(geteuid());
@@ -219,13 +219,13 @@ void MySqlDBMgr::init(string& databaseInfo)
     DebugMesg(CondDB, user, "    password = " << password);
     if (port != 0){
       DebugMesg(CondDB, user, "    port = " << port);
-      connect(serverName, userName, password,port);  
+      connect(serverName, userName, password,port);
     }
     else{
       DebugMesg(CondDB, user, "    port --> using default ");
-      
+
       ///////////////////////////////////////////////////
-      connect(serverName, userName, password);  
+      connect(serverName, userName, password);
     }
 }
 
@@ -251,9 +251,9 @@ bool MySqlDBMgr::openDatabase(const string& dbname)
  */
 
 void MySqlDBMgr::createDatabase(const string& dbname)
-    throw(CondDBException)
+
 {
-    if ( dbname!="" ) 
+    if ( dbname!="" )
     {
 	databaseName = dbname;
     }
@@ -261,7 +261,7 @@ void MySqlDBMgr::createDatabase(const string& dbname)
     MYSQLSTREAM query;
     query << "CREATE DATABASE " << databaseName.c_str();
     execute(query);
-    
+
     changeDB(databaseName);
 
     // Create the minimal set of tables
@@ -293,12 +293,12 @@ void MySqlDBMgr::createDatabase(const string& dbname)
  */
 
 void MySqlDBMgr::getTagId(const string& tagName, int& tag_id)
-    throw(CondDBException)
+
 {
     tag_id = relTagMgr->getId(tagName);
     if (tag_id<0) {
 // CondDBLog
-      std::string message = EXP_BADTAGNAME_MESS + tagName; 	
+      std::string message = EXP_BADTAGNAME_MESS + tagName;
 	if (cdbLog->isUsable())
 	{
 	    cdbLog->StoreLog(EXP_BADTAGNAME_MESS ,  __FILE__  , __LINE__ );
@@ -310,10 +310,10 @@ void MySqlDBMgr::getTagId(const string& tagName, int& tag_id)
 
 /**
  * Create a database path entry in database table
- */ 
+ */
 
 int MySqlDBMgr::createDBPath(const string& srvName, const string& dbName)
-    throw(CondDBException)
+
 {
     MySqlResult *res;
     MYSQLSTREAM query;
@@ -323,7 +323,7 @@ int MySqlDBMgr::createDBPath(const string& srvName, const string& dbName)
 
     if ( res->countRows() == 0 ) {
 	delete res;
-	
+
 	// create a temporary db connection to create a decoupled database
 	MySqlDBMgr auxMgr;
 	auxMgr.connect(srvName, userName, password);
@@ -350,7 +350,7 @@ int MySqlDBMgr::createDBPath(const string& srvName, const string& dbName)
  */
 
 void MySqlDBMgr::getDBPath(int db_id, string& db_name, string& srv_name)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT db_id, dbname, srvname\n"
@@ -371,7 +371,7 @@ void MySqlDBMgr::getDBPath(int db_id, string& db_name, string& srv_name)
  */
 
 void MySqlDBMgr::getFolderId(string folderName, int& folderId, int& databaseId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT fld_id, db_id FROM " FOLDERS_TBL " WHERE(fpath='" << folderName << "')";
@@ -383,7 +383,7 @@ void MySqlDBMgr::getFolderId(string folderName, int& folderId, int& databaseId)
 }
 
 void MySqlDBMgr::getDBId(int fldId, int& dbId)
-		throw(CondDBException)
+
 {
 		MYSQLSTREAM query;
 		query << "SELECT db_id FROM folders_tbl WHERE fld_id=" << fldId;
@@ -394,12 +394,12 @@ void MySqlDBMgr::getDBId(int fldId, int& dbId)
 }
 
 void MySqlDBMgr::getFolderType(string folderName, int& ftype)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT ddtype FROM " FOLDERS_TBL " WHERE(fpath='" << folderName << "')";
     MySqlResult *res = select(query);
-    if ( res->countRows() == 0 ) 
+    if ( res->countRows() == 0 )
       std::cerr << "Non-existing (or empty?) folder " << folderName << std::endl;
     Assert ( res->countRows() != 0 );
     ftype = res->getIntField(0);
@@ -412,11 +412,11 @@ void MySqlDBMgr::getFolderType(string folderName, int& ftype)
  */
 
 MySqlObjectMgr* MySqlDBMgr::getObjectMgr(int dbId)
-    throw(CondDBException)
+
 {
     Assert(dbId != 0);
 
-    MySqlObjectMgr *oMgr = relObjectMgr; 
+    MySqlObjectMgr *oMgr = relObjectMgr;
     while ( oMgr != 0 ) {
 	if ( oMgr->databaseId == dbId )
 	    return oMgr;
@@ -445,10 +445,10 @@ MySqlObjectMgr* MySqlDBMgr::getObjectMgr(int dbId)
  */
 
 MySqlOnlineMgr* MySqlDBMgr::getOnlineMgr(int dbId)
-    throw(CondDBException)
+
 {
     Assert(dbId != 0);
-    MySqlOnlineMgr *oMgr = relOnlineMgr; 
+    MySqlOnlineMgr *oMgr = relOnlineMgr;
     while ( oMgr != 0 ) {
 	if ( oMgr->databaseId == dbId )
 	    return oMgr;
@@ -477,11 +477,11 @@ MySqlOnlineMgr* MySqlDBMgr::getOnlineMgr(int dbId)
  */
 
 MySqlDataMgr* MySqlDBMgr::getDataMgr(int dbId)
-    throw(CondDBException)
+
 {
     Assert( dbId!=0 );
 
-    MySqlDataMgr *dMgr = relDataMgr; 
+    MySqlDataMgr *dMgr = relDataMgr;
     while ( dMgr != 0 ) {
 	if ( dMgr->databaseId == dbId )
 	    return dMgr;
@@ -512,7 +512,7 @@ MySqlFolderMgr* MySqlDBMgr::getFolderMgr()
 {
     if ( relFolderMgr == 0 )
 	relFolderMgr = new MySqlFolderMgr(this,mysqlHandle);
-    return relFolderMgr;	    
+    return relFolderMgr;
 }
 
 
@@ -524,22 +524,7 @@ MySqlTagMgr* MySqlDBMgr::getTagMgr()
 {
     if ( relTagMgr == 0 )
 	relTagMgr = new MySqlTagMgr(this,mysqlHandle);
-    return relTagMgr;	    
+    return relTagMgr;
 }
 
 // THE END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

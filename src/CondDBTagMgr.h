@@ -54,47 +54,47 @@ class CondDBTagMgr : public ICondDBTagMgr {
     virtual ~CondDBTagMgr();
 
     void init()
-	throw(CondDBException);
+	;
 
     virtual void createCondDBTag( const std::string& name,
-				  const std::string  description = "") 
-	throw(CondDBException);
+				  const std::string  description = "")
+	;
 
-    virtual void deleteCondDBTag( const std::string& name ) 
-	throw(CondDBException);
-  
+    virtual void deleteCondDBTag( const std::string& name )
+	;
+
     virtual void getCondDBTag( const std::string& tagName,
 			       ICondDBTag*& tag) const
-	throw(CondDBException);
+	;
 
     virtual bool getCondDBTag (const std::string& folder, vector <string>& tagNames)
-	throw (CondDBException);
+	;
 
     virtual void getAllCondDBTag( std::vector<std::string>& allTag ) const
-	throw(CondDBException);
+	;
 
     virtual void tag( const std::string& folderName,
 		      const std::string& tagName,
 		      std::string usingTagName = "")
-	throw(CondDBException);
+	;
 
     virtual bool isTagged( const std::string& folderName,
                           const std::string& tagName)
-       throw(CondDBException);
+       ;
 
     virtual void untag( const std::string& folderName,
 			const std::string& tagName)
-	throw(CondDBException);
+	;
 
     // other methods not from the interface
     virtual void changeTagName( const std::string& oldName,
 				const std::string& newName) const
-	throw(CondDBException);
+	;
 
     virtual void getAllTaggedFolder( const string& tagName,
 				     vector<string>& allFolder,
 				     vector<SimpleTime>& allApplTime) const
-	throw(CondDBException);
+	;
 
  private:
 
@@ -105,9 +105,3 @@ class CondDBTagMgr : public ICondDBTagMgr {
 };
 
 #endif
-
-
-
-
-
-

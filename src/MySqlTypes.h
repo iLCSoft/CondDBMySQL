@@ -67,43 +67,43 @@ class CondDBLog;
 class MySqlHandle {
 public:
     MySqlHandle();
-   
+
     ~MySqlHandle();
 
-    void link(MySqlHandle*& mysqlH) 
-	throw(CondDBException);
-    
-    void unlink(MySqlHandle*& mysqlH) 
-	throw(CondDBException);
+    void link(MySqlHandle*& mysqlH)
+	;
+
+    void unlink(MySqlHandle*& mysqlH)
+	;
 
     bool isShared();
 
     MYSQL *handle();
-    
+
     bool isOpened();
 
-    void open(const char *host, const char *user, 
+    void open(const char *host, const char *user,
 	      const char *passwd,unsigned int port)//, const char *dbname)
-	throw(CondDBException);
+	;
 
     int changeDB(const char *dbname);
 
     void exec(const char *buf, unsigned int size)
-	throw(CondDBException);
+	;
 
     MYSQL_RES *getres()
-	throw(CondDBException);
+	;
 
 public:
 
     CondDBLog *theLog;
-    
+
 private:
     MYSQL mysqlApp;
     int usage_count;
     bool is_opened;
 
-    
+
 // disallow copy constructor and = operator
     MySqlHandle (const MySqlHandle &);
     MySqlHandle & operator = (const MySqlHandle &);
@@ -111,48 +111,48 @@ private:
 
 
 class MySqlResult {
-  
+
 public:
     MySqlResult(MYSQL_RES *_res)
-	throw(CondDBException);
+	;
 
     MySqlResult(MYSQL_RES *_res, MySqlHandle *& theHandle)
-	throw(CondDBException);
-   
+	;
+
     ~MySqlResult();
-    
+
     void seek(int64 pos);
-    
+
     int64 countRows();
-    
+
     int64 countFields();
-    
+
     bool nextRow();
-    
+
     char *getField(unsigned int field)
-	throw(CondDBException);
-    
+	;
+
     int getIntField(unsigned int field)
-	throw(CondDBException);
+	;
 
     CondDBKey getCondDBKeyField(unsigned int field)
-	throw(CondDBException);
+	;
 
     SimpleTime getTimeStampField(unsigned int field)
-	throw(CondDBException);
+	;
 
     char **getFields();
-    
-    unsigned long getLength(unsigned int field) 
-	throw(CondDBException);
+
+    unsigned long getLength(unsigned int field)
+	;
 
     string getFieldName(unsigned int field)
-        throw(CondDBException);
+        ;
 
     string getFieldType(unsigned int field)
-	throw(CondDBException);
+	;
 
-    
+
 private:
     int64 rpos;
     MYSQL_RES *res;
@@ -170,11 +170,11 @@ inline MySqlHandle::MySqlHandle()
 {
 
     mysql_init(&mysqlApp);
-    
+
     //adding reconnect option.
     bool reconnect=1;
     mysql_options(&mysqlApp, MYSQL_OPT_RECONNECT, (const char*) &reconnect);
-    // Ouch, the mysql C api is really ugly. 
+    // Ouch, the mysql C api is really ugly.
 
     usage_count = 1;
     is_opened = false;
@@ -184,31 +184,31 @@ inline MySqlHandle::MySqlHandle()
 
 inline MySqlHandle::~MySqlHandle()
 {
-    if ( is_opened ) 
+    if ( is_opened )
     {
 // CondDBLog
       if (theLog->isUsable())
 	theLog->StoreLog("MySqlHandle:: Connection Successfully closed!");
-	
+
 	mysql_close(&mysqlApp);
     }
 }
 
 inline void MySqlHandle::link(MySqlHandle*& mysqlH)
-    throw(CondDBException)
+
 {
     Assert(mysqlH == 0);
     mysqlH = this;
     usage_count++;
 }
-    
+
 inline void MySqlHandle::unlink(MySqlHandle*& mysqlH)
-    throw(CondDBException)
+
 {
     Assert(mysqlH == this);
     usage_count--;
     mysqlH = 0;
-    if ( !usage_count )	
+    if ( !usage_count )
 	delete this;
 }
 
@@ -222,10 +222,10 @@ inline bool MySqlHandle::isShared()
 
 inline void MySqlHandle::open(const char *host, const char *user,
 			      const char *passwd, unsigned int port = 0)
-    throw(CondDBException)
+
 {
-	
-    
+
+
 
     if ( is_opened )
     {
@@ -238,7 +238,7 @@ inline void MySqlHandle::open(const char *host, const char *user,
     if ( mysql_real_connect(&mysqlApp,host,user,passwd,/*dbname*/ 0,port,NULL,0) )
     {
 	is_opened = true;
-    }    
+    }
     else
     {
 //NBARROS
@@ -252,7 +252,7 @@ inline void MySqlHandle::open(const char *host, const char *user,
 #include<iostream>
 
 inline void MySqlHandle::exec(const char *buf, unsigned int size)
-    throw(CondDBException)
+
 {
   // first use mysql_ping to enforce reconnect, if needed
   if (mysql_ping(&mysqlApp) || mysql_real_query(&mysqlApp, buf, size))
@@ -266,7 +266,7 @@ inline void MySqlHandle::exec(const char *buf, unsigned int size)
 }
 
 inline MYSQL_RES *MySqlHandle::getres()
-    throw(CondDBException)
+
 {
     MYSQL_RES *res = mysql_store_result(&mysqlApp);
     if ( !res )
@@ -279,13 +279,13 @@ inline MYSQL_RES *MySqlHandle::getres()
     }
     return res;
 }
-    
+
 inline int MySqlHandle::changeDB(const char *dbname)
 {
     return mysql_select_db(&mysqlApp, dbname);
 }
 
-    
+
 
 inline MYSQL *MySqlHandle::handle()
 {
@@ -302,12 +302,12 @@ inline bool MySqlHandle::isOpened()
 // MySqlResult member functions
 //
 inline MySqlResult::MySqlResult(MYSQL_RES *_res)
-    throw(CondDBException)
+
 {
 // This test is not necessary because this contructor is only
 // used in a place where the argument passed has already been
-// checked to be != 0. Remove it along with the throw clause 
-// in the declaration 
+// checked to be != 0. Remove it along with the throw clause
+// in the declaration
 //    Assert(_res!=0);
     res = _res;
     row = 0;
@@ -315,7 +315,7 @@ inline MySqlResult::MySqlResult(MYSQL_RES *_res)
 }
 
 inline MySqlResult::MySqlResult(MYSQL_RES *_res, MySqlHandle *& theHandle)
-	throw(CondDBException)
+
 {
     res = _res;
     row = 0;
@@ -323,35 +323,35 @@ inline MySqlResult::MySqlResult(MYSQL_RES *_res, MySqlHandle *& theHandle)
     handle = theHandle;
 //    theLog = theHandle->mysqlLog;
 }
-    
+
 inline MySqlResult::~MySqlResult()
 {
     mysql_free_result(res);
 }
-    
+
 inline void MySqlResult::seek(int64 pos)
 {
     if (pos < countRows())
-    {	
+    {
 	rpos = pos;
 	mysql_data_seek(res, pos);
 	row = 0;
     }
 }
-    
+
 inline int64 MySqlResult::countRows()
 {
     return mysql_num_rows(res);
 }
-    
+
 inline int64 MySqlResult::countFields()
 {
     if ( !row )
 	row = mysql_fetch_row(res);
-    
+
     return mysql_num_fields(res);
 }
-    
+
 inline bool MySqlResult::nextRow()
 {
     if ( rpos < countRows()-1 )
@@ -364,7 +364,7 @@ inline bool MySqlResult::nextRow()
 }
 
 inline char * MySqlResult::getField(unsigned int field)
-    throw(CondDBException)
+
 {
     if ( !row )
 	row = mysql_fetch_row(res);
@@ -373,9 +373,9 @@ inline char * MySqlResult::getField(unsigned int field)
     else
 	THROWEX("MySqlResult::getField: invalid field.", 0);
 }
-    
+
 inline int MySqlResult::getIntField(unsigned int field)
-    throw(CondDBException)
+
 {
     char *ptr;
     if ( (ptr = getField(field))==0 )
@@ -386,7 +386,7 @@ inline int MySqlResult::getIntField(unsigned int field)
 }
 
 inline CondDBKey MySqlResult::getCondDBKeyField(unsigned int field)
-    throw(CondDBException)
+
 {
     char *ptr;
     if ( (ptr = getField(field))==0 )
@@ -397,7 +397,7 @@ inline CondDBKey MySqlResult::getCondDBKeyField(unsigned int field)
 }
 
 inline SimpleTime MySqlResult::getTimeStampField(unsigned int field)
-    throw(CondDBException)
+
 {
     char *ptr;
     if ( (ptr = getField(field))==0 )
@@ -406,14 +406,14 @@ inline SimpleTime MySqlResult::getTimeStampField(unsigned int field)
 	    theLog->StoreLog("MySqlResult::getTimeStampField: can't convert NULL field.",
 			     __FILE__,
 			     __LINE__);
-	
+
 	THROWEX("MySqlResult::getTimeStampField: can't convert NULL field.", 0);
     }
     std::string stime(ptr);
     stime += "000000000"; // for nanoseconds. Always zero.
     //    DebugMesg(CondDB, user, "MySqlResult::getTimeStampField -> "<< stime);
     // This should be rewrote to support nanosecond resolution?
-    // Remark: this method is only used to retrieve timeStamp fields used for 
+    // Remark: this method is only used to retrieve timeStamp fields used for
     // insertion time, not for evolution axis.
     SimpleTime timeStamp(stime);
     return timeStamp;
@@ -425,22 +425,22 @@ inline char **MySqlResult::getFields()
 	row = mysql_fetch_row(res);
     return row;
 }
-    
+
 inline unsigned long MySqlResult::getLength(unsigned int field)
-    throw(CondDBException)
+
 {
     if ( !row )
 	row = mysql_fetch_row(res);
-    
+
     unsigned long *lengths = mysql_fetch_lengths(res);
     if ( field < mysql_num_fields(res) )
 	return lengths[field];
-    else 
+    else
 	THROWEX("MySqlResult::getLength: invalid field.", 0);
 }
 
 inline string MySqlResult::getFieldName(unsigned int field)
-    throw(CondDBException)
+
 {
     MYSQL_FIELD *mfield;
     if (field < mysql_num_fields(res))
@@ -454,7 +454,7 @@ inline string MySqlResult::getFieldName(unsigned int field)
 }
 
 inline string MySqlResult::getFieldType(unsigned int field)
-	throw(CondDBException)
+
 {
 
     MYSQL_FIELD *mfield;
@@ -479,10 +479,3 @@ inline string MySqlResult::getFieldType(unsigned int field)
 
 
 #endif /* MYSQL_TYPES_H */
-
-
-
-
-
-
-

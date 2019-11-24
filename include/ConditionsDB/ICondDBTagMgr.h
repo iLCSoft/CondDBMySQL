@@ -30,9 +30,9 @@ public:
    *
    */
   virtual void createCondDBTag( const std::string& name,
-				const std::string  description = "") 
-    throw(CondDBException) = 0;
-  
+				const std::string  description = "")
+     = 0;
+
   /**
    * Delete the specified CondDBTag.
    *
@@ -44,8 +44,8 @@ public:
    *   any CondDBFolder; otherwise the untag operation has to be invoked
    *   beforehand
    */
-  virtual void deleteCondDBTag( const std::string& name ) 
-    throw(CondDBException) = 0;
+  virtual void deleteCondDBTag( const std::string& name )
+     = 0;
 
   /**
    * Return the CondDBGTag with the specified name.
@@ -55,10 +55,10 @@ public:
    * NOTES:
    * - the object pointed by ICondDBTag* has to be deleted by the
    *   user at the end of its usage.
-   */   
+   */
   virtual void getCondDBTag( const std::string& tagName,
 			     ICondDBTag*& tag) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Return the tag names associated to a folder
@@ -67,19 +67,19 @@ public:
    * @return True if tag names found, false if not
    */
   virtual bool getCondDBTag (const std::string& folder, std::vector<std::string>& tagNames)
-       throw (CondDBException) = 0;
+        = 0;
 
   /**
    * This methods returns a vector containing the full name of all
    * defined CondDBTag
    */
   virtual void getAllCondDBTag( std::vector<std::string>& allTag ) const
-    throw(CondDBException) = 0;
- 
+     = 0;
+
 
   /**
    * This methods allows to apply a defined CondDBTag to a CondDBFolder or CondDBFolderSet.
-   * 
+   *
    * Parameters:
    *   folderName   : name of the CondDBFolder or CondDBFolderSet to which
    *                  to apply the tag
@@ -102,7 +102,7 @@ public:
   virtual void tag( const std::string& folderName,
 		    const std::string& tagName,
 		    std::string usingTagName = "")
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * This methods checks if a folder "folderName" is already tagged with the
@@ -110,12 +110,12 @@ public:
    */
   virtual bool isTagged( const std::string& folderName,
                          const std::string& tagName)
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * This methods allows to remove the defined CondDBTag from the CondDBFolder or
    * CondDBFolderSet to which it had been previously associated.
-   * 
+   *
    * Parameters:
    *   folderName : name of the CondDBFolder or CondDBFolderSet to untag
    *   tagName    : name of the tag to remove
@@ -126,9 +126,9 @@ public:
    */
   virtual void untag( const std::string& folderName,
 		      const std::string& tagName)
-    throw(CondDBException) = 0;
+     = 0;
 
-  
+
 };
 
 #endif // ICondDBTagMgr_h

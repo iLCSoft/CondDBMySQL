@@ -35,12 +35,12 @@
 #include "CondDBObject.h"
 #include "Debug.h"
 
-ICondDBObject* 
+ICondDBObject*
 CondDBMySQLObjectFactory::createCondDBObject(const CondDBKey& since,
 				     const CondDBKey& till,
 				     const std::string& data,
 				     const std::string& description)
-  throw(CondDBException)
+
 {
   if (since >= till)
     THROWEX("invalid input in createCondObject: since > till", 0);
@@ -48,17 +48,17 @@ CondDBMySQLObjectFactory::createCondDBObject(const CondDBKey& since,
   bool      isNULLinterval = false;
   long      layer = 0;   // the right value will be set internally
   CondDBKey insTime = 0; // the right value will be set internally
-  
+
   return new CondDBObject(since, till, insTime,
 			  layer, data, description, isNULLinterval);
 }
 
-ICondDBObject* 
+ICondDBObject*
 CondDBMySQLObjectFactory::createCondDBObject(const CondDBKey& since,
 				     const CondDBKey& till,
 				     const ICondDBStreamable& obj,
 				     const std::string& description)
-  throw(CondDBException)
+
 {
   Assert(since < till);
   std::string data;
@@ -67,26 +67,16 @@ CondDBMySQLObjectFactory::createCondDBObject(const CondDBKey& since,
   bool      isNULLinterval = false;
   long      layer = 0;   // the right value will be set internally
   CondDBKey insTime = 0; // the right value will be set internally
-  
+
   return new CondDBObject(since, till, insTime,
 			  layer, data, description, isNULLinterval);
 }
 
 
 // WARN: is this necessary? why not the user to call directly delete CondObj ??
-void 
+void
 CondDBMySQLObjectFactory::destroyCondDBObject(ICondDBObject* CondObj)
-  throw(CondDBException)
+
 {
   delete CondObj;
 }
-
-
-
-
-
-
-
-
-
-

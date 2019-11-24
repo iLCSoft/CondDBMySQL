@@ -52,7 +52,7 @@ CondDBDataIterator::CondDBDataIterator(MySqlDBMgr *dbMgr, MySqlResult *res, int 
     lastpos = rows - 1;
     relDBMgr = dbMgr;
 }
-  
+
 // Destructor
 CondDBDataIterator::~CondDBDataIterator()
 {
@@ -79,7 +79,7 @@ bool CondDBDataIterator::hasPrevious() const
 
 
 ICondDBObject* CondDBDataIterator::current()
-    throw(CondDBException) 
+
 {
     CondDBObject* CondObject = 0;
     resultSet->seek(currpos);
@@ -90,7 +90,7 @@ ICondDBObject* CondDBDataIterator::current()
 }
 
 ICondDBObject* CondDBDataIterator::previous()
-    throw(CondDBException) 
+
 {
     if ( hasPrevious() ) {
 	currpos--;
@@ -101,7 +101,7 @@ ICondDBObject* CondDBDataIterator::previous()
 }
 
 ICondDBObject* CondDBDataIterator::next()
-    throw(CondDBException) 
+
 {
     if ( hasNext() ) {
 	currpos++;

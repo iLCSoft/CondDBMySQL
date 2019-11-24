@@ -50,11 +50,11 @@ using namespace std;
 #  define USE_OLD_STREAMS
 # else
 #  include <sstream>
-#  define MYSQLSTREAM std::ostringstream 
+#  define MYSQLSTREAM std::ostringstream
 # endif
 #else
 #  include <sstream>
-#  define MYSQLSTREAM std::ostringstream 
+#  define MYSQLSTREAM std::ostringstream
 #endif
 #endif
 
@@ -72,30 +72,30 @@ class MySqlConnection {
 public:
 
     MySqlConnection()
-	throw(CondDBException);
-    
+	;
+
     MySqlConnection(MySqlHandle *mysql)
-	throw(CondDBException);
-    
+	;
+
     ~MySqlConnection();
-    
+
     void connect(const string& server,
 		 const string& username,
 		 const string& password,
 		 unsigned int port = 0)//,
 //		 const string& dbname)
-	throw(CondDBException);
+	;
 
     void execute(MYSQLSTREAM& query)
-	throw(CondDBException);
+	;
 
     MySqlResult *select(MYSQLSTREAM& query)
-	throw(CondDBException);
+	;
 
     bool changeDB(const string& dbname);
 
     // data members
-    MySqlHandle *mysqlHandle;    
+    MySqlHandle *mysqlHandle;
     MySqlConnection *next;
     int databaseId;
 
@@ -110,14 +110,3 @@ private:
 
 
 #endif /* MYSQL_CONNECTION_H */
-
-
-
-
-
-
-
-
-
-
-

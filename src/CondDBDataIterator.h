@@ -50,27 +50,27 @@ public:
 
   // Constructors
     CondDBDataIterator(MySqlDBMgr *dbMgr, MySqlResult *res, int fldId);
-    
+
     // Destructor
     virtual ~CondDBDataIterator();
-    
+
     virtual bool hasNext() const;
     virtual bool hasPrevious() const;
-    
+
     virtual ICondDBObject* current()
-	throw(CondDBException);
-    
+	;
+
     virtual ICondDBObject* previous()
-	throw(CondDBException);
-    
+	;
+
     virtual ICondDBObject* next()
-	throw(CondDBException);
-    
+	;
+
     virtual void goToFirst();
     virtual void goToLast();
-    
+
  private:
-    
+
     MySqlDBMgr *relDBMgr;
     MySqlResult *resultSet;
     int folderId;
@@ -87,9 +87,3 @@ public:
 };
 
 #endif  /* CondDBDataIteratorHorizontal_h */
-
-
-
-
-
-

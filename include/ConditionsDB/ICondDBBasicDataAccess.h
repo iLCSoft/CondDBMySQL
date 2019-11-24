@@ -37,9 +37,9 @@ public:
    */
   virtual void storeCondDBObject( const std::string& folder,
 				  ICondDBObject*     CondObject )
-    throw(CondDBException) = 0;
+     = 0;
 
-  
+
   // Queries
 
   /**
@@ -60,7 +60,7 @@ public:
 				 const std::string& folder,
 				 const CondDBKey&   point,
 				 std::string        tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
 
   // Browsing
@@ -78,7 +78,7 @@ public:
     browseObjectsAtPoint( ICondDBDataIterator*& iterObjects,
 			  const std::string&    folder,
 			  const CondDBKey&      point ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Returns an iterator over all CondObject valid for the given folder and tag.
@@ -97,7 +97,7 @@ public:
   browseObjectsInTag( ICondDBDataIterator*& iterObjects,
 		      const std::string&    folder,
 		      std::string           tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Returns an iterator over all CondObject stored in the given folder.
@@ -111,9 +111,9 @@ public:
   virtual void
   browseAllObjects( ICondDBDataIterator*& iterObjects,
 		    const std::string&    folder ) const
-    throw(CondDBException) = 0;
+     = 0;
 
-  
+
   /**
    * Dump the list of CondObject contained in the given folder.
    * If folder is not specified all CondFolder will be dumped.
@@ -122,13 +122,8 @@ public:
    * - the fullPathName folder must be precise
    */
   virtual void dump( std::string folder = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
 };
 
 #endif // ICondDBBasicDataAccess_h
-
-
-
-
-

@@ -59,7 +59,7 @@ MySqlOnlineMgr::~MySqlOnlineMgr()
  */
 
 void MySqlOnlineMgr::findOnl(CondDBKey time, int fldId, int partId, CondDBTable *table, string Id, string selection, const vector <string> *nullValues)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query, tmpQuery;
 
@@ -84,15 +84,15 @@ void MySqlOnlineMgr::findOnl(CondDBKey time, int fldId, int partId, CondDBTable 
 
     res = select(query);
     makeTable(res, table, fldId, partId, nullValues);
-    delete res; 
+    delete res;
 }
 
 void MySqlOnlineMgr::findTag(CondDBKey time, int fldId, int partId, int tagId, CondDBTable *table, string selection,
 			     const std::vector <std::string> *nullValues)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query, tmpQuery;
-    
+
     MySqlResult *res;
 
     if (tagId != 0) // Tagged folder
@@ -105,13 +105,13 @@ void MySqlOnlineMgr::findTag(CondDBKey time, int fldId, int partId, int tagId, C
 	query << " AND (" << selection << ")";
     }
     query << ")";
-    
+
     res = select(query);
     makeTable(res, table, fldId, partId, nullValues, 1);
-    delete res; 
+    delete res;
 }
 
-    
+
 /**
  * Browse for structures
  * @param since The lower limit of the time interval
@@ -121,11 +121,11 @@ void MySqlOnlineMgr::findTag(CondDBKey time, int fldId, int partId, int tagId, C
  * @param table The CondDBTable in which the data found is stored
  */
 
-void MySqlOnlineMgr::browseOnl(CondDBKey since, CondDBKey till, 
+void MySqlOnlineMgr::browseOnl(CondDBKey since, CondDBKey till,
 				int fld_id, int part_id, CondDBTable *table, string Id, string selection, const vector <string> *nullValues)
-    throw(CondDBException)
+
 {
-    
+
     MYSQLSTREAM query, tmpQuery;
 
     query << "SELECT * FROM " << DATA_TBL_ONL_N << fld_id << "_" << part_id << " WHERE \
@@ -147,17 +147,17 @@ OR (since_t>=" << since << " AND " << till << ">=since_t))";
 	query << " AND (" << selection << ")";
     }
     query << ")";
-    
+
     MySqlResult *res = select(query);
     makeTable(res, table, fld_id, part_id, nullValues);
-    delete res; 
+    delete res;
 }
 
-void MySqlOnlineMgr::browseHist(CondDBKey since, CondDBKey till, 
+void MySqlOnlineMgr::browseHist(CondDBKey since, CondDBKey till,
 				int fld_id, int part_id, int tag_id, CondDBTable *table, string selection, const vector <string> *nullValues)
-    throw(CondDBException)
+
 {
-    
+
     MYSQLSTREAM query, tmpQuery;
 
     if (tag_id != 0) // Tagged folder
@@ -171,23 +171,23 @@ void MySqlOnlineMgr::browseHist(CondDBKey since, CondDBKey till,
     }
     query << ")";
     MySqlResult *res = select(query);
-  
+
     makeTable(res, table, fld_id, part_id, nullValues, 1);
     delete res;
 }
 
 void MySqlOnlineMgr::browsePoint(CondDBKey time,
-				 int fldId, 
-				 int partId, 
-				 CondDBTable *table, 
+				 int fldId,
+				 int partId,
+				 CondDBTable *table,
 				 string selection,
 				 const std::vector <std::string> *nullValues)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query, tmpQuery;
-    
+
     query << "SELECT o.since_t, o.till_t, d.*, o.layer FROM " OBJECT_KEY_TBL_N << fldId << " AS o, " DATA_TBL_TAG_N << fldId << "_" << partId << " AS d WHERE ((" << time << " BETWEEN o.since_t AND o.till_t) AND d.dat_id=o.dat_id";
-    
+
     if (selection != "")
     {
 	query << " AND (" << selection << ")";
@@ -200,10 +200,10 @@ void MySqlOnlineMgr::browsePoint(CondDBKey time,
 }
 
 void MySqlOnlineMgr::browseTag(int fldId, int tagId, CondDBTable *table, string selection, const std::vector <std::string> *nullValues)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query, tmpQuery;
-    
+
     MySqlResult *res;
 
     int partId = 1; //Just until partitions are implemented
@@ -228,14 +228,14 @@ void MySqlOnlineMgr::browseAll(int fldId,
 			       CondDBTable *table,
 			       string selection,
 			       const vector <string> *nullValues)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query, tmpQuery;
-    
+
     int partId = 1; // This is only until partitions are implemented
-    
+
     query << "SELECT o.since_t, o.till_t, d.*, o.layer FROM " OBJECT_KEY_TBL_N << fldId << " AS o, " DATA_TBL_TAG_N << fldId << "_" << partId << " AS d WHERE (o.dat_id=d.dat_id";
-    
+
     if (selection != "")
     {
 	query << " AND (" << selection << ")";
@@ -248,7 +248,7 @@ void MySqlOnlineMgr::browseAll(int fldId,
 }
 
 void MySqlOnlineMgr::makeTable(MySqlResult *res, CondDBTable *table, int fldId, int partId, const std::vector <std::string> *nullValues, int version)
-    throw(CondDBException)
+
 {
     if (res->countRows())
     {
@@ -329,7 +329,7 @@ void MySqlOnlineMgr::makeTable(MySqlResult *res, CondDBTable *table, int fldId, 
 void MySqlOnlineMgr::insertOnl(CondDBKey since, CondDBKey till,
 			       int fldId, int partId, string& data,
 			       string& name)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "INSERT INTO " DATA_TBL_ONL_N << fldId << "_" << partId << "\n"
@@ -338,7 +338,7 @@ void MySqlOnlineMgr::insertOnl(CondDBKey since, CondDBKey till,
 }
 
 void MySqlOnlineMgr::insertData(int fldId, int partId, int datId, string& data, string& name)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "INSERT INTO " DATA_TBL_TAG_N << fldId << "_" << partId << "\n"
@@ -356,7 +356,7 @@ void MySqlOnlineMgr::insertData(int fldId, int partId, int datId, string& data, 
  */
 
 void MySqlOnlineMgr::createTablesOnl(int folderId, vector <string>& names, vector <CondDBTable::cdb_types>& types, bool Id)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -402,16 +402,16 @@ void MySqlOnlineMgr::createTablesOnl(int folderId, vector <string>& names, vecto
 	initialValue+="NULL,";
     }
     initialValue.erase(initialValue.size()-1);
-    
+
     if (Id)
     {
 	if (types[0] == CondDBTable::cdbString)
 	    query << ", FULLTEXT INDEX ind (" << names[0] << ")";
-	else 
+	else
 	    query << ", INDEX ind (" << names[0] << ")";
     }
     query << ", INDEX isin (since_t), INDEX itil (till_t)) TYPE=MyISAM";
-    
+
     execute(query);
 
     insertOnl(minf, pinf, folderId, partId, initialValue, fnamelist);
@@ -419,7 +419,7 @@ void MySqlOnlineMgr::createTablesOnl(int folderId, vector <string>& names, vecto
 
 
 void MySqlOnlineMgr::createTablesTag(int folderId, vector <string>& names, vector <CondDBTable::cdb_types>& types, bool Id)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -465,12 +465,12 @@ void MySqlOnlineMgr::createTablesTag(int folderId, vector <string>& names, vecto
 	}
 	query << "," << tmp << " " << ftypes[i];
     }
-    
+
     if (Id)
     {
 	if (types[0] == CondDBTable::cdbString)
 	    query << ", FULLTEXT INDEX ind (" << names[0] << ")";
-	else 
+	else
 	    query << ", INDEX ind (" << names[0] << ")";
     }
 
@@ -481,15 +481,15 @@ void MySqlOnlineMgr::createTablesTag(int folderId, vector <string>& names, vecto
 
 /**
  * Create a partition (time partition). Its like a folder but based on time
- * instead of category. This eases the scaling over time. 
+ * instead of category. This eases the scaling over time.
  */
 
 int MySqlOnlineMgr::createPartition(CondDBKey since, CondDBKey till,
 				    int folderId, int dbId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
-    query << "INSERT INTO " PARTITION_TBL_N << folderId 
+    query << "INSERT INTO " PARTITION_TBL_N << folderId
 	  << " (since_t, till_t, db_id)\n  VALUES("
 	  << since << "," << till << "," << dbId << ")";
     execute(query);
@@ -515,7 +515,7 @@ int MySqlOnlineMgr::getDatabaseId()
  */
 
 int MySqlOnlineMgr::getPartitionId(CondDBKey point, int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -523,7 +523,7 @@ int MySqlOnlineMgr::getPartitionId(CondDBKey point, int folderId)
 	"  WHERE (" << point << " BETWEEN since_t AND till_t)\n";
 
     MySqlResult *res = select(query);
-    
+
     if ( res->countRows() == 0 ) {
 	THROWEX("None partition has been created yet!",0);
     }
@@ -534,11 +534,11 @@ int MySqlOnlineMgr::getPartitionId(CondDBKey point, int folderId)
 }
 
 /**
- * Destroy the tables associated with the folder given by folderId 
+ * Destroy the tables associated with the folder given by folderId
  */
 
 void MySqlOnlineMgr::deleteTables(int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "DROP TABLE " PARTITION_TBL_N << folderId;
@@ -557,10 +557,10 @@ void MySqlOnlineMgr::deleteTables(int folderId)
  */
 
 void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
-    
+
     query << "SELECT * FROM " DATA_TBL_ONL_N << fldId << "_" << partId << " WHERE since_t=0";
     MySqlResult *res = select(query);
 
@@ -572,7 +572,7 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
     table->getNames(columnNames);
     table->getTypes(types);
     Assert (columns==fields-2); // Check that columns = fields
-      
+
     for (unsigned t=2; t<fields; t++)
     {
 	string fnameTemp=res->getFieldName(t);
@@ -586,7 +586,7 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
     {
 	table->getRow (l, values);
 	int pos=0;
-	
+
 	string dat;
 	for (unsigned i=2; i<fields; i++)
 	{
@@ -596,7 +596,7 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
 		n_vals=atol(values[pos].c_str());
 		pos++;
 	    }
-	    else 
+	    else
 		n_vals=1;
 	    vector <string> data;
 	    string null;
@@ -610,14 +610,14 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
 		    escapeBinaryString(tmp, values[c]);
 		    data.push_back(tmp);
 		}
-		else 
+		else
 		    data.push_back("NULL");
 	    }
 	    pos+=n_vals;
-	    
+
 	    if (n_vals==0)
 		data.push_back("NULL");
-	    
+
 	    int n_type=types[i-2];
 	    if (n_type > CondDBTable::cdbLongLong)
 	    {
@@ -641,23 +641,23 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
 	    data.clear();
 	}
 	dat.erase(dat.size()-1);
-	
+
 	query << "LOCK TABLES " DATA_TBL_ONL_N << fldId
 	      << "_" << partId << " WRITE";
 	execute(query);
-	
+
 	SimpleTime tills, sinces;
 //	table->getTillTime(l, tills);
 	tills.setPlusInf();
 	table->getSinceTime(l, sinces);
 	CondDBKey since(sinces), till(tills);
-	
+
 	query << "UPDATE " DATA_TBL_ONL_N << fldId << "_" << partId << " SET till_t=" << since << " WHERE till_t>" << since;
 	execute(query);
-	
+
     // Finally insert the object
 	insertOnl(since, till, fldId, partId, dat, fname);
-	
+
 //	dat.clear();
 	values.clear();
     }
@@ -667,10 +667,10 @@ void MySqlOnlineMgr::storeOnl(int fldId, int partId, CondDBTable *table)
 }
 
 void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query;
-    
+
     query << "SELECT * FROM " DATA_TBL_ONL_N << fldId << "_" << partId << " WHERE since_t=0";
     MySqlResult *res = select(query);
 
@@ -688,7 +688,7 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
     Assert (columns==fields-2); // Check that columns = fields
 
     colId = res->getFieldName(2);
-      
+
     for (unsigned t=2; t<fields; t++)
     {
 	string fnameTemp=res->getFieldName(t);
@@ -697,20 +697,20 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 	breakUp (fnameTemp, name, type);
 	Assert (name==columnNames[t-2]); //Check columns are coincident
     }
-    
+
     query << "LOCK TABLES " DATA_TBL_ONL_N << fldId << "_" << partId << " WRITE";
     execute(query);
-    
+
     query << "SELECT " << colId << ", since_t FROM " DATA_TBL_ONL_N << fldId << "_" << partId << " WHERE till_t=" << till << " GROUP BY " << colId << ",since_t";
     res = select(query);
 
     //Build Map Id to since_t
-    
+
     map<string, CondDBKey> idToTime;
 
     CondDBKey mapSince;
     string mapId;
-    if (res->countRows())    
+    if (res->countRows())
 	do
 	{
 	    if (res->getField(0)!=0)
@@ -738,7 +738,7 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 		    n_vals=atol(values[pos].c_str());
 		    pos++;
 		}
-		else 
+		else
 		    n_vals=1;
 		vector <string> data;
 		string null;
@@ -752,11 +752,11 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 			escapeBinaryString(tmp, values[c]);
 			data.push_back(tmp);
 		    }
-		    else 
+		    else
 			data.push_back("NULL");
 		}
 		pos+=n_vals;
-		
+
 		if (n_vals==0)
 		    data.push_back("NULL");
 
@@ -776,7 +776,7 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 		{
 		    if (data[0]!="NULL")
 			dat+="'"+data[0]+"',";
-		    else 
+		    else
 			dat+=data[0]+',';
 		}
 		data.clear();
@@ -790,23 +790,23 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 	    table->getRow (l, values);
 	    Id = values[0];
 	} while ( blockId==Id && l<table->getNumRows());
-    
+
 	SimpleTime tills, sinces;
 	table->getSinceTime(l-1, sinces);
 	since=sinces;
-	
+
 	if (idToTime[blockId]<since || idToTime.empty())
 	{
-	    
+
 	    query << "UPDATE " DATA_TBL_ONL_N << fldId << "_" << partId << " SET till_t=" << since << " WHERE (till_t>" << since << " AND (" << columnNames[0] << "='" << blockId << "' OR "<< columnNames[0] << " IS NULL))";
 	    execute(query);
-	    
+
 	    for (unsigned b=0; b<block.size(); b++)
 		insertOnl(since, till, fldId, partId, block[b], fname);
 	}
 	block.clear();
     }
-    
+
     query << "UNLOCK TABLES";
     execute(query);
     delete res;
@@ -814,15 +814,15 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 
 
 void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
     query << "LOCK TABLES " DATA_TBL_TAG_N << fldId << "_" << partId << " WRITE, " OBJECT_KEY_TBL_N << fldId
-	  << " AS o WRITE, " OBJECT_KEY_TBL_N << fldId << " WRITE," OBJECT_KEY_TBL_HEAD_N << fldId 
+	  << " AS o WRITE, " OBJECT_KEY_TBL_N << fldId << " WRITE," OBJECT_KEY_TBL_HEAD_N << fldId
        	  << " AS h WRITE, " OBJECT_KEY_TBL_HEAD_N << fldId << " WRITE, " TAG2OBJ_TBL_N << fldId << " WRITE";
     execute(query);
-    
+
     query << "SELECT MAX(dat_id) AS dat_id FROM " DATA_TBL_TAG_N << fldId << "_" << partId ;
     MySqlResult *res = select(query);
     Assert (res->countRows()==1);
@@ -843,7 +843,7 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
     table->getNames(columnNames);
     table->getTypes(types);
     Assert (columns==fields-1); // Check that columns = fields
-      
+
     for (unsigned t=1; t<fields; t++)
     {
 	string fnameTemp=res->getFieldName(t);
@@ -857,7 +857,7 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
     {
 	table->getRow (l, values);
 	int pos=0;
-	
+
 	string dat;
 	for (unsigned i=1; i<fields; i++)
 	{
@@ -867,7 +867,7 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
 		n_vals=atol(values[pos].c_str());
 		pos++;
 	    }
-	    else 
+	    else
 		n_vals=1;
 	    vector <string> data;
 	    string null;
@@ -881,11 +881,11 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
 		    escapeBinaryString(tmp, values[c]);
 		    data.push_back(tmp);
 		}
-		else 
+		else
 		    data.push_back("NULL");
 	    }
 	    pos+=n_vals;
-	    
+
 	    if (n_vals==0)
 		data.push_back("NULL");
 
@@ -915,7 +915,7 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
 	dat.erase(dat.size()-1);
 	// Insert the data
 	insertData(fldId, partId, datId, dat, fname);
-	
+
 
 	values.clear();
     }
@@ -924,31 +924,31 @@ void MySqlOnlineMgr::storeVer(int fldId, int partId, CondDBTable *table)
     table->getSinceTime(0, sinces);
     CondDBKey since=sinces;
     CondDBKey till=tills;
-    
+
     store(since, till, fldId, partId, datId);
-        
+
     query << "UNLOCK TABLES";
     execute(query);
     delete res;
 }
 
 void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int dbId, int datId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
     // Get the objects overlapping the current object time validity interval plus the respective layer
-    query << "SELECT h.*, o.layer FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " OBJECT_KEY_TBL_N << folderId 
+    query << "SELECT h.*, o.layer FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " OBJECT_KEY_TBL_N << folderId
 	  << " AS o WHERE (h.since_t<" << till << " AND h.till_t>" << since << " AND h.obj_id=o.obj_id)";
     MySqlResult *res = select(query);
-    
+
     if (res->countRows()!=0)
     {
 	CondDBKey since_t, till_t;
 	int layer, tmpLay, objId;
 	string objsIds;
 	string tmp;
-	
+
 	tmp = res->getField(0);
 	objsIds = tmp;
 
@@ -956,7 +956,7 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 	till_t = res->getCondDBKeyField(2);
 	objId = atoi(tmp.c_str());
 	layer = res->getIntField(3);
-	
+
 	if ((since_t<since) && (till_t>since) && (till_t<=till))
 	{
 	    query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET till_t=" << since << " WHERE obj_id=" << objId;
@@ -970,7 +970,7 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 	else if ((since_t<till) && (till_t>till) && (since_t>=since))
 	{
 	    query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET since_t=" << till << " WHERE obj_id=" << objId;
-	    execute(query); 
+	    execute(query);
 	}
 	else if ((since_t<since) && (till_t>till))
 	{
@@ -978,7 +978,7 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 	    execute(query);
 	    query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
 		" VALUES(" << objId << "," << till << "," << till_t << ")";
-	    execute(query); 
+	    execute(query);
 	}
 
 	while (res->nextRow())
@@ -1004,7 +1004,7 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 	    else if ((since_t<till) && (till_t>till) && (since_t>=since))
 	    {
 		query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET since_t=" << till << " WHERE obj_id=" << objId;
-		execute(query); 
+		execute(query);
 	    }
 	    else if ((since_t<since) && (till_t>till))
 	    {
@@ -1012,10 +1012,10 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 		execute(query);
 		query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
 		    " VALUES(" << objId << "," << till << "," << till_t << ")";
-		execute(query); 
+		execute(query);
 	    }
-	    
-	} 
+
+	}
 	layer++;
 	// Finally insert the object
 	insert(since, till, folderId, layer, dbId, datId);
@@ -1033,12 +1033,12 @@ void MySqlOnlineMgr::store(CondDBKey since, CondDBKey till, int folderId, int db
 }
 
 void MySqlOnlineMgr::insert(CondDBKey since, CondDBKey till, int folderId, int layer, int tblId, int datId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "INSERT INTO " OBJECT_KEY_TBL_N << folderId << "\n"
 	"  (insert_t,since_t,till_t,layer,db_id,dat_id)\n"
-	"  VALUES(NOW()," << since << "," << till << "," 
+	"  VALUES(NOW()," << since << "," << till << ","
 	  << layer << "," << tblId << "," << datId << ")";
     execute(query);
     query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
@@ -1056,7 +1056,7 @@ void MySqlOnlineMgr::changeDatabase(const string& srvname,
 				    const string& password,
 				    const string& dbname,
 				    int dbId)
-    throw(CondDBException)
+
 {
     connect(srvname, username, password);
 
@@ -1069,7 +1069,7 @@ void MySqlOnlineMgr::changeDatabase(const string& srvname,
  * Get table schema for structures
  * @param fldId The folder Id
  * @param types A vector containing the types of the columns of the table
- */ 
+ */
 
 void MySqlOnlineMgr::getSchema(int fldId, int partId, CondDBTable *table, bool versions)
 {
@@ -1109,7 +1109,7 @@ void MySqlOnlineMgr::getSchema(int fldId, int partId, CondDBTable *table, bool v
 	    else cout << "Undefined" << endl;
 	    name=fname;
 	}
-	else 
+	else
 	{
 	    breakUp (fname, name, type);
 	    typeNameToEnum(type, colType);
@@ -1140,7 +1140,7 @@ void MySqlOnlineMgr::getSchema(int fldId, int partId, CondDBTable *table, bool v
 // New functions
 
 void MySqlOnlineMgr::browseId (int folderId, int tagId, ICondDBTimePath& path)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     if (tagId == 0)
@@ -1161,12 +1161,12 @@ void MySqlOnlineMgr::browseId (int folderId, int tagId, ICondDBTimePath& path)
 }
 
 void MySqlOnlineMgr::tagId (int folderId, int tagId, const ICondDBTimePath& path)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query;
-    
+
     query << "INSERT INTO " TAG2OBJ_TBL_N << folderId << " (tag_id,since_t,till_t,obj_id) VALUES ";
-    
+
     ICondDBTimeStep *step = new CondDBTimeStep();
     if (path.size()>0)
     {
@@ -1188,17 +1188,17 @@ void MySqlOnlineMgr::tagId (int folderId, int tagId, const ICondDBTimePath& path
  */
 
 void MySqlOnlineMgr::escapeBinaryString(string& target, const string& source)
-    throw(CondDBException)
+
 {
     unsigned int len = source.size();
     if( len==0 ) { target=""; return; }
 
     char *_target = new char[len*2];
     Assert( _target != 0 );
-    
+
     len = mysql_real_escape_string(mysqlHandle->handle(), _target,
 				   source.c_str(), len);
-    
+
     target.assign(_target, len);
     delete[] _target;
 }
@@ -1210,12 +1210,12 @@ void MySqlOnlineMgr::escapeBinaryString(string& target, const string& source)
 void MySqlOnlineMgr::breakUp (string fname, string& name, string &type)
 {
     string temp=fname;
- 
+
     int sep = temp.find_first_of("$");
     int end = temp.size();
     name = temp.substr(0, sep);
     temp = temp.substr(sep + 1, end);
-    
+
     if (sep==-1)
 	temp="";
 
@@ -1224,14 +1224,14 @@ void MySqlOnlineMgr::breakUp (string fname, string& name, string &type)
     sep = temp.find_first_of("$");
     end = temp.size();
     type = temp.substr(0, sep);
-    
+
     //cout << "type: " << type << endl;
 }
 
 void MySqlOnlineMgr::typeNameToEnum(string type, CondDBTable::cdb_types& colType)
 {
 
-    if (type=="FLOAT") colType=CondDBTable::cdbArrayFloat; 
+    if (type=="FLOAT") colType=CondDBTable::cdbArrayFloat;
     if (type=="INT") colType=CondDBTable::cdbArrayInt;
     if (type=="DOUBLE") colType=CondDBTable::cdbArrayDouble;
     if (type=="TEXT") colType=CondDBTable::cdbArrayString;
@@ -1244,29 +1244,29 @@ bool MySqlOnlineMgr::compareNull(CondDBTable::cdb_types&type, string& value, str
 {
     switch (type)
     {
-	case CondDBTable::cdbInt: 
-	case CondDBTable::cdbArrayInt: 
+	case CondDBTable::cdbInt:
+	case CondDBTable::cdbArrayInt:
 	{
 	    int val=atoi(value.c_str());
 	    int nul=atoi(null.c_str());
 	    return (val==nul);
 	}
-	case CondDBTable::cdbFloat: 
-	case CondDBTable::cdbArrayFloat: 
+	case CondDBTable::cdbFloat:
+	case CondDBTable::cdbArrayFloat:
 	{
 	    float val=atof(value.c_str());
 	    float nul=atof(null.c_str());
 	    return (val==nul);
 	}
-	case CondDBTable::cdbDouble: 
-	case CondDBTable::cdbArrayDouble: 
+	case CondDBTable::cdbDouble:
+	case CondDBTable::cdbArrayDouble:
 	{
 	    double val=atof(value.c_str());
 	    double nul=atof(null.c_str());
 	    return (val==nul);
 	}
-	case CondDBTable::cdbString: 
-	case CondDBTable::cdbArrayString: 
+	case CondDBTable::cdbString:
+	case CondDBTable::cdbArrayString:
 	{
 	    return (value==null);
 	}
@@ -1285,9 +1285,3 @@ bool MySqlOnlineMgr::compareNull(CondDBTable::cdb_types&type, string& value, str
 	default: return false;
     }
 }
-
-
-
-
-
-

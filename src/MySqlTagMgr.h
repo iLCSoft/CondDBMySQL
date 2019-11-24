@@ -64,35 +64,35 @@ public:
 
 // Get a tag by ID
     MySqlResult *fetch(int id)
-	throw(CondDBException);
+	;
 // Find named tag
     MySqlResult *find(const string& name)
-	throw(CondDBException);
+	;
     MySqlResult *browseAll()
-	throw(CondDBException);
+	;
 // Get ID given a name
     int getId(const string& tagName)
-	throw(CondDBException);
+	;
 // Check if exists the named tag
     bool exist(const string& name)
-	throw(CondDBException);
+	;
 
-// Get tag names for given folder Id    
+// Get tag names for given folder Id
     MySqlResult *findFolder (int folderId)
-	throw(CondDBException);
+	;
 
 // Stores, updates, renames and removes
     void storeTag(const string& name, const string& desc)
-	throw(CondDBException);
+	;
 
     void updateTag(int id, const string& name, const string& desc)
-	throw(CondDBException);
+	;
 
     void deleteTag(const string& name)
-	throw(CondDBException);
+	;
 
     void renameTag(const string& oldname, const string& newname)
-	throw(CondDBException);
+	;
 
 
 private:
@@ -100,7 +100,3 @@ private:
 };
 
 #endif  /* MYSQL_TAGMGR_H */
-
-
-
-

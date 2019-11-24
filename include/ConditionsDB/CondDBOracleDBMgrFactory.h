@@ -31,14 +31,14 @@
 class CondDBOracleDBMgrFactory {
 
 public:
- 
+
   /// Creates an instance of ICondDBMgr.
   static ICondDBMgr* createCondDBMgr()
-    throw(CondDBException);
+    ;
 
   /// Destroys the instance of ICondDBMgr.
   static void destroyCondDBMgr(ICondDBMgr* CondDBMgr)
-    throw(CondDBException);
+    ;
 };
 
 #endif
