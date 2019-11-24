@@ -62,24 +62,24 @@ extern "C" {
 #include "CondDBLog.h"
 //#include "MySqlTypes.h"
 
-// nbarros: Since the configure script defines ALWAYS the initialization string 
+// nbarros: Since the configure script defines ALWAYS the initialization string
 //          MYSQL_INIT_STR, the following lines are not necessary
 
 #ifndef MYSQL_INIT_STR
 // This is the default initialization string: using localhost server and
-// the 'test_conddb01' database. The user is the current logged user and 
+// the 'test_conddb01' database. The user is the current logged user and
 // no password is provided.
 //
-// This initialization string can be overridded at compile time by Makefile 
+// This initialization string can be overridded at compile time by Makefile
 // defines. Se the topLevel Makefile for details.
 //
-// This can also be overridded at runtime by the environment variable 
+// This can also be overridded at runtime by the environment variable
 // 'COND_DB_INIT' or by passing explicity an argument to the init method,
 // CondDBInterface::init(...)
 //
 
 
-// nbarros: Since the configure script defines ALWAYS the initialization string 
+// nbarros: Since the configure script defines ALWAYS the initialization string
 //          MYSQL_INIT_STR, the following lines are not necessary
 // dklose: necessary for windows!!!
 #define MYSQL_INIT_STR "localhost:test_conddb01::"
@@ -89,11 +89,11 @@ extern "C" {
 
 // Constructor
 CondDBInterface::CondDBInterface()
-{  
+{
     condDataMgr = 0;
     condFolderMgr = 0;
     condTagMgr = 0;
-  
+
     // Search the environment for an initialization string
     const char *setting = getenv("COND_DB_INIT");
     if (setting)
@@ -111,14 +111,14 @@ CondDBInterface::~CondDBInterface()
     if (condFolderMgr) delete condFolderMgr;
     if (condDataMgr) delete condDataMgr;
     if (condTagMgr) delete condTagMgr;
-      
+
     if (relDBMgr) delete relDBMgr;
 }
 
 
-void 
+void
 CondDBInterface::init(string databaseInfo)
-    throw(CondDBException)
+
 {
     // databaseInfo = "server:dbname:user:passwd"
     // e.g. "atlobk01.cern.ch:conditionsdb:anonymous:online"
@@ -131,22 +131,22 @@ CondDBInterface::init(string databaseInfo)
     // Instatiate the low level DB manager
     relDBMgr = new MySqlDBMgr();
     Assert(relDBMgr != 0);
-    
+
     if ( databaseInfo == "" )
 	databaseInfo = defaultUserProfile;
 
 
-//nbarros: relDBMgr -> MySqlDBMgr   
+//nbarros: relDBMgr -> MySqlDBMgr
     relDBMgr->init(databaseInfo);
     initDone = true;
-    
+
     DebugMesg(CondDB, user, "MySqlDBMgr::init() succeded." );
 }
 
 
 void
 CondDBInterface::createCondDB(string condDBInfo)
-    throw(CondDBException)
+
 {
     if ( initDone == false )
     {
@@ -167,13 +167,13 @@ CondDBInterface::createCondDB(string condDBInfo)
 	DebugMesg(CondDB, user, "Creating database " << condDBInfo.c_str());
 	relDBMgr->createDatabase(condDBInfo);
     }
-    
+
     DebugMesg(CondDB, user, "createCondDB completed" );
 }
 
 
 bool CondDBInterface::isCondDBcreated() const
-    throw(CondDBException)
+
 {
     if ( initDone == false )
     {
@@ -188,9 +188,9 @@ bool CondDBInterface::isCondDBcreated() const
 }
 
 
-void 
+void
 CondDBInterface::openDatabase()
-    throw(CondDBException)
+
 {
     if ( initDone == false )
     {
@@ -199,9 +199,9 @@ CondDBInterface::openDatabase()
 
 	THROWEX( "ICondDBMgr->init has not been called yet" , 0);
     }
-    
+
     // Check if database exists
-    if ( relDBMgr->openDatabase()==false ) 
+    if ( relDBMgr->openDatabase()==false )
     {
 	// generalDB does not exist; createCondDB has not yet been invoked
 	if (relDBMgr->cdbLog->isUsable())
@@ -216,29 +216,29 @@ CondDBInterface::openDatabase()
 
 
 // By now we dont use trasactions, so those are dummy methods
-void CondDBInterface::startUpdate() throw(CondDBException) {}
+void CondDBInterface::startUpdate()  {}
 
-void CondDBInterface::startRead() throw(CondDBException) {}
+void CondDBInterface::startRead()  {}
 
-void CondDBInterface::abort() throw(CondDBException) {}
+void CondDBInterface::abort()  {}
 
-void CondDBInterface::commit() throw(CondDBException) {}
+void CondDBInterface::commit()  {}
 
 ICondDBDataAccess* CondDBInterface::getCondDBDataAccess()
-    throw(CondDBException)
+
 {
     if (!condDataMgr) {
 	condDataMgr = new CondDBDataAccess(relDBMgr);
 	Assert(condDataMgr != 0);
 	condDataMgr->init();
-	
+
     }
     return condDataMgr;
 }
 
 
 ICondDBFolderMgr* CondDBInterface::getCondDBFolderMgr()
-    throw(CondDBException)
+
 {
     if (!condFolderMgr) {
 	condFolderMgr = new CondFolderMgr(relDBMgr);
@@ -249,12 +249,12 @@ ICondDBFolderMgr* CondDBInterface::getCondDBFolderMgr()
 }
 
 ICondDBTagMgr* CondDBInterface::getCondDBTagMgr()
-    throw(CondDBException)
+
 {
     if (!condTagMgr) {
 	condTagMgr = new CondDBTagMgr(relDBMgr);
 	Assert(condTagMgr != 0);
-	condTagMgr->init();	
+	condTagMgr->init();
     }
     return condTagMgr;
 }

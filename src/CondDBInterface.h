@@ -57,53 +57,53 @@ public:
     virtual ~CondDBInterface();
 
     virtual void init(string databaseInfo = "")
-	throw(CondDBException);
+	;
 
     virtual void createCondDB(string condDBInfo = "")
-	throw(CondDBException);
+	;
 
     virtual bool isCondDBcreated() const
-	throw(CondDBException);
-  
+	;
+
     virtual void openDatabase()
-	throw(CondDBException);
+	;
 
     virtual void startUpdate()
-	throw(CondDBException);
+	;
 
     virtual void startRead()
-	throw(CondDBException);
+	;
 
     virtual void abort()
-	throw(CondDBException);
+	;
 
     virtual void commit()
-	throw(CondDBException);
+	;
 
-    const char* getGeneralDBname() const 
+    const char* getGeneralDBname() const
 	{ return relDBMgr->getDBName().c_str(); }
 
     ICondDBBasicDataAccess* getCondDBBasicDataAccess()
-        throw(CondDBException) {
+         {
 	return getCondDBDataAccess();
     };
 
     ICondDBDataAccess* getCondDBDataAccess()
-	throw(CondDBException);
+	;
 
     ICondDBBasicFolderMgr* getCondDBBasicFolderMgr()
-        throw(CondDBException) {
+         {
 	return getCondDBFolderMgr();
     };
-    
+
     ICondDBFolderMgr* getCondDBFolderMgr()
-	throw(CondDBException);
+	;
 
     ICondDBTagMgr* getCondDBTagMgr()
-	throw(CondDBException);
-      
+	;
+
 private:
- 
+
     // interface to the ralational dbms
     MySqlDBMgr*       relDBMgr;
 
@@ -118,11 +118,3 @@ private:
 
 
 #endif
-
-
-
-
-
-
-
-

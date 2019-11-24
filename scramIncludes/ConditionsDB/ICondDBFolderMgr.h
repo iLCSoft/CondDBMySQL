@@ -13,7 +13,7 @@
 class ICondDBFolderMgr : virtual public ICondDBBasicFolderMgr {
 
 public:
-  
+
   /// Destructor.
   virtual ~ICondDBFolderMgr() {}
 
@@ -55,15 +55,15 @@ public:
   				      std::string  attributes,
   				      std::string  description,
   				      bool         parents,
-  				      int ddtype ) 
-    throw(CondDBException) = 0;
-  
+  				      int ddtype )
+     = 0;
+
   // Redeclare ICondDBBasicFolderMgr method to prevent it from being "hidden"
   virtual void createCondDBFolderSet( const std::string& fullPathName,
 				      std::string  attributes  = "",
 				      std::string  description = "",
-				      bool         parents     = false) 
-    throw(CondDBException) = 0;
+				      bool         parents     = false)
+     = 0;
 
   /**
    * Create folder for structures
@@ -76,28 +76,22 @@ public:
 				   bool    parents = false,
 				   ICondDBFolder::folder_types ftype = ICondDBFolder::STRUCT)
     //ICondDBExtendedFolder::folder_types ftype = ICondDBExtendedFolder::STRUCT)
-      throw(CondDBException) = 0;
-  
+       = 0;
+
   // Redeclare ICondDBBasicFolderMgr method to prevent it from being "hidden"
   virtual void createCondDBFolder( const std::string& fullPathName,
   				   std::string  attributes  = "",
   				   std::string  description = "",
-  				   bool         parents     = false) 
-   throw(CondDBException) = 0;
+  				   bool         parents     = false)
+    = 0;
 
   /**
    * Returns the folder type
    */
-  
+
   virtual int getFolderType( const string& fullPathName )
-    throw(CondDBException) = 0;
+     = 0;
 
 };
 
 #endif // ICondDBFolderMgr_h
-
-
-
-
-
-

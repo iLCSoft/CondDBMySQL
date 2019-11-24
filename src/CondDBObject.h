@@ -49,7 +49,7 @@ class CondDBObject : public ICondDBObject {
 public:
 
     // Methods of ICondDBObject
-    
+
     // Constructors
 
     CondDBObject();
@@ -64,12 +64,12 @@ public:
 
     // Specific to the MySQL implementation.
     CondDBObject(MySqlDBMgr *dbMgr, MySqlResult* res, int folderId)
-	throw(CondDBException);
-  
+	;
+
     // Destructor
     virtual ~CondDBObject();
-    
-    
+
+
     // Get methods
 
     virtual CondDBKey validSince() const;
@@ -78,7 +78,7 @@ public:
     virtual bool isNullInterval() const;
     virtual void data(string& dataValue) const;
     virtual void data(ICondDBStreamable &s) const
-	throw(CondDBException);
+	;
     virtual void insertionTime( SimpleTime& insTime ) const;
     virtual long layer() const;
     virtual void description(string& descr) const;
@@ -110,5 +110,3 @@ private:
 };
 
 #endif
-
-

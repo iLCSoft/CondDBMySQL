@@ -52,7 +52,7 @@ public:
    * like databaseInfo=",generalDBName" .
    */
   virtual void init(std::string databaseInfo = "")
-    throw(CondDBException) = 0;
+     = 0;
 
   /** Create the structures required by the conditions DB (e.g database "conditionsDBGeneral")
    *
@@ -66,15 +66,15 @@ public:
    * - if host is not passed (but only the path), the host of the bootFile will be used
    */
   virtual void createCondDB(std::string condDBInfo = "")
-    throw(CondDBException) = 0;
+     = 0;
 
   /** Tell whether the method createCondDB has already
    * been successfully invoked.
    * This method must be invoked after the init.
-   */  
+   */
   virtual bool isCondDBcreated() const
-    throw(CondDBException) = 0;
-  
+     = 0;
+
   /** Open the conditions DB.
    *
    * This method must be invoked after the init, and after a startRead.
@@ -83,48 +83,48 @@ public:
    * in order to set up the ConditionsDB.
    */
   virtual void openDatabase()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Start an update transaction.
   virtual void startUpdate()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Start a read transaction.
   virtual void  startRead()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Abort the current transaction.
   virtual void  abort()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Commit the current transaction.
   virtual void  commit()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Obtain an ICondDBBasicDataAccess interface.
   virtual ICondDBBasicDataAccess* getCondDBBasicDataAccess()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Obtain an ICondDBDataAccess interface.
   virtual ICondDBDataAccess* getCondDBDataAccess()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Obtain an ICondDBBasicFolderMgr interface.
   virtual ICondDBBasicFolderMgr* getCondDBBasicFolderMgr()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Obtain an ICondDBFolderMgr interface.
   virtual ICondDBFolderMgr* getCondDBFolderMgr()
-    throw(CondDBException) = 0;
+     = 0;
 
   /// Obtain an ICondDBTagMgr interface.
   virtual ICondDBTagMgr* getCondDBTagMgr()
-    throw(CondDBException) = 0;
+     = 0;
 
   /* Not yet implemented
      /// Obtain an ICondDBLogMgr interface.
   virtual ICondDBLogMgr* getCondDBLogMgr()
-    throw(CondDBException) = 0;
+     = 0;
   */
 };
 

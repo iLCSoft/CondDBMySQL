@@ -26,15 +26,15 @@ public:
    * @param folderName Folder in which the object is to be stored in
    * @param table The table to be stored
    */
-  
-  virtual void storeCondDBObject( const string& folderName, 
+
+  virtual void storeCondDBObject( const string& folderName,
                                   ICondDBTable *table)
-    throw(CondDBException) = 0;
+     = 0;
 
   // Redeclare ICondDBBasicDataAccess method to prevent it from being "hidden"
   virtual void storeCondDBObject( const std::string& folder,
 				  ICondDBObject*     CondObject )
-    throw(CondDBException) = 0;
+     = 0;
 
   // Queries
 
@@ -48,7 +48,7 @@ public:
    * @param nullValues Optional. A pointer to a vector of string which contains the NULL values for the table
    * @param tagName Optional. Find for tags
    */
-  
+
   virtual void findCondDBObject( ICondDBTable *table,
 				 const std::string&  folderName,
 				 const CondDBKey&    point,
@@ -56,26 +56,26 @@ public:
 				 const std::string&  selection = "",
 				 const std::vector <std::string> *nullValues = 0,
 				 std::string      tagName = "") const
-      throw(CondDBException) = 0;
-  
+       = 0;
+
   // Redeclare ICondDBBasicDataAccess method to prevent it from being "hidden"
   virtual void findCondDBObject( ICondDBObject*&    oblock,
 				 const std::string& folder,
 				 const CondDBKey&   point,
 				 std::string        tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   virtual void findNextValidCondDBObject( ICondDBObject*&  oblock,
 					  const string&    folderName,
 					  const CondDBKey& point,
 					  string           tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   virtual void findLastValidCondDBObject( ICondDBObject*&  oblock,
 					  const string&    folderName,
 					  const CondDBKey& point,
 					  string           tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   // Browsing
 
@@ -93,14 +93,14 @@ public:
 				     const CondDBKey&      point,
 				     const std::string& selection = "",
 				     const std::vector <std::string> *nullValues = 0) const
-      throw(CondDBException) = 0;
- 
+       = 0;
+
   // Redeclare ICondDBBasicDataAccess method to prevent it from being "hidden"
   virtual void
     browseObjectsAtPoint( ICondDBDataIterator*& iterObjects,
 			  const std::string&    folder,
 			  const CondDBKey&      point ) const
-    throw(CondDBException) = 0;
+     = 0;
 
     /**
      * Browse for data inside the given interval in time (all versions)
@@ -109,13 +109,13 @@ public:
      * @param begin Search interval start point in time
      * @param end Interval end point
      */
-    
+
     virtual void browseObjectsInInterval( ICondDBDataIterator*& iterObjects,
 				       const std::string&    folderName,
 				       const CondDBKey&      begin,
 				       const CondDBKey&      end ) const
-	throw(CondDBException) = 0;
-    
+	 = 0;
+
 
   /**
    * Browse tags for the given folder
@@ -128,17 +128,17 @@ public:
 
   virtual void browseObjectsInTag( ICondDBTable         *table,
 				   const std::string&    folderName,
-				   const std::string&    tagName = "", 
+				   const std::string&    tagName = "",
 				   const std::string&    selection = "",
 				   const std::vector <std::string> *nullValues = 0) const
-     throw(CondDBException) = 0;
+      = 0;
 
   // Redeclare ICondDBBasicDataAccess method to prevent it from being "hidden"
   virtual void
   browseObjectsInTag( ICondDBDataIterator*& iterObjects,
 		      const std::string&    folder,
 		      std::string           tagName = "" ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Browse all for the given folder
@@ -152,13 +152,13 @@ public:
 				 const std::string&    folderName,
 				 const std::string&    selection = "",
 				 const std::vector <std::string> *nullValues = 0) const
-      throw(CondDBException) = 0;
+       = 0;
 
   // Redeclare ICondDBBasicDataAccess method to prevent it from being "hidden"
   virtual void
   browseAllObjects( ICondDBDataIterator*& iterObjects,
 		    const std::string&    folder ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Browse folder for a given time interval
@@ -173,7 +173,7 @@ public:
 			      const CondDBKey since,
 			      const CondDBKey till,
 			      std::string tagName = "") const
-      throw(CondDBException) = 0;
+       = 0;
 
   /**
    * Browse folder for a given time interval
@@ -195,7 +195,7 @@ public:
 			     const std::string& selection = "",
 			     const std::vector <std::string> *nullValues = 0,
 			     string tagName = "") const
-      throw(CondDBException) = 0;
+       = 0;
 
   /**
    * Browse folder for Ids with optional tag
@@ -204,10 +204,10 @@ public:
    * @param tagName Optional. Search for the given tag. If no tag is give HEAD is used
    */
 
-  virtual void browseId (ICondDBTimePath& path, 
-			 std::string folder, 
+  virtual void browseId (ICondDBTimePath& path,
+			 std::string folder,
 			 std::string tagName = "") const
-      throw(CondDBException) = 0;
+       = 0;
 
   /**
    * Build tag entries in database from the ICondDBTimePath container
@@ -217,7 +217,7 @@ public:
    */
 
   virtual void tagFromTimePath (std::string folder, std::string tagName, ICondDBTimePath& path) const
-      throw(CondDBException) = 0;
+       = 0;
 
   /**
    * Get the table schema
@@ -226,13 +226,8 @@ public:
    */
 
   virtual void getTableSchema (std::string folder, ICondDBTable *table)
-      throw(CondDBException) = 0;
+       = 0;
 
 };
 
 #endif // ICondDBDataAccess_h
-
-
-
-
-

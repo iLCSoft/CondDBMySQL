@@ -34,8 +34,8 @@ public:
    * This method requires un update transaction.
    */
   virtual void changeName( const std::string& newName)
-    throw(CondDBException) = 0;
-  
+     = 0;
+
   /**
    * This methods returns a vector containing the full name of all
    * CondDBFolder or CondDBFolderSet to which this tag has been applied,

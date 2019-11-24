@@ -59,9 +59,9 @@ public:
   virtual void createCondDBFolderSet( const std::string& fullPathName,
 				      std::string  attributes  = "",
 				      std::string  description = "",
-				      bool         parents     = false) 
-    throw(CondDBException) = 0;
-  
+				      bool         parents     = false)
+     = 0;
+
   /**
    * Create a new CondFolder within the specified path and name.
    *
@@ -91,13 +91,13 @@ public:
   virtual void createCondDBFolder( const std::string& fullPathName,
 				   std::string  attributes  = "",
 				   std::string  description = "",
-				   bool         parents     = false) 
-    throw(CondDBException) = 0;
+				   bool         parents     = false)
+     = 0;
 
-  
+
   /// Return true if a CondFolderSet or a CondFolder exists already with the given name
   virtual bool exist( const std::string& fullName ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Delete the CondDBFolder or CondDBFolderSet with the specified name.
@@ -109,10 +109,10 @@ public:
    *   all contained CondDBFolder or CondDBFolderSet beforehand.
    *   This is imposed for safety reasons.
    */
-  virtual void deleteFolder( const std::string& fullPathName ) 
-    throw(CondDBException) = 0;
-  
-  
+  virtual void deleteFolder( const std::string& fullPathName )
+     = 0;
+
+
   /**
    * Return the CondDBFolderSet with the specified name.
    *
@@ -120,10 +120,10 @@ public:
    *
    * Note: the object pointed by ICondDBFolderSet* has to be deleted by the
    * user at the end of its usage.
-   */   
+   */
   virtual void getCondDBFolderSet( const std::string& fullPathName,
 				   ICondDBFolderSet*& folderSet) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Return the CondDBFolder with the specified name.
@@ -133,12 +133,12 @@ public:
    * NOTES:
    * - the object pointed by ICondDBFolder* has to be deleted by the
    *   user at the end of its usage.
-   */   
+   */
   virtual void getCondDBFolder( const std::string& fullPathName,
 				ICondDBFolder*& folder) const
-    throw(CondDBException) = 0;
+     = 0;
 
-  
+
   /**
    * This is the equivalent of the command "ls" on UNIX.
    * fullName will be like "/compass/calo/temperature" and can be a
@@ -153,22 +153,22 @@ public:
    */
   virtual void describe(const std::string& fullName,
 			std::string options = "") const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * This methods returns a vector containing the full name of all
    * defined CondFolder
    */
   virtual void getAllCondDBFolder( std::vector<std::string>& allCondFolder ) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * This methods returns a vector containing the full name of all
    * defined CondFolderSet
    */
   virtual void getAllCondDBFolderSet( std::vector<std::string>& allCondFolderSet ) const
-    throw(CondDBException) = 0;
-  
+     = 0;
+
   /**
    * This methods returns a vector containing the full name of all
    * CondFolder beneath fullPathName.
@@ -179,14 +179,8 @@ public:
    */
   virtual void getAllCondDBFolderBeneath( const std::string& fullPathName,
 					  std::vector<std::string>& folderList ) const
-    throw(CondDBException) = 0;
+     = 0;
 
 };
 
 #endif // ICondDBBasicFolderMgr_h
-
-
-
-
-
-

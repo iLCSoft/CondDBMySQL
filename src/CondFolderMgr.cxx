@@ -70,7 +70,7 @@ CondFolderMgr::~CondFolderMgr()
  */
 
 void CondFolderMgr::init()
-    throw(CondDBException)
+
 {
     relFolderMgr = relDBMgr->getFolderMgr();
     relTagMgr    = relDBMgr->getTagMgr();
@@ -83,14 +83,14 @@ void CondFolderMgr::init()
 
 void CondFolderMgr::createRootFolderSet( string attributes  /* = "" */,
 					 string description /* = "" */)
-    throw(CondDBException)
+
 {
     DebugMesg(CondDB, devl, "Defining the root FolderSet");
 
     // The root FolderSet shall be unique.Check that there is no one already
     // The method MySqlFolderMgr::store() doesn't allow for duplicate
     // storage, so this test isn't realy necessary. Consider removing!
-    if ( exist("/") ) 
+    if ( exist("/") )
     {
 	if (relDBMgr->cdbLog->isUsable())
 	    relDBMgr->cdbLog->StoreLog("Root FolderSet already existing.The root FolderSet is unique.", __FILE__, __LINE__);
@@ -100,13 +100,13 @@ void CondFolderMgr::createRootFolderSet( string attributes  /* = "" */,
     }
 
     // else there is no one already; create it.
-        
+
     DebugMesg(CondDB, devl, "Adding folderSet to folderTree");
 
-    //Let's retrieve the db_Id...    
+    //Let's retrieve the db_Id...
     int db_id = getDB_id(relDBMgr->getDBName(), relDBMgr->getSrvName());
     //...done
-    
+
     string rootFolderName("/");
     relFolderMgr->store(rootFolderName, description, attributes,
 			0, db_id, MySqlFolderMgr::FolderSet);
@@ -122,7 +122,7 @@ void CondFolderMgr::createRootFolderSet( string attributes  /* = "" */,
  */
 
 int CondFolderMgr::getDB_id(string dbname, string srvname)
-    throw(CondDBException)
+
 {
 
     MYSQLSTREAM query;
@@ -142,15 +142,15 @@ CondFolderMgr::createCondDBFolderSet( const string& fullPathName,
 				      string  attributes  /* = "" */,
 				      string  description /* = "" */,
 				      bool    parents     /* = false */,
-				      int dd_type) 
-    throw(CondDBException)
+				      int dd_type)
+
 {
     DebugMesg(CondDB, user, "Creating FolderSet : " << fullPathName);
     DebugMesg(CondDB, user, "       description : " << description);
     DebugMesg(CondDB, user, "        attributes : " << attributes);
-    
+
     // check if this folder name already exists
-    
+
     if ( exist(fullPathName) == true )
     {
 	if (relDBMgr->cdbLog->isUsable())
@@ -180,7 +180,7 @@ CondFolderMgr::createCondDBFolderSet( const string& fullPathName,
 		relDBMgr->cdbLog->StoreLog(msg.c_str(), __FILE__, __LINE__);
 
 	    THROWEX(msg, 0);
-	}	
+	}
         // create parentFolderSet with same attributes and description
 	DebugMesg(CondDB, user, "Creating parent FolderSet");
 	createCondDBFolderSet(parentFolderSet, attributes, description, true, dd_type);
@@ -193,13 +193,13 @@ CondFolderMgr::createCondDBFolderSet( const string& fullPathName,
 	attributes = res->getField(FOLDER_ATTR);
     delete res;
 
-    //Let's retrieve the db_Id...    
+    //Let's retrieve the db_Id...
     int db_id = getDB_id(relDBMgr->getDBName(), relDBMgr->getSrvName());
     //...done
 
     relFolderMgr->store(fullPathName, description, attributes,
 			parentId, db_id, MySqlFolderMgr::FolderSet, dd_type);
-    
+
     DebugMesg(CondDB, devl, "FolderSet creation completed.");
 }
 
@@ -211,8 +211,8 @@ void
 CondFolderMgr::createCondDBFolder( const string& fullPathName,
 				   string  attributes  /* = "" */,
 				   string  description /* = "" */,
-				   bool    parents     /* = false */) 
-    throw(CondDBException)
+				   bool    parents     /* = false */)
+
 {
     DebugMesg(CondDB, user, "Creating Folder : " << fullPathName);
     DebugMesg(CondDB, user, "    description : " << description);
@@ -233,7 +233,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
     splitPath( fullPathName, parentFolderSet, folderName);
 
     // look for the parentFolderSet
-    MySqlResult *res = relFolderMgr->find(parentFolderSet, 
+    MySqlResult *res = relFolderMgr->find(parentFolderSet,
 					  MySqlFolderMgr::FolderSet);
     if ( res->countRows()==0 )
     {
@@ -243,7 +243,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
 	if ( parents == false )	{
 	    if (relDBMgr->cdbLog->isUsable())
 		relDBMgr->cdbLog->StoreLog(msg.c_str(), __FILE__, __LINE__);
-	    
+
 	    THROWEX(msg, 0);
 	}
 	else {  // create parentFolderSet with same attributes and description
@@ -260,11 +260,11 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
     delete res;
     DebugMesg(CondDB, devl, "test --- attributes: " << attributes);
 
-    // Store the folder. 
+    // Store the folder.
 
     int folderId;
 
-    //Let's retrieve the db_Id...    
+    //Let's retrieve the db_Id...
     int db_id = getDB_id(relDBMgr->getDBName(), relDBMgr->getSrvName());
     //...done
 
@@ -294,7 +294,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
 				   string  description ,
 				   bool    parents,
 				   CondFolder::folder_types ftype)
-    throw(CondDBException)
+
 {
     if (ftype==CondFolder::BLOBTAG)
     {
@@ -320,7 +320,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
     splitPath( fullPathName, parentFolderSet, folderName);
 
     // look for the parentFolderSet
-    MySqlResult *res = relFolderMgr->find(parentFolderSet, 
+    MySqlResult *res = relFolderMgr->find(parentFolderSet,
 					  MySqlFolderMgr::FolderSet);
     if ( res->countRows()==0 )
     {
@@ -352,7 +352,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
 
     int folderId = relFolderMgr->store(fullPathName, description, attributes,
 				   parentId, 1, MySqlFolderMgr::Folder, ftype);
-    
+
     int db_id = getDB_id(relDBMgr->getDBName(), relDBMgr->getSrvName());
 
     // Get the online manager (this eventually creates a new database)
@@ -389,12 +389,12 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
 	    onlM->createTablesTag(folderId, names, types, false);
 	    break;
 	}
-	default: 
+	default:
 	{
 	    cerr << "Wrong folder type" << endl;
 	    break;
 	}
-	
+
     }
     DebugMesg(CondDB, devl, "Folder creation completed.");
 }
@@ -405,7 +405,7 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
  */
 
 int CondFolderMgr::getFolderType(const string& fullPathName)
-	throw(CondDBException)
+
 {
     return relFolderMgr->getFolderType(fullPathName);
 }
@@ -417,7 +417,7 @@ int CondFolderMgr::getFolderType(const string& fullPathName)
  */
 
 bool CondFolderMgr::exist( const string& fullName ) const
-    throw(CondDBException)
+
 {
     string normName;
     normalizePath( fullName, normName );
@@ -426,18 +426,18 @@ bool CondFolderMgr::exist( const string& fullName ) const
 
 void CondFolderMgr::getCondDBFolder( const string& fullPathName,
 				     ICondDBFolder*& folder) const
-    throw(CondDBException)
+
 {
     // look for the Folder
     CondFolder *condFolder;
     MySqlResult *res = relFolderMgr->find(fullPathName, MySqlFolderMgr::Folder);
-    
+
     if (res->countRows() != 0)
     {
 	// if the folderType is not of the BLOB type we must prepend the address description for use in Athena
 	int fType = relFolderMgr->getFolderType(fullPathName);
-	
-	if ((fType !=ICondDBFolder::BLOB) && (fType != ICondDBFolder::BLOBTAG)) 
+
+	if ((fType !=ICondDBFolder::BLOB) && (fType != ICondDBFolder::BLOBTAG))
 	{
 	    std::string addrHeader("<addrHeader><address_header service_type=\"72\" clid=\"94049889\" /></addrHeader><typeName>GenericDbTable</typeName><timeStamp>time</timeStamp>");
 	    condFolder = new CondFolder(res, addrHeader);
@@ -453,22 +453,22 @@ void CondFolderMgr::getCondDBFolder( const string& fullPathName,
 	string msg("Folder "); msg = msg + fullPathName + " does not exist";
 	THROWEX(msg, 0);
     }
-    
-    
+
+
     folder = static_cast<ICondDBFolder*>(condFolder);
 }
-    
+
 
 void
 CondFolderMgr::getCondDBFolderSet( const string& fullPathName,
 				   ICondDBFolderSet*& folderSet) const
-    throw(CondDBException)
+
 {
     // look for the FolderSet
     // look for the Folder
     CondFolderSet *condFolderSet;
     MySqlResult *res = relFolderMgr->find(fullPathName, MySqlFolderMgr::FolderSet);
-    
+
     if (res->countRows() != 0)
     {
 	condFolderSet = new CondFolderSet(this, res);
@@ -480,7 +480,7 @@ CondFolderMgr::getCondDBFolderSet( const string& fullPathName,
 	string msg("FolderSet "); msg = msg + fullPathName + " does not exist";
 	THROWEX(msg, 0);
     }
-    
+
     folderSet = static_cast<ICondDBFolderSet*>(condFolderSet);
 }
 
@@ -488,7 +488,7 @@ CondFolderMgr::getCondDBFolderSet( const string& fullPathName,
 
 void
 CondFolderMgr::getAllCondDBFolder( vector<string>& allCondFolder ) const
-    throw(CondDBException)
+
 {
     string name("");
     MySqlResult *res = relFolderMgr->browse(name, MySqlFolderMgr::Folder);
@@ -502,12 +502,12 @@ CondFolderMgr::getAllCondDBFolder( vector<string>& allCondFolder ) const
 
 void
 CondFolderMgr::getAllCondDBFolderSet( vector<string>& allCondFolderSet ) const
-    throw(CondDBException)
+
 {
     string name("");
     MySqlResult *res = relFolderMgr->browse(name, MySqlFolderMgr::FolderSet);
     Assert( res->countRows() != 0 );
-    
+
     do {
 	allCondFolderSet.push_back(res->getField(FOLDER_PATHNAME));
     } while ( res->nextRow() );
@@ -519,7 +519,7 @@ CondFolderMgr::getAllCondDBFolderSet( vector<string>& allCondFolderSet ) const
 void
 CondFolderMgr::getAllCondDBFolderBeneath( const string& fullPathName,
 					  vector<string>& folderList ) const
-    throw(CondDBException)
+
 {
     MySqlResult *res;
 
@@ -532,7 +532,7 @@ CondFolderMgr::getAllCondDBFolderBeneath( const string& fullPathName,
 	msg += " does not exist neither as Folder nor as FolderSet";
 	THROWEX(msg, 0);
     }
-    
+
     if ( (res = findFolder(fullPathName)) != 0 )
     {
 	// yes, it's a Folder
@@ -549,10 +549,10 @@ CondFolderMgr::getAllCondDBFolderBeneath( const string& fullPathName,
 	    // and all its contained FolderSet
 	    // NOTE: fullPathName must not be added to folderList as FolderSet are not
 	    // JMAL  tagged What is the meaning of the above line???
-	    
-	    // JMAL Question: we want just the folders and folderSets imediately beneath 
+
+	    // JMAL Question: we want just the folders and folderSets imediately beneath
 	    // JMAL           this folderSet or all its descendents?
-	    
+
 #if 0   // All the descendents
 	    delete res;
 	    res = relFolderMgr->browse(fullPathName, MySqlFolderMgr::Any);
@@ -563,13 +563,13 @@ CondFolderMgr::getAllCondDBFolderBeneath( const string& fullPathName,
 		delete res;
 		res = relFolderMgr->browseChilds(parentId, MySqlFolderMgr::Any);
 	    }
-#endif 
+#endif
 	    folderList.push_back(fullPathName);
 	    if ( res->countRows()!=0 )
 		do {
 		    folderList.push_back( res->getField(FOLDER_PATHNAME) );
 		} while ( res->nextRow() );
-	    
+
 	    delete res;
 	}
     }
@@ -579,37 +579,37 @@ CondFolderMgr::getAllCondDBFolderBeneath( const string& fullPathName,
 // To be used by CondFolderSet
 
 MySqlResult *
-CondFolderMgr::getContainedFolderRef(int parentId, 
+CondFolderMgr::getContainedFolderRef(int parentId,
 				     MySqlFolderMgr::folder_type type) const
-    throw(CondDBException)
+
 {
-    return relFolderMgr->browseChilds(parentId, type); 
+    return relFolderMgr->browseChilds(parentId, type);
 }
 
 //
 // Private methods
 //
 
-// returns 0 if folderSetFullName is not found 
+// returns 0 if folderSetFullName is not found
 MySqlResult *
 CondFolderMgr::findFolderSet( const string& folderSetFullName ) const
-    throw(CondDBException)
+
 {
     return relFolderMgr->find(folderSetFullName, MySqlFolderMgr::FolderSet);
 }
 
 
-// returns 0 if folderFullName is not found 
+// returns 0 if folderFullName is not found
 MySqlResult *
 CondFolderMgr::findFolder( const string& folderFullName ) const
-    throw(CondDBException)
+
 {
     return relFolderMgr->find(folderFullName, MySqlFolderMgr::Folder);
 }
 
-void 
+void
 CondFolderMgr::deleteFolder( const string& folderFullName )
-    throw(CondDBException)
+
 {
     int folderId, dbPath, folderType;
     folderType = getFolderType(folderFullName);
@@ -620,7 +620,7 @@ CondFolderMgr::deleteFolder( const string& folderFullName )
 	MySqlObjectMgr *objectMgr = relDBMgr->getObjectMgr(dbPath);
 	if (!findFolderSet(folderFullName))
 	    objectMgr->deleteTables(folderId, folderType);
-	
+
 	relFolderMgr->deleteFolder(folderId);
     }
     else
@@ -633,7 +633,7 @@ CondFolderMgr::deleteFolder( const string& folderFullName )
     // delete object data
     // delete object keys
 //    objectMgr->deleteTables(folderId);
-    
+
     // delete folder
 //    relFolderMgr->deleteFolder(folderId);
 }
@@ -644,28 +644,28 @@ void
 CondFolderMgr::splitPath(const string& fullPathName,
 			 string&       parent,
 			 string&       name) const
-    throw(CondDBException)
+
 {
     string normName;
     normalizePath(fullPathName, normName);
-    
+
     string::size_type lastPos=0;  // position of last /
-    
+
     // determine lastPos
     for (long i=normName.size()-1; i>-1; i--)
     {
 	if ( normName[i] == separator )
 	{
-	    lastPos = i; 
+	    lastPos = i;
 	    break;
 	}
     }
-    
+
     if (lastPos==0)
 	parent = separator;
     else
 	parent = normName.substr(0, lastPos);
-    
+
     name = normName.substr(lastPos+1, normName.size()-1);
     DebugMesg(CondDB, user, "   parentFolderSet : " << parent);
     DebugMesg(CondDB, user, "              name : " << name);
@@ -676,21 +676,21 @@ CondFolderMgr::splitPath(const string& fullPathName,
 void
 CondFolderMgr::normalizePath( const string& fullPathName,
 			      string&       normName ) const
-    throw(CondDBException)
+
 {
     if ((fullPathName[0] != separator) ||
 	(fullPathName.size() == 0) )
 	THROWEX("Invalid fullPathName", 0);
-    
+
     normName += separator;  // ensure there is an initial /
-    
+
     // remove duplicated /
     for (unsigned long i=0; i<fullPathName.size(); i++)
     {
 	if ( (normName[normName.size()-1] == separator) &&
 	     (fullPathName[i] == separator) )
 	    continue; // skip duplicated /
-	
+
 	normName += fullPathName[i];
     }
 
@@ -710,11 +710,7 @@ CondFolderMgr::normalizePath( const string& fullPathName,
 
 void CondFolderMgr::describe(const string& /* fullName */,
                              string /* options */) const
-    throw(CondDBException)
+
 {
     // Not yet implemented
 }
-
-
-
-

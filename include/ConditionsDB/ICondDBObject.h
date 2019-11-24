@@ -44,7 +44,7 @@ public:
    * this hole.
    */
   virtual bool isNullInterval() const = 0;
-  
+
   /**
    * Returns the actual data associated to this CondObject.
    * This method has to be used when simple string are stored as
@@ -60,11 +60,11 @@ public:
    * The conversion could generate an exception (in principle)
    */
   virtual void data(ICondDBStreamable &s) const
-    throw(CondDBException) = 0;
+     = 0;
 
   /**
    * Returns the insertion time of this object.
-   */  
+   */
   virtual void insertionTime( SimpleTime& insTime ) const = 0;
 
   /**
@@ -80,7 +80,7 @@ public:
   /// Returns the list of all associated tags.
   virtual void allTags(std::list<std::string>::iterator& assocTags) const = 0;
   */
-  
+
 };
 
 #endif // ICondDBObject_h

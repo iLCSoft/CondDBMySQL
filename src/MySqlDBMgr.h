@@ -52,10 +52,10 @@ class MySqlDBMgr : public MySqlConnection {
 
  public:
     MySqlDBMgr();
-    
+
     ~MySqlDBMgr();
 
-    // Transaction handling 
+    // Transaction handling
     void commit();
     void startUpdate();
     void startRead();
@@ -68,42 +68,42 @@ class MySqlDBMgr : public MySqlConnection {
     // The connect() method which establishes the DBMS connection
     // Defined in the superclass
     void init(string& initstring)
-	throw(CondDBException);
+	;
 
     // Open and create a new database
     bool openDatabase(const string& dbname="");
-    
-    void createDatabase(const string& dbname="")
-	throw(CondDBException);
 
-    // Get data path information 
+    void createDatabase(const string& dbname="")
+	;
+
+    // Get data path information
     void getFolderId(string folder, int& folder_id, int& db_path_id)
-	throw(CondDBException);
+	;
 
     void getDBId(int fldId, int& dbId)
-	throw(CondDBException);
+	;
 
     void getFolderType(string folderName, int& ftype)
-	throw(CondDBException);
+	;
 
     void getTagId(const string& tagName, int& tagId)
-	throw(CondDBException);
+	;
 
     int createDBPath(const string& srvName, const string& dbName)
-	throw(CondDBException);
+	;
 
     void getDBPath(int db_id, string& db_name, string& srv_name)
-	throw(CondDBException);
+	;
 
     // return the specific managers
     MySqlDataMgr*   getDataMgr(int db_path)
-	throw(CondDBException);
+	;
 
     MySqlObjectMgr* getObjectMgr(int db_path)
-	throw(CondDBException);
+	;
 
     MySqlOnlineMgr* getOnlineMgr(int db_path)
-	throw(CondDBException);
+	;
 
     MySqlFolderMgr* getFolderMgr();
 
@@ -134,10 +134,3 @@ private:
 
 
 #endif /* MYSQL_DBMGR_H */
-
-
-
-
-
-
-

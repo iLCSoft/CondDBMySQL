@@ -66,13 +66,13 @@ MySqlDataMgr::~MySqlDataMgr()
  */
 
 MySqlResult *MySqlDataMgr::fetch(int folderId, int partId, int oKey)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
-    query << "SELECT * FROM " DATA_TBL_NN << folderId 
+    query << "SELECT * FROM " DATA_TBL_NN << folderId
 	<< "_" << partId << " WHERE (dat_id=" << oKey << ")";
-    
+
     return select(query);
 }
 
@@ -81,9 +81,9 @@ MySqlResult *MySqlDataMgr::fetch(int folderId, int partId, int oKey)
  * and associate it with the 'description'.
  */
 
-int MySqlDataMgr::store(int folderId, int partId, 
+int MySqlDataMgr::store(int folderId, int partId,
 			string& description, string& blob)
-    throw(CondDBException)
+
 {
     int id;
     MYSQLSTREAM query;
@@ -92,14 +92,14 @@ int MySqlDataMgr::store(int folderId, int partId,
     escapeBinaryString(eblob, blob);
 
     query << "INSERT INTO " DATA_TBL_NN << folderId << "_" << partId
-	  << " (description, oblock) VALUES(\'" << description 
+	  << " (description, oblock) VALUES(\'" << description
 	  << "\', \'" << eblob << "\')";
-    
+
     execute(query);
     query << "SELECT LAST_INSERT_ID()";
     MySqlResult *res = select(query);
     Assert(res->countRows()==1);
-	
+
     id = res->getIntField(0);
     delete res;
     return id;
@@ -107,7 +107,7 @@ int MySqlDataMgr::store(int folderId, int partId,
 
 
 /**
- * 
+ *
  */
 
 void MySqlDataMgr::changeDatabase(const string& srvname,
@@ -115,7 +115,7 @@ void MySqlDataMgr::changeDatabase(const string& srvname,
 				  const string& password,
 				  const string& dbname,
 				  int dbId)
-    throw(CondDBException)
+
 {
     connect(srvname, username, password);
     if(changeDB(dbname)==false)
@@ -125,23 +125,23 @@ void MySqlDataMgr::changeDatabase(const string& srvname,
 
 
 /**
- * Process BLOBs so it can be passed to a SQL statement. The source BLOB is 
+ * Process BLOBs so it can be passed to a SQL statement. The source BLOB is
  * passed in the 'source' argument and the escaped string is returned in the
  * 'target' argument
  */
 
 void MySqlDataMgr::escapeBinaryString(string& target, const string& source)
-    throw(CondDBException)
+
 {
     unsigned int len = source.size();
     if( len==0 ) { target=""; return; }
 
     char *_target = new char[len*2];
     Assert( _target != 0 );
-    
+
     len = mysql_real_escape_string(mysqlHandle->handle(), _target,
 				   source.c_str(), len);
-    
+
     // the later is faster because it doesn't need to call strlen()
     //  target = _target;
     target.assign(_target, len);
@@ -150,10 +150,3 @@ void MySqlDataMgr::escapeBinaryString(string& target, const string& source)
 
 
 // END
-
-
-
-
-
-
-

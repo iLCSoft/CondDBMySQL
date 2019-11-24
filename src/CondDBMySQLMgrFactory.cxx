@@ -34,43 +34,16 @@
 #include "ConditionsDB/CondDBMySQLMgrFactory.h"
 #include "CondDBInterface.h"
 
-ICondDBMgr* 
+ICondDBMgr*
 CondDBMySQLMgrFactory::createCondDBMgr()
-  throw(CondDBException)
+
 {
   return new CondDBInterface;
 }
 
-void 
+void
 CondDBMySQLMgrFactory::destroyCondDBMgr(ICondDBMgr* CondDBMgr)
-  throw(CondDBException)
+
 {
   delete CondDBMgr;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -18,16 +18,16 @@ public:
   // Creators
 
   /// Activate the logging.
-  virtual void activate( ) 
-    throw(CondDBException) = 0;
+  virtual void activate( )
+     = 0;
 
   /// Deactivate the logging.
-  virtual void deactivate( ) 
-    throw(CondDBException) = 0;
+  virtual void deactivate( )
+     = 0;
 
   /// Dump the log content; actual signature to be defined.
-  virtual void dump( ) 
-    throw(CondDBException) = 0;
+  virtual void dump( )
+     = 0;
 
 };
 

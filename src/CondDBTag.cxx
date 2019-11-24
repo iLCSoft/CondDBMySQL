@@ -40,7 +40,7 @@
 
 CondDBTag::CondDBTag(const CondDBTagMgr* inCondTagMgr,
 		     MySqlResult *res)
-    throw(CondDBException)
+
 {
     Assert( res->countRows() > 0 );
 
@@ -75,7 +75,7 @@ void CondDBTag::getCreationTime(SimpleTime& creationTime) const
 
 
 void CondDBTag::changeName(const string& newName)
-    throw(CondDBException)
+
 {
     condTagMgr->changeTagName(tagName, newName);
     string msg = "Tag name changed to "; msg += newName;
@@ -93,8 +93,3 @@ CondDBTag::getTaggedFolder(vector<string>& allFolder,
 
 
 // THE END
-
-
-
-
-

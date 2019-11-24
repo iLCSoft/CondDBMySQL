@@ -62,15 +62,15 @@ MySqlObjectMgr::~MySqlObjectMgr()
 
 /**
  * Find a Conditions Object in the folder identified by 'folderId', crossing the
- * time given by point and tagged with the tag whose id is 'tagId' 
+ * time given by point and tagged with the tag whose id is 'tagId'
  */
 
 MySqlResult *MySqlObjectMgr::find(CondDBKey point, int folderId, int tagId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
-    if ( tagId == 0 ) 
+    if ( tagId == 0 )
     { //means we are looking at HEAD
 	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " << OBJECT_KEY_TBL_N << folderId << " AS o WHERE (" << point << " >=  h.since_t AND " << point << " < h.till_t AND h.obj_id=o.obj_id)";
     }
@@ -80,7 +80,7 @@ MySqlResult *MySqlObjectMgr::find(CondDBKey point, int folderId, int tagId)
 	      << "\n  WHERE " << tagId << "=tag_id LIMIT 1";
 
 	MySqlResult *res = select(query);
-    
+
 	// No tags exist so why do this?
 	if (res->countRows() == 0)
 	{
@@ -100,7 +100,7 @@ MySqlResult *MySqlObjectMgr::find(CondDBKey point, int folderId, int tagId)
  */
 
 MySqlResult *MySqlObjectMgr::browseAll(int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT * FROM " OBJECT_KEY_TBL_N << folderId;
@@ -114,7 +114,7 @@ MySqlResult *MySqlObjectMgr::browseAll(int folderId)
  */
 
 MySqlResult *MySqlObjectMgr::browseTagged(int folderId, int tagId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -128,17 +128,17 @@ MySqlResult *MySqlObjectMgr::browseTagged(int folderId, int tagId)
 	// check if folder has ever been tagged
 	query << "SELECT * FROM " TAG2OBJ_TBL_N << folderId << "\n"
 	    "  WHERE " << "tag_id =" << tagId << " LIMIT 1";
-	
+
 	MySqlResult *res = select(query);
-	
+
 	if (res->countRows() == 0)
 	{
 	    cerr << "No objects tagged for this folder" << endl;
 	}
 	else
 	{
-	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N 
-		  << folderId << " AS t, " << OBJECT_KEY_TBL_N << folderId 
+	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N
+		  << folderId << " AS t, " << OBJECT_KEY_TBL_N << folderId
 		  << " AS o WHERE t.obj_id=o.obj_id AND t.tag_id=" << tagId;
 	}
 	delete res;
@@ -146,15 +146,15 @@ MySqlResult *MySqlObjectMgr::browseTagged(int folderId, int tagId)
 
     return select (query);
 }
-    
-    
+
+
 /**
  * Browse all Conditions Objects in the folder identified by 'folderId' and crossing
  * the time given by 'point'.
  */
 
 MySqlResult *MySqlObjectMgr::browseAtPoint(CondDBKey point, int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT * FROM " OBJECT_KEY_TBL_N << folderId << " WHERE (" << point << " BETWEEN since_t AND till_t)";
@@ -167,7 +167,7 @@ MySqlResult *MySqlObjectMgr::browseAtPoint(CondDBKey point, int folderId)
  */
 
 MySqlResult *MySqlObjectMgr::browseInInterval(CondDBKey begin, CondDBKey end, int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "SELECT * FROM " OBJECT_KEY_TBL_N << folderId << " WHERE ( since_t BETWEEN " << begin << " AND " << end << " ) OR ( till_t BETWEEN " << begin << " AND " << end << " )";
@@ -176,7 +176,7 @@ MySqlResult *MySqlObjectMgr::browseInInterval(CondDBKey begin, CondDBKey end, in
 
 /**
  * Browse all objects in an interval defined by two times
- * 
+ *
  * @since The beggining of time interval
  * @till  is the end of the interval
  * @folderId is the id of the folder to search
@@ -184,17 +184,17 @@ MySqlResult *MySqlObjectMgr::browseInInterval(CondDBKey begin, CondDBKey end, in
  */
 
 MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDBKey till, int tagId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     MySqlResult *res;
 
-    if ( tagId == 0 ) 
+    if ( tagId == 0 )
       { //means we are looking at HEAD
-	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N 
-	      << folderId << " AS h, " << OBJECT_KEY_TBL_N 
-	      << folderId << " AS o WHERE h.since_t <" 
-	      << till     << " AND h.till_t >" 
+	query << "SELECT h.obj_id, o.insert_t, h.since_t, h.till_t, o.layer, o.db_id, o.dat_id FROM " OBJECT_KEY_TBL_HEAD_N
+	      << folderId << " AS h, " << OBJECT_KEY_TBL_N
+	      << folderId << " AS o WHERE h.since_t <"
+	      << till     << " AND h.till_t >"
 	      << since    << " AND h.obj_id=o.obj_id";
     }
     else if(tagId==-1){
@@ -204,18 +204,18 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
 	// check if folder has ever been tagged
 	query << "SELECT * FROM " TAG2OBJ_TBL_N << folderId << "\n"
 	    "  WHERE " << "tag_id =" << tagId << " LIMIT 1";
-	
+
 	res = select(query);
-	
+
 	if (res->countRows() == 0){
 	    cerr << "No objects tagged for this folder" << endl;
 	}
 	else{
-	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N 
-		  << folderId << " AS t, " << OBJECT_KEY_TBL_N 
-		  << folderId << " AS o WHERE t.since_t <" 
-		  << till     << " AND t.till_t >" 
-		  << since    << " AND t.tag_id=" 
+	    query << "SELECT t.obj_id, o.insert_t, t.since_t, t.till_t, o.layer, o.db_id, o.dat_id FROM " TAG2OBJ_TBL_N
+		  << folderId << " AS t, " << OBJECT_KEY_TBL_N
+		  << folderId << " AS o WHERE t.since_t <"
+		  << till     << " AND t.till_t >"
+		  << since    << " AND t.tag_id="
 		  << tagId    << " AND t.obj_id=o.obj_id";
 	}
 	delete res;
@@ -229,12 +229,12 @@ MySqlResult *MySqlObjectMgr::browseHistory(int folderId, CondDBKey since, CondDB
 
 void MySqlObjectMgr::insert(CondDBKey since, CondDBKey till,
 			   int folderId, int layer, int tblId, int datId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "INSERT INTO " OBJECT_KEY_TBL_N << folderId << "\n"
 	"  (insert_t,since_t,till_t,layer,db_id,dat_id)\n"
-	"  VALUES(NOW()," << since << "," << till << "," 
+	"  VALUES(NOW()," << since << "," << till << ","
 	  << layer << "," << tblId << "," << datId << ")";
     execute(query);
     query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
@@ -248,7 +248,7 @@ void MySqlObjectMgr::insert(CondDBKey since, CondDBKey till,
  */
 
 void MySqlObjectMgr::createTables(int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -262,11 +262,11 @@ void MySqlObjectMgr::createTables(int folderId)
     execute(query);
 
     SimpleTime minf, pinf; minf.setMinusInf(); pinf.setPlusInf();
-    
+
     int part_id = createPartition(minf, pinf, folderId, getDatabaseId());
 
     // Default data table is in the same database as object_key
-    query << "CREATE TABLE " DATA_TBL_NN << folderId << "_" 
+    query << "CREATE TABLE " DATA_TBL_NN << folderId << "_"
 	  << part_id << " " DATA_TBL_SCHEMA;
     execute(query);
 
@@ -277,15 +277,15 @@ void MySqlObjectMgr::createTables(int folderId)
 
 /**
  * Create a partition (time partition). Its like a folder but based on time
- * instead of category. This eases the scalling over time. 
+ * instead of category. This eases the scalling over time.
  */
 
 int MySqlObjectMgr::createPartition(CondDBKey since, CondDBKey till,
 				    int folderId, int dbId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
-    query << "INSERT INTO " PARTITION_TBL_N << folderId 
+    query << "INSERT INTO " PARTITION_TBL_N << folderId
 	  << " (since_t, till_t, db_id)\n  VALUES("
 	  << since << "," << till << "," << dbId << ")";
     execute(query);
@@ -312,7 +312,7 @@ int MySqlObjectMgr::getDatabaseId()
  */
 
 int MySqlObjectMgr::getDBId(CondDBKey point, int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -336,7 +336,7 @@ int MySqlObjectMgr::getDBId(CondDBKey point, int folderId)
  */
 
 int MySqlObjectMgr::getPartitionId(CondDBKey point, int folderId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -344,7 +344,7 @@ int MySqlObjectMgr::getPartitionId(CondDBKey point, int folderId)
 	"  WHERE (" << point << " BETWEEN since_t AND till_t)\n";
 
     MySqlResult *res = select(query);
-    
+
     if ( res->countRows() == 0 ) {
 	THROWEX("No partition has been created yet!",0);
     }
@@ -355,11 +355,11 @@ int MySqlObjectMgr::getPartitionId(CondDBKey point, int folderId)
 }
 
 /**
- * Destroy the object tables associated with the folder given by folderId 
+ * Destroy the object tables associated with the folder given by folderId
  */
 
 void MySqlObjectMgr::deleteTables(int folderId,int folderType)
-    throw(CondDBException)
+
 {
     // should iterate through all objects and delete the corresponding data?
     MYSQLSTREAM query;
@@ -372,7 +372,7 @@ void MySqlObjectMgr::deleteTables(int folderId,int folderType)
     query << "DROP TABLE " OBJECT_KEY_TBL_HEAD_N << folderId;
     execute(query);
 	// we should drop all tables associated with this folder, not just this one
-    
+
     if (folderType == ICondDBFolder::STRUCTTAG)
 	query << "DROP TABLE " DATA_TBL_TAG_N << folderId << "_1";
     else
@@ -380,7 +380,7 @@ void MySqlObjectMgr::deleteTables(int folderId,int folderType)
 	    query << "DROP TABLE " DATA_TBL_NN << folderId << "_1";
 	else
 	    cerr << "Wrong folder type" << endl;
-    
+
     execute(query);
 }
 
@@ -391,28 +391,28 @@ void MySqlObjectMgr::deleteTables(int folderId,int folderType)
 // Corrected bug in update of head table
 void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 			   int folderId, int dbId, int datId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
     // lock tables
     query << "LOCK TABLES " OBJECT_KEY_TBL_N << folderId
-	  << " AS o WRITE, " OBJECT_KEY_TBL_N << folderId << " WRITE," OBJECT_KEY_TBL_HEAD_N << folderId 
+	  << " AS o WRITE, " OBJECT_KEY_TBL_N << folderId << " WRITE," OBJECT_KEY_TBL_HEAD_N << folderId
        	  << " AS h WRITE, " OBJECT_KEY_TBL_HEAD_N << folderId << " WRITE, " TAG2OBJ_TBL_N << folderId << " WRITE";
     execute(query);
 
     // Get the objects overlapping the current object time validity interval plus the respective layer
-    query << "SELECT h.*, o.layer FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " OBJECT_KEY_TBL_N << folderId 
+    query << "SELECT h.*, o.layer FROM " OBJECT_KEY_TBL_HEAD_N << folderId << " AS h, " OBJECT_KEY_TBL_N << folderId
 	  << " AS o WHERE (h.since_t<" << till << " AND h.till_t>" << since << " AND h.obj_id=o.obj_id)";
     MySqlResult *res = select(query);
-    
+
     if (res->countRows()!=0)
     {
 	CondDBKey since_t, till_t;
 	int layer, tmpLay, objId;
 	string objsIds;
 	string tmp;
-	
+
 	tmp = res->getField(0);
 	objsIds = tmp;
 
@@ -420,7 +420,7 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 	till_t = res->getCondDBKeyField(2);
 	objId = atoi(tmp.c_str());
 	layer = res->getIntField(3);
-	
+
 	if ((since_t<since) && (till_t>since) && (till_t<=till))
 	{
 	    query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET till_t=" << since << " WHERE obj_id=" << objId;
@@ -437,7 +437,7 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 	{
 	    query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET since_t=" << till << " WHERE obj_id=" << objId;
 	    query << " AND since_t=" << since_t << " AND till_t=" << till_t;
-	    execute(query); 
+	    execute(query);
 	}
 	else if ((since_t<since) && (till_t>till))
 	{
@@ -446,7 +446,7 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 	    execute(query);
 	    query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
 		" VALUES(" << objId << "," << till << "," << till_t << ")";
-	    execute(query); 
+	    execute(query);
 	}
 
 	while (res->nextRow())
@@ -475,7 +475,7 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 	    {
 		query << "UPDATE " OBJECT_KEY_TBL_HEAD_N << folderId << " SET since_t=" << till << " WHERE obj_id=" << objId;
 		query << " AND since_t=" << since_t << " AND till_t=" << till_t;
-		execute(query); 
+		execute(query);
 	    }
 	    else if ((since_t<since) && (till_t>till))
 	    {
@@ -484,10 +484,10 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 		execute(query);
 		query << "INSERT INTO " OBJECT_KEY_TBL_HEAD_N << folderId << " (obj_id, since_t, till_t)\n"
 		    " VALUES(" << objId << "," << till << "," << till_t << ")";
-		execute(query); 
+		execute(query);
 	    }
-	    
-	} 
+
+	}
 	layer++;
 	// Finally insert the object
 	insert(since, till, folderId, layer, dbId, datId);
@@ -507,7 +507,7 @@ void MySqlObjectMgr::store(CondDBKey since, CondDBKey till,
 // New functions
 
 void MySqlObjectMgr::browseId (int folderId, int tagId, ICondDBTimePath& path)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     if (tagId == 0)
@@ -528,7 +528,7 @@ void MySqlObjectMgr::browseId (int folderId, int tagId, ICondDBTimePath& path)
 }
 
 void MySqlObjectMgr::tagId (int folderId, int tagId, const ICondDBTimePath& path)
-	throw(CondDBException)
+
 {
     MYSQLSTREAM query;
 
@@ -556,11 +556,11 @@ void MySqlObjectMgr::tagId (int folderId, int tagId, const ICondDBTimePath& path
 /**
  * Tag with the 'newTagId' the objects within this folder that belong to the
  * head or have been previously tagged with the tag identified by 'oldTagId'.
- * This method must be used in conjunction with the method 
+ * This method must be used in conjunction with the method
  * of the MySqlFolderMgr with the same name.
  */
 void MySqlObjectMgr::addTag(int folderId, int newTagId, int oldTagId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     // Determine which objects need to be tagged
@@ -574,14 +574,14 @@ void MySqlObjectMgr::addTag(int folderId, int newTagId, int oldTagId)
     MySqlResult *res = select(query);
     // Now tag the objects
     if ( res->countRows()!=0 )
-	//Deleting objects that are allready tagged. If we don't delete them they will be stored in 
+	//Deleting objects that are allready tagged. If we don't delete them they will be stored in
 	//the tag2obk_tbl_# table again and again....
 	query << "DELETE FROM " TAG2OBJ_TBL_N << folderId << " WHERE tag_id = " << newTagId;
 	execute(query);
 	do {
-	    
-	    query << "INSERT INTO " TAG2OBJ_TBL_N << folderId 
-		  << "\n (tag_id,obj_id, since_t, till_t)\n   VALUES(" 
+
+	    query << "INSERT INTO " TAG2OBJ_TBL_N << folderId
+		  << "\n (tag_id,obj_id, since_t, till_t)\n   VALUES("
 		  << newTagId << "," << res->getField(0) << "," << res->getCondDBKeyField(1) << "," << res->getCondDBKeyField(2) << ")";
 	    execute(query);
 	} while (res->nextRow());
@@ -591,11 +591,11 @@ void MySqlObjectMgr::addTag(int folderId, int newTagId, int oldTagId)
 
 /**
  * Remove the tag identified by 'tagId' from the objects in this folder.
- * This method must be used in conjunction with the method 
+ * This method must be used in conjunction with the method
  * of the MySqlFolderMgr with the same name.
  */
 void MySqlObjectMgr::removeTag(int folderId, int tagId)
-    throw(CondDBException)
+
 {
     MYSQLSTREAM query;
     query << "DELETE FROM " TAG2OBJ_TBL_N << folderId
@@ -611,7 +611,7 @@ void MySqlObjectMgr::changeDatabase(const string& srvname,
 				    const string& password,
 				    const string& dbname,
 				    int dbId)
-    throw(CondDBException)
+
 {
     connect(srvname, username, password);
 
@@ -622,8 +622,3 @@ void MySqlObjectMgr::changeDatabase(const string& srvname,
 
 
 // THE END
-
-
-
-
-

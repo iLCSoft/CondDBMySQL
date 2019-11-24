@@ -57,79 +57,77 @@ class MySqlObjectMgr : public MySqlConnection {
 public:
     MySqlObjectMgr(MySqlDBMgr *dbMgr,
 		   MySqlHandle *mysqlH);
-    
+
     MySqlObjectMgr(MySqlDBMgr *dbMgr);
-    
+
     ~MySqlObjectMgr();
-    
+
     MySqlResult *find(CondDBKey point, int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseAll(int folderId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseAtPoint(CondDBKey point, int folderId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseInInterval(CondDBKey begin, CondDBKey end, int folderId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseTagged(int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     MySqlResult *browseHistory(int folderId, CondDBKey since, CondDBKey till, int tagId)
-	throw(CondDBException);
+	;
 
     void browseId (int folderId, int tagId, ICondDBTimePath& path)
-	throw(CondDBException);
+	;
 
     void tagId (int folderId, int tagId, const ICondDBTimePath& path)
-	throw(CondDBException);
+	;
 
     void addTag(int folderId, int newTagId, int oldTagId=0)
-	throw(CondDBException);
+	;
 
     void removeTag(int folderId, int tagId)
-	throw(CondDBException);
+	;
 
     void createTables(int folderId)
-	throw(CondDBException);
+	;
 
     void deleteTables(int folderId, int folderType)
-	throw(CondDBException);
+	;
 
     int createPartition(CondDBKey since, CondDBKey till,
 			int folderId, int partId)
-	throw(CondDBException);
+	;
 
     int getDatabaseId();
 
     int getDBId(CondDBKey point, int folderId)
-        throw(CondDBException);
+        ;
 
     int getPartitionId(CondDBKey point, int folderId)
-	throw(CondDBException);
+	;
 
     void store(CondDBKey since, CondDBKey till, int folderId, int tblId, int datId)
-	throw(CondDBException);
+	;
 
     void changeDatabase(const string& srvname,
 			const string& username,
 			const string& password,
 			const string& dbname,
 			int dbpath)
-	throw(CondDBException);
+	;
 
 private:
 
     void insert(CondDBKey since, CondDBKey till,
 	       int folderId, int layer, int tblId, int datId)
-	throw(CondDBException);
+	;
 
     MySqlDBMgr *databaseMgr;
 };
 
 
 #endif /* MYSQL_OBJECTMGR_H */
-
-
