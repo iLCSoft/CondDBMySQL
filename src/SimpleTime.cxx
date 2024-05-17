@@ -4,6 +4,7 @@
 #include "IntegerConversion.h"
 
 #include <time.h>
+#include <limits>
 
 #define DEBUG
 
@@ -21,8 +22,8 @@ const TimeT SIMPLETIME_BILLION     = 1000000000LL;              // #nanoseconds 
 const TimeT SIMPLETIME_UNIX_ORIGIN = 2208988800000000000LL;     // 1.1.1970
 const TimeT SIMPLETIME_UNIX_MAX    = 4356476047000000000LL;     // 19.01.2038
 //-ULL const TimeT SIMPLETIME_MAX         = 18446744073709551615LL;    // 2^64-1 ("infinity"), 02.07.2484
-const TimeT SIMPLETIME_MIN         = -9223372036854775808LL;    // -2^63
-const TimeT SIMPLETIME_MAX         = 9223372036854775807LL;     // 2^63-1 ("infinity"), sometime in 2262
+const TimeT SIMPLETIME_MIN         = std::numeric_limits<TimeT>::min();    // -2^63
+const TimeT SIMPLETIME_MAX         = std::numeric_limits<TimeT>::max();     // 2^63-1 ("infinity"), sometime in 2262
 #endif
 
 

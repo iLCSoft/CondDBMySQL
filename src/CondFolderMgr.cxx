@@ -316,7 +316,6 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
     // It is really new; create new CondFolder
     string parentFolderSet;
     string folderName;
-    bool first=0;
     splitPath( fullPathName, parentFolderSet, folderName);
 
     // look for the parentFolderSet
@@ -336,7 +335,6 @@ CondFolderMgr::createCondDBFolder( const string& fullPathName,
 	else {  // create parentFolderSet with same attributes and description
 	    DebugMesg(CondDB, user, "Creating parent FolderSet");
 	    createCondDBFolderSet(parentFolderSet, attributes, description, true, 1);
-	    first=1;
 	}
 	res = relFolderMgr->find(parentFolderSet, MySqlFolderMgr::FolderSet);
     }

@@ -185,8 +185,8 @@ void MySqlDBMgr::init(string& databaseInfo)
     if (sep == std::string::npos){
       password = databaseInfo;
       DebugMesg(CondDB, user, "passwd = " << password);
-      char *aux;
 #ifdef HAVE_STDLIB_H
+      char *aux;
       aux= getenv("CONDDB_PORT");
       // if there is no port defined we must use the default
       if (aux !=  NULL)
@@ -370,7 +370,7 @@ void MySqlDBMgr::getDBPath(int db_id, string& db_name, string& srv_name)
  * The datapath is identified the pair of integers folderId and databaseId.
  */
 
-void MySqlDBMgr::getFolderId(string folderName, int& folderId, int& databaseId)
+void MySqlDBMgr::getFolderId(string folderName, int& folderId, int& dbid)
 
 {
     MYSQLSTREAM query;
@@ -378,7 +378,7 @@ void MySqlDBMgr::getFolderId(string folderName, int& folderId, int& databaseId)
     MySqlResult *res = select(query);
     Assert ( res->countRows() != 0 );
     folderId = res->getIntField(0);
-    databaseId = res->getIntField(1);
+    dbid = res->getIntField(1);
     delete res;
 }
 

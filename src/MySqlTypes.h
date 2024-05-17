@@ -187,10 +187,10 @@ inline MySqlHandle::~MySqlHandle()
     if ( is_opened )
     {
 // CondDBLog
-      if (theLog->isUsable())
+      if (theLog->isUsable()) 
 	theLog->StoreLog("MySqlHandle:: Connection Successfully closed!");
 
-	mysql_close(&mysqlApp);
+      mysql_close(&mysqlApp);
     }
 }
 

@@ -791,7 +791,7 @@ void MySqlOnlineMgr::storeOnlId (int fldId, int partId, CondDBTable *table)
 	    Id = values[0];
 	} while ( blockId==Id && l<table->getNumRows());
 
-	SimpleTime tills, sinces;
+	SimpleTime sinces;
 	table->getSinceTime(l-1, sinces);
 	since=sinces;
 
