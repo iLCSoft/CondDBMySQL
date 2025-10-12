@@ -845,7 +845,7 @@ int main ()
 
     //Tests to the BLOB interface:
     long n_obj[5]={10,100,1000,10000,50000};
-    int num_tests = 5;           //Nº of tests to perform = number of values in the array n_obj
+    int num_tests = 5;           //NÂº of tests to perform = number of values in the array n_obj
 
     //Tests to the CondDBTable interface:
     int numOfColumns[8] = {1,2,3,4,5,6,7,8};              //Array to the maximum number of columns

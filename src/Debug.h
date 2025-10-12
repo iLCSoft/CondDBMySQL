@@ -39,8 +39,8 @@
 
 
 //
-// Modifica o código para usar a consola para debug ou, preferencialmente,
-// a função mysql_debug().
+// Modifica o cÃ³digo para usar a consola para debug ou, preferencialmente,
+// a funÃ§Ã£o mysql_debug().
 //
 
 #ifndef Debug_h

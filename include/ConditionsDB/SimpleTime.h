@@ -40,7 +40,7 @@
 //
 // __References__
 // Number of days per year (365.25637):
-// - Nordling, Österman:
+// - Nordling, Ã–sterman:
 //   Physics Handbook For Science And Engineering,
 //   Studentlitteratur AB, 1999. ISBN 9144008236
 // For time_t:
