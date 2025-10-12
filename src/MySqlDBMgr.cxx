@@ -1,5 +1,5 @@
 /*
- Copyright (C) 1999-2003 FreeDevices.org  geral@freedevices.org
+ Copyright (C) 1999-2003, 2025 FreeDevices.org  geral@freedevices.org
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -152,7 +152,7 @@ void MySqlDBMgr::init(string& databaseInfo)
 
     DebugMesg(CondDB, user, "databaseInfo = " << databaseInfo);
 
-    unsigned int sep = databaseInfo.find_first_of(":");
+    std::string::size_type sep = databaseInfo.find_first_of(":");
     int end = databaseInfo.size();
     serverName = databaseInfo.substr(0, sep);
     databaseInfo = databaseInfo.substr(sep + 1, end);

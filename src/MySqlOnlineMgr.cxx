@@ -1,5 +1,5 @@
 /*
- Copyright (C) 1999-2003 FreeDevices.org  geral@freedevices.org
+ Copyright (C) 1999-2003, 2025 FreeDevices.org  geral@freedevices.org
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -1097,7 +1097,7 @@ void MySqlOnlineMgr::getSchema(int fldId, int partId, CondDBTable *table, bool v
 	string fname = res->getField(0);
 	string type = res->getField(1);
 	string name;
-	CondDBTable::cdb_types colType;
+	CondDBTable::cdb_types colType = CondDBTable::cdbNull;
 	if (type!="blob")
 	{
 	    if (type=="float") colType=CondDBTable::cdbFloat;

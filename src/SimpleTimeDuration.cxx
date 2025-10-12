@@ -141,7 +141,7 @@ void SimpleTimeDuration::operator *= (const double & factor) {
   }
   if (isPlusInf()) { // Leave unchanged if infinity
     return;
-  } else if (SIMPLEDURATION_MAX/factor < (double)durationval) { // Overflow!
+  } else if (static_cast<double>(SIMPLEDURATION_MAX)/factor < (double)durationval) { // Overflow!
     setPlusInf();
   } else { // Normal case
     durationval = (DurationT) ceil(durationval*factor);
@@ -155,7 +155,7 @@ void SimpleTimeDuration::operator /= (const double & denom) {
   }
   if (isPlusInf()) { // Leave unchanged if infinity
     return;
-  } else if ((denom < 1) && (durationval > denom*SIMPLEDURATION_MAX)) {
+  } else if ((denom < 1) && (durationval > denom*static_cast<double>(SIMPLEDURATION_MAX))) {
     setPlusInf(); // Overflow! TODO: Throw an exception
   } else {
     durationval = (DurationT) ceil(durationval/denom);
@@ -183,7 +183,7 @@ SimpleTimeDuration operator / (const SimpleTimeDuration & d,
 double operator / (const SimpleTimeDuration & d,
 		   const SimpleTimeDuration & denom) {
   if (d.isPlusInf()) {
-    return SIMPLEDURATION_MAX;
+    return static_cast<double>(SIMPLEDURATION_MAX);
   } else if (denom.isPlusInf()) {
     return .0;
   } else {

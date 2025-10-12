@@ -13,14 +13,6 @@
 #include <iostream> 
 #include <string> 
 
-// Prevents the compiler from generating several copies of 
-// methods during the precompiling stage, which leads to longer 
-// compile time. 
-
-#if defined(__GNUC__) 
-#pragma interface 
-#endif
-
 template <class Integer> class IntegerConversion {
 
 public:
@@ -50,10 +42,6 @@ private:
   // for conversion from string to integer. 
   Integer rec_strtoi(const AIDA_STD::string &s); 
 };
-
-#if defined(__GNUC__) 
-#pragma implementation 
-#endif
 
 template <class Integer> AIDA_STD::string IntegerConversion<Integer>:: itostr(Integer n) {
 

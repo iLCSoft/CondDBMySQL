@@ -1,5 +1,5 @@
 /*
- Copyright (C) 1999-2003 FreeDevices.org  geral@freedevices.org
+ Copyright (C) 1999-2003, 2025 FreeDevices.org  geral@freedevices.org
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -61,9 +61,9 @@ class MySqlDBMgr : public MySqlConnection {
     void startRead();
 
     // Get the time maintained by the DBMS, which should be used for timestamps
-    string getDBName() { return databaseName; }
+    const string& getDBName() { return databaseName; }
 
-    string getSrvName() { return serverName; }
+    const string& getSrvName() { return serverName; }
 
     // The connect() method which establishes the DBMS connection
     // Defined in the superclass
