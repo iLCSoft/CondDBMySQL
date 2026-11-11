@@ -1,6 +1,6 @@
 #################################################################
 # CMakeLists to build CondDBMySQL
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10 FATAL_ERROR)
 #################################################################
 
 
@@ -232,5 +232,11 @@ DISPLAY_STD_VARIABLES()
 
 
 # generate and install following configuration files
-GENERATE_PACKAGE_CONFIGURATION_FILES( CondDBMySQLConfig.cmake CondDBMySQLConfigVersion.cmake CondDBMySQLLibDeps.cmake )
+GENERATE_PACKAGE_CONFIGURATION_FILES( CondDBMySQLConfig.cmake CondDBMySQLConfigVersion.cmake )
+
+# Keep the legacy dependency file without the removed export_library_dependencies command.
+FILE( WRITE "${PROJECT_BINARY_DIR}/CondDBMySQLLibDeps.cmake"
+    "SET( conddb_LIB_DEPENDS \"${MySQL_LIBRARIES}\" )\n"
+)
+INSTALL( FILES "${PROJECT_BINARY_DIR}/CondDBMySQLLibDeps.cmake" DESTINATION lib/cmake )
 
