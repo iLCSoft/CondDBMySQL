@@ -1,6 +1,6 @@
 #################################################################
 # CMakeLists to build CondDBMySQL
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10 FATAL_ERROR)
 #################################################################
 
 
@@ -232,5 +232,5 @@ DISPLAY_STD_VARIABLES()
 
 
 # generate and install following configuration files
-GENERATE_PACKAGE_CONFIGURATION_FILES( CondDBMySQLConfig.cmake CondDBMySQLConfigVersion.cmake CondDBMySQLLibDeps.cmake )
+GENERATE_PACKAGE_CONFIGURATION_FILES( CondDBMySQLConfig.cmake CondDBMySQLConfigVersion.cmake )
 
