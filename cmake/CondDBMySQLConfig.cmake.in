@@ -12,7 +12,6 @@
 #   CondDBMySQL_COMPONENT_LIBRARIES      : list of CondDBMySQL component libraries
 #   CondDBMySQL_${COMPONENT}_FOUND       : set to TRUE or FALSE for each library
 #   CondDBMySQL_${COMPONENT}_LIBRARY     : path to individual libraries
-#   CondDBMySQL_${COMPONENT}_LIB_DEPENDS : individual library dependencies
 #
 # @author Jan Engels, Desy
 ##############################################################################
@@ -43,12 +42,6 @@ INCLUDE( "@ILCSOFT_CMAKE_MODULES_ROOT@/MacroCheckPackageLibs.cmake" )
 # first argument should be the package name
 CHECK_PACKAGE_LIBS( CondDBMySQL conddb )
 
-
-
-# ---------- libraries dependencies -------------------------------------------
-# this sets CondDBMySQL_${COMPONENT}_LIB_DEPENDS variables
-INCLUDE( "${CondDBMySQL_ROOT}/lib/cmake/CondDBMySQLLibDeps.cmake" )
- 
 
 
 # ---------- final checking ---------------------------------------------------
